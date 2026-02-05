@@ -17,12 +17,13 @@ type State = {
     questions: Question[]
     currentIndex: number
     score: number
+    pointMultiplier: number
     status: 'loading' | 'ready' | 'finished' | 'error'
     userAnswers: { questionId: string; answer: string; correct: boolean }[]
 }
 
 type Action =
-    | { type: 'SET_QUESTIONS'; payload: Question[] }
+    | { type: 'SET_QUESTIONS'; payload: { questions: Question[]; multiplier: number } }
     | { type: 'ANSWER_QUESTION'; payload: { answer: string; isCorrect: boolean } }
     | { type: 'ERROR'; payload: string }
 
@@ -30,6 +31,7 @@ const initialState: State = {
     questions: [],
     currentIndex: 0,
     score: 0,
+    pointMultiplier: 1,
     status: 'loading',
     userAnswers: []
 }
@@ -37,13 +39,14 @@ const initialState: State = {
 function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'SET_QUESTIONS':
-            return { ...state, questions: action.payload, status: 'ready' }
+            return { ...state, questions: action.payload.questions, pointMultiplier: action.payload.multiplier, status: 'ready' }
         case 'ANSWER_QUESTION':
             const nextIndex = state.currentIndex + 1
             const isFinished = nextIndex >= state.questions.length
+            const pointsEarned = action.payload.isCorrect ? state.pointMultiplier : 0
             return {
                 ...state,
-                score: action.payload.isCorrect ? state.score + 1 : state.score,
+                score: state.score + pointsEarned,
                 currentIndex: nextIndex,
                 status: isFinished ? 'finished' : 'ready',
                 userAnswers: [...state.userAnswers, {
@@ -107,7 +110,10 @@ function QuizContent() {
                         ...shuffledText.slice(0, 10 - mapCountTotal)
                     ].sort(() => 0.5 - Math.random())
 
-                    dispatch({ type: 'SET_QUESTIONS', payload: finalQuestions })
+                    // 5. Calculate point multiplier based on difficulty
+                    const multiplier = difficultyStr === 'Professional' ? 2 : difficultyStr === 'Intermediate' ? 1.5 : 1
+
+                    dispatch({ type: 'SET_QUESTIONS', payload: { questions: finalQuestions, multiplier } })
                 }
             }
         }
@@ -145,8 +151,10 @@ function QuizContent() {
                 toast.success("Score sauvegardé !")
             }
 
-            // Manage streak
-            const isGoodScore = state.score >= 8 && state.questions.length === 10
+            // Manage streak (based on ratio >= 80%)
+            const maxScore = state.questions.length * state.pointMultiplier
+            const scoreRatio = state.score / maxScore
+            const isGoodScore = scoreRatio >= 0.8
             const { data: profile } = await supabase
                 .from('profiles')
                 .select('streak, streak_warning')
@@ -196,9 +204,10 @@ function QuizContent() {
         }
 
         setSaving(false)
+        const maxScoreTotal = state.questions.length * state.pointMultiplier
         const params = new URLSearchParams()
         params.set('score', state.score.toString())
-        params.set('total', state.questions.length.toString())
+        params.set('total', maxScoreTotal.toString())
         if (categoryStr) params.set('category', categoryStr)
         router.push(`/results?${params.toString()}`)
     }

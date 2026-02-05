@@ -53,16 +53,23 @@ export function StreakBadge({ size = 'md', showWarning = true }: StreakBadgeProp
     }
 
     return (
-        <div className={`
-            inline-flex items-center rounded-full font-bold
-            ${streak > 0 ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg shadow-orange-500/30' : 'bg-slate-100 text-slate-500'}
-            ${warning > 0 && showWarning ? 'ring-2 ring-orange-400 ring-offset-2' : ''}
-            ${sizeClasses[size]}
-        `}>
-            <Flame className={`${iconSizes[size]} ${streak > 0 ? 'animate-pulse' : ''}`} />
-            <span>{streak}</span>
-            {warning > 0 && showWarning && (
-                <span className="ml-1 text-orange-200">⚠️</span>
+        <div className="flex flex-col items-center gap-2">
+            <div className={`
+                inline-flex items-center rounded-full font-bold
+                ${streak > 0 ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg shadow-orange-500/30' : 'bg-slate-100 text-slate-500'}
+                ${warning > 0 && showWarning ? 'ring-2 ring-orange-400 ring-offset-2' : ''}
+                ${sizeClasses[size]}
+            `}>
+                <Flame className={`${iconSizes[size]} ${streak > 0 ? 'animate-pulse' : ''}`} />
+                <span>{streak}</span>
+                {warning > 0 && showWarning && (
+                    <span className="ml-1 text-orange-200">⚠️</span>
+                )}
+            </div>
+            {warning > 0 && showWarning && streak > 0 && (
+                <p className="text-xs text-orange-600 font-medium text-center max-w-xs bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-200">
+                    ⚠️ Si vous n'obtenez pas au moins 8/10 au prochain quiz, vous perdez votre streak !
+                </p>
             )}
         </div>
     )
