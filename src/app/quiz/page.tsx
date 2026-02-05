@@ -266,9 +266,7 @@ function QuizContent() {
                     variant="ghost"
                     className="text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors gap-2"
                     onClick={() => {
-                        if (confirm("Voulez-vous vraiment quitter le quiz ? Votre progression sera perdue.")) {
-                            router.push('/')
-                        }
+                        router.push('/')
                     }}
                 >
                     <X className="w-4 h-4" />

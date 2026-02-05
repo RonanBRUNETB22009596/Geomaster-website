@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 import { NavBar } from "@/components/NavBar"
-import Beams from "@/components/Beams"
+import { DottedMap } from "@/components/ui/dotted-map"
 import { Footer } from "@/components/Footer"
 import TiltedCard from "@/components/TiltedCard"
 import SplitText from "@/components/SplitText"
@@ -18,23 +18,16 @@ export default function Home() {
       <section className="relative min-h-[95vh] flex flex-col items-center justify-center overflow-hidden pt-48 pb-32 px-6 text-center">
         {/* Background Effects */}
         <div className="absolute inset-0 z-0">
-          <Beams
-            beamWidth={3}
-            beamHeight={30}
-            beamNumber={6}
-            lightColor="#ffffff"
-            speed={2}
-            noiseIntensity={1.75}
-            scale={0.2}
-            rotation={30}
-          />
+          <div className="mask-gradient absolute inset-0 z-0 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+            <DottedMap className="opacity-30 text-black w-full h-full" />
+          </div>
         </div>
 
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-center">
           <SplitText
             text="Devenez un pro de la géo"
-            className="text-4xl md:text-7xl font-black text-white mb-8 max-w-4xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]"
+            className="text-4xl md:text-7xl font-black text-slate-900 mb-8 max-w-4xl drop-shadow-sm"
             delay={40}
             duration={0.8}
             ease="power4.out"
@@ -42,7 +35,7 @@ export default function Home() {
             to={{ opacity: 1, y: 0, rotateX: 0 }}
           />
 
-          <p className="text-lg md:text-xl text-white/90 mb-6 max-w-2xl bg-black/20 p-4 rounded-2xl backdrop-blur-md border border-white/10">
+          <p className="text-lg md:text-xl text-slate-600 mb-6 max-w-2xl bg-white/50 p-4 rounded-2xl backdrop-blur-md border border-slate-200">
             Testez vos connaissances sur les capitales, drapeaux, et populations avec notre quiz interactif de 10 questions.
           </p>
 
