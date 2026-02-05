@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Shield, ShieldAlert, ShieldCheck } from "lucide-react"
 
 import BounceCards from "@/components/BounceCards"
+import { StreakBadge } from "@/components/StreakBadge"
 
 function DifficultyContent() {
     const router = useRouter()
@@ -56,10 +57,15 @@ function DifficultyContent() {
             <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 text-center">
                 Choisissez votre défi
             </h1>
-            <p className="text-slate-500 text-lg mb-12 text-center max-w-2xl">
+            <p className="text-slate-500 text-lg mb-6 text-center max-w-2xl">
                 Catégorie : <span className="font-bold text-primary">{category}</span>.
                 Sélectionnez un niveau de difficulté pour commencer votre aventure.
             </p>
+
+            {/* Streak Badge */}
+            <div className="mb-10">
+                <StreakBadge size="lg" />
+            </div>
 
             <BounceCards
                 animationDelay={0.04}

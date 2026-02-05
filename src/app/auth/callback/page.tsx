@@ -11,14 +11,14 @@ export default function AuthCallbackPage() {
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
-                router.push("/dashboard")
+                router.push("/")
             }
         })
 
         // Also check if we already have a session (e.g. from fragment)
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                router.push("/dashboard")
+                router.push("/")
             }
         })
 

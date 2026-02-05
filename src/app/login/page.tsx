@@ -72,7 +72,7 @@ export default function LoginPage() {
             } else {
                 toast.success("Inscription réussie !")
                 router.refresh()
-                router.push("/dashboard")
+                router.push("/")
             }
         } else {
             const { error } = await supabase.auth.signInWithPassword({
@@ -84,7 +84,7 @@ export default function LoginPage() {
             } else {
                 toast.success("Connexion réussie !")
                 router.refresh()
-                router.push("/dashboard")
+                router.push("/")
             }
         }
         setLoading(false)

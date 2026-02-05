@@ -10,6 +10,7 @@ import { Trophy, RefreshCw, Home } from "lucide-react"
 import { NavBar } from "@/components/NavBar"
 import { Footer } from "@/components/Footer"
 import TiltedCard from "@/components/TiltedCard"
+import { StreakBadge } from "@/components/StreakBadge"
 
 function ResultsContent() {
     const searchParams = useSearchParams()
@@ -89,6 +90,10 @@ function ResultsContent() {
                         <p className={`text-lg font-medium ${color}`}>
                             {message}
                         </p>
+                        {/* Current Streak */}
+                        <div className="pt-2">
+                            <StreakBadge size="md" />
+                        </div>
                     </CardContent>
                     <CardFooter className="flex flex-col gap-3">
                         <Button asChild className="w-full h-12 text-lg">

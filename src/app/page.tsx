@@ -8,6 +8,7 @@ import Beams from "@/components/Beams"
 import { Footer } from "@/components/Footer"
 import TiltedCard from "@/components/TiltedCard"
 import SplitText from "@/components/SplitText"
+import { StreakBadge } from "@/components/StreakBadge"
 
 export default function Home() {
   return (
@@ -41,9 +42,14 @@ export default function Home() {
             to={{ opacity: 1, y: 0, rotateX: 0 }}
           />
 
-          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl bg-black/20 p-4 rounded-2xl backdrop-blur-md border border-white/10">
+          <p className="text-lg md:text-xl text-white/90 mb-6 max-w-2xl bg-black/20 p-4 rounded-2xl backdrop-blur-md border border-white/10">
             Testez vos connaissances sur les capitales, drapeaux, et populations avec notre quiz interactif de 10 questions.
           </p>
+
+          {/* Streak Badge */}
+          <div className="mb-8">
+            <StreakBadge size="lg" />
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
