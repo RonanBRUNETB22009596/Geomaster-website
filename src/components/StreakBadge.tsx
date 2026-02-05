@@ -68,7 +68,7 @@ export function StreakBadge({ size = 'md', showWarning = true }: StreakBadgeProp
             </div>
             {warning > 0 && showWarning && streak > 0 && (
                 <p className="text-xs text-orange-600 font-medium text-center max-w-xs bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-200">
-                    ⚠️ Si vous n'obtenez pas au moins 8/10 au prochain quiz, vous perdez votre streak !
+                    ⚠️ Attention ! {warning}/6 mauvaises parties. Encore {6 - warning} avant de perdre votre streak !
                 </p>
             )}
         </div>

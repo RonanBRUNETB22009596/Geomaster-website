@@ -119,7 +119,7 @@ export default function DashboardPage() {
                                 {streak > 0 && <span className="text-sm ml-1">parties</span>}
                             </div>
                             {streakWarning > 0 && (
-                                <p className="text-xs text-orange-500 mt-1">1 mauvais score de plus = perte du streak</p>
+                                <p className="text-xs text-orange-500 mt-1">{streakWarning}/6 strikes. {6 - streakWarning} vies restantes.</p>
                             )}
                         </CardContent>
                     </Card>

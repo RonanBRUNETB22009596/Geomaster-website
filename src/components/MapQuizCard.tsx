@@ -98,13 +98,14 @@ export function MapQuizCard({
                 </CardTitle>
             </CardHeader>
 
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-4">
                 <div className={cn(
-                    "relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner group",
+                    "relative h-[300px] md:h-[350px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner group",
                     question.type === 'map_pinpoint' && "cursor-crosshair"
                 )}>
                     <Map
                         key={question.id}
+                        theme="light"
                         center={[
                             question.type === 'map_point' || question.type === 'map_pinpoint' ? (question.longitude ?? 0) : 0,
                             question.type === 'map_point' || question.type === 'map_pinpoint' ? (question.latitude ?? 20) : 20

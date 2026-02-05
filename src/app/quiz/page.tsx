@@ -177,24 +177,27 @@ function QuizContent() {
                     }
                 } else {
                     // Bad score
-                    if (currentWarning === 0) {
-                        // First warning
-                        await supabase.from('profiles').update({
-                            streak_warning: 1
-                        }).eq('id', user.id)
+                    const newWarningCount = currentWarning + 1
 
-                        if (currentStreak > 0) {
-                            toast.error(`⚠️ Attention ! Encore une erreur et vous perdez votre streak de ${currentStreak} 🔥`, { duration: 3000 })
-                        }
-                    } else {
-                        // Second failure: reset streak
+                    if (newWarningCount >= 6) {
+                        // 6th failure (or more): reset streak
                         await supabase.from('profiles').update({
                             streak: 0,
                             streak_warning: 0
                         }).eq('id', user.id)
 
                         if (currentStreak > 0) {
-                            toast.error(`💔 Streak perdu ! (était de ${currentStreak})`, { duration: 3000 })
+                            toast.error(`💔 Streak perdu ! (6 mauvaises parties consécutives)`, { duration: 4000 })
+                        }
+                    } else {
+                        // Increment warning/strikes
+                        await supabase.from('profiles').update({
+                            streak_warning: newWarningCount
+                        }).eq('id', user.id)
+
+                        if (currentStreak > 0) {
+                            const remainingLives = 6 - newWarningCount
+                            toast.warning(`⚠️ Attention ! Plus que ${remainingLives} chances avant de perdre votre streak !`, { duration: 3000 })
                         }
                     }
                 }
