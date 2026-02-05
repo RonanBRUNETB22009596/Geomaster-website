@@ -1,5 +1,7 @@
 "use client"
 
+import { useMemo } from "react"
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
@@ -22,11 +24,21 @@ export function QuizCard({
     isSubmitting = false
 }: QuizCardProps) {
     // Parse options if it's a string (from some legacy DB ingest) or valid array
-    const options = Array.isArray(question.options)
-        ? question.options
-        : typeof question.options === 'string'
-            ? JSON.parse(question.options)
-            : []
+    const shuffledOptions = useMemo(() => {
+        const baseOptions = Array.isArray(question.options)
+            ? question.options
+            : typeof question.options === 'string'
+                ? JSON.parse(question.options)
+                : []
+
+        // Fisher-Yates shuffle
+        const shuffled = [...baseOptions]
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled
+    }, [question.id, question.options])
 
     const progress = ((currentQuestionIndex) / totalQuestions) * 100
 
@@ -59,7 +71,7 @@ export function QuizCard({
                 )}
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {options.map((option: string, idx: number) => (
+                {shuffledOptions.map((option: string, idx: number) => (
                     <Button
                         key={idx}
                         variant="outline"

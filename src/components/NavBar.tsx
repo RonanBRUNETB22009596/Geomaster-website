@@ -13,7 +13,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Globe, User, LogOut, ShieldAlert } from "lucide-react"
+import { Globe, User, LogOut, ShieldAlert, Trophy } from "lucide-react"
 
 export function NavBar() {
     const [user, setUser] = useState<any>(null)
@@ -103,6 +103,12 @@ export function NavBar() {
                                         Paramètres
                                     </Link>
                                 </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/leaderboard" className="cursor-pointer rounded-xl">
+                                        <Trophy className="mr-2 h-4 w-4" />
+                                        Classement
+                                    </Link>
+                                </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem onClick={handleSignOut} className="text-red-600 focus:text-red-600 cursor-pointer rounded-xl">
                                     <LogOut className="mr-2 h-4 w-4" />
@@ -117,6 +123,6 @@ export function NavBar() {
                     )}
                 </div>
             </div>
-        </nav>
+        </nav >
     )
 }

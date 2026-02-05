@@ -130,7 +130,7 @@ function QuizContent() {
         setSaving(true)
         localStorage.setItem('lastScore', JSON.stringify({
             score: state.score,
-            total: state.questions.length,
+            total: state.questions.length * state.pointMultiplier,
             date: new Date().toISOString()
         }))
 
@@ -140,7 +140,7 @@ function QuizContent() {
             const { error } = await supabase.from('scores').insert({
                 user_id: user.id,
                 score: state.score,
-                total: state.questions.length,
+                total: state.questions.length * state.pointMultiplier,
                 category: categoryStr || 'World'
             })
 
