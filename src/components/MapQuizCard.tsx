@@ -38,7 +38,6 @@ export function MapQuizCard({
     isSubmitting = false
 }: MapQuizCardProps) {
     const [userPoint, setUserPoint] = useState<{ lng: number; lat: number } | null>(null)
-    const [selectedIntermediate, setSelectedIntermediate] = useState<string | null>(null)
 
     const progress = (currentQuestionIndex / totalQuestions) * 100
 
@@ -61,15 +60,16 @@ export function MapQuizCard({
 
     const handleConfirm = () => {
         if (question.type === 'map_pinpoint' && userPoint) {
-            // For pinpointing, we "answer" with the distance or just a success/fail label
-            // The quiz logic expects a string that equals correct_answer for success.
-            // But here the user's answer is a click. 
-            // We'll calculate if it's within 400km.
-            const distance = getDistance(userPoint.lat, userPoint.lng, question.latitude!, question.longitude!)
+            const distance = getDistance(
+                userPoint.lat,
+                userPoint.lng,
+                question.latitude ?? 0,
+                question.longitude ?? 0
+            )
             if (distance <= 400) {
-                onAnswer(question.correct_answer) // Trigger success
+                onAnswer(question.correct_answer)
             } else {
-                onAnswer("WRONG_LOCATION") // Trigger fail
+                onAnswer("WRONG_LOCATION")
             }
         }
     }
@@ -102,11 +102,12 @@ export function MapQuizCard({
                     question.type === 'map_pinpoint' && "cursor-crosshair"
                 )}>
                     <Map
-                        initialViewState={{
-                            longitude: question.type === 'map_point' ? question.longitude! : 0,
-                            latitude: question.type === 'map_point' ? question.latitude! : 20,
-                            zoom: question.type === 'map_point' ? 4 : 1
-                        }}
+                        key={question.id}
+                        center={[
+                            question.type === 'map_point' || question.type === 'map_pinpoint' ? (question.longitude ?? 0) : 0,
+                            question.type === 'map_point' || question.type === 'map_pinpoint' ? (question.latitude ?? 20) : 20
+                        ]}
+                        zoom={question.type === 'map_point' ? 4 : 1}
                         onClick={handleMapClick}
                         attributionControl={false}
                     >
@@ -115,8 +116,8 @@ export function MapQuizCard({
                         {/* Mode Débutant : Un seul point fixe */}
                         {question.type === 'map_point' && (
                             <MapMarker
-                                longitude={question.longitude!}
-                                latitude={question.latitude!}
+                                longitude={question.longitude ?? 0}
+                                latitude={question.latitude ?? 0}
                             >
                                 <MarkerContent>
                                     <div className="w-6 h-6 bg-red-500 rounded-full border-4 border-white shadow-xl animate-pulse" />
