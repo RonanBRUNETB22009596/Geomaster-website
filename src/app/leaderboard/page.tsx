@@ -6,13 +6,17 @@ import { NavBar } from "@/components/NavBar"
 import { Footer } from "@/components/Footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Trophy, Medal, Award, Loader2 } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Trophy, Medal, Loader2, TrendingUp, Target, Star } from "lucide-react"
 
 type LeaderboardEntry = {
     username: string
-    total_points: number
+    avatar_url: string | null
+    weighted_score: number
+    average_ratio: number
     games_played: number
-    last_played_at: string
+    best_score: number
+    total_points: number
 }
 
 export default function LeaderboardPage() {
@@ -24,15 +28,18 @@ export default function LeaderboardPage() {
             const { data, error } = await supabase
                 .from('leaderboard_view')
                 .select('*')
-                .order('total_points', { ascending: false })
+                .order('weighted_score', { ascending: false })
                 .limit(20)
 
             if (data) {
                 const formatted = data.map((item: any) => ({
                     username: item.username || item.email?.split('@')[0] || "Anonyme",
-                    total_points: item.total_points,
-                    games_played: item.games_played,
-                    last_played_at: item.last_played_at
+                    avatar_url: item.avatar_url || null,
+                    weighted_score: Number(item.weighted_score) || 0,
+                    average_ratio: Number(item.average_ratio) || 0,
+                    games_played: Number(item.games_played) || 0,
+                    best_score: Number(item.best_score) || 0,
+                    total_points: Number(item.total_points) || 0
                 }))
                 setEntries(formatted)
             }
@@ -45,21 +52,30 @@ export default function LeaderboardPage() {
         <div className="min-h-screen bg-gray-50/50 flex flex-col">
             <NavBar />
             <div className="container mx-auto py-32 px-4 flex-1">
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-12">
                         <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
                             Classement Mondial
                         </h1>
-                        <p className="text-slate-500 text-lg">
-                            Les meilleurs explorateurs de GeoMaster (Cumul des points).
+                        <p className="text-slate-500 text-lg mb-2">
+                            Les meilleurs explorateurs de GeoMaster
                         </p>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm text-slate-600">
+                            <TrendingUp className="w-4 h-4" />
+                            Score = (Moyenne × 100) + (√Parties × 10)
+                        </div>
                     </div>
 
                     <Card className="shadow-2xl border-none overflow-hidden">
-                        <CardHeader className="bg-primary text-white pb-8">
+                        <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white pb-8">
                             <div className="flex items-center gap-3">
                                 <Trophy className="w-8 h-8" />
-                                <CardTitle className="text-2xl">Top 20 Explorateurs</CardTitle>
+                                <div>
+                                    <CardTitle className="text-2xl">Top 20 Explorateurs</CardTitle>
+                                    <p className="text-white/70 text-sm mt-1">
+                                        Classement équilibré : qualité + expérience
+                                    </p>
+                                </div>
                             </div>
                         </CardHeader>
                         <CardContent className="p-0">
@@ -75,18 +91,36 @@ export default function LeaderboardPage() {
                                 <Table>
                                     <TableHeader className="bg-slate-50">
                                         <TableRow>
-                                            <TableHead className="w-20 text-center font-bold">Rang</TableHead>
+                                            <TableHead className="w-16 text-center font-bold">Rang</TableHead>
                                             <TableHead className="font-bold">Explorateur</TableHead>
-                                            <TableHead className="text-right font-bold">Points Totaux</TableHead>
-                                            <TableHead className="text-right font-bold hidden sm:table-cell">Parties</TableHead>
+                                            <TableHead className="text-center font-bold">
+                                                <div className="flex items-center justify-center gap-1">
+                                                    <Star className="w-4 h-4" />
+                                                    Score
+                                                </div>
+                                            </TableHead>
+                                            <TableHead className="text-center font-bold hidden md:table-cell">
+                                                <div className="flex items-center justify-center gap-1">
+                                                    <Target className="w-4 h-4" />
+                                                    Moyenne
+                                                </div>
+                                            </TableHead>
+                                            <TableHead className="text-center font-bold hidden sm:table-cell">Parties</TableHead>
+                                            <TableHead className="text-center font-bold hidden lg:table-cell">Record</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {entries.map((entry, index) => (
-                                            <TableRow key={index} className="hover:bg-slate-50/50 transition-colors">
+                                            <TableRow
+                                                key={index}
+                                                className={`hover:bg-slate-50/50 transition-colors ${index === 0 ? 'bg-yellow-50/50' :
+                                                    index === 1 ? 'bg-slate-50/50' :
+                                                        index === 2 ? 'bg-amber-50/30' : ''
+                                                    }`}
+                                            >
                                                 <TableCell className="text-center">
                                                     {index === 0 ? (
-                                                        <Medal className="w-6 h-6 text-yellow-500 mx-auto" />
+                                                        <Medal className="w-7 h-7 text-yellow-500 mx-auto drop-shadow" />
                                                     ) : index === 1 ? (
                                                         <Medal className="w-6 h-6 text-slate-400 mx-auto" />
                                                     ) : index === 2 ? (
@@ -96,13 +130,39 @@ export default function LeaderboardPage() {
                                                     )}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <span className="font-bold text-slate-700">{entry.username}</span>
+                                                    <div className="flex items-center gap-3">
+                                                        <Avatar className="w-8 h-8 border-2 border-white shadow-sm">
+                                                            <AvatarImage src={entry.avatar_url || undefined} alt={entry.username} />
+                                                            <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                                                                {entry.username.slice(0, 2).toUpperCase()}
+                                                            </AvatarFallback>
+                                                        </Avatar>
+                                                        <span className={`font-bold ${index < 3 ? 'text-slate-900' : 'text-slate-700'}`}>
+                                                            {entry.username}
+                                                        </span>
+                                                    </div>
                                                 </TableCell>
-                                                <TableCell className="text-right font-black text-lg text-primary">
-                                                    {entry.total_points} <span className="text-xs text-slate-400 font-medium">pts</span>
+                                                <TableCell className="text-center">
+                                                    <span className={`font-black text-xl ${index === 0 ? 'text-yellow-600' : 'text-primary'
+                                                        }`}>
+                                                        {entry.weighted_score.toFixed(1)}
+                                                    </span>
                                                 </TableCell>
-                                                <TableCell className="text-right text-slate-400 text-sm hidden sm:table-cell">
+                                                <TableCell className="text-center hidden md:table-cell">
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <span className="font-semibold text-slate-600">
+                                                            {(entry.average_ratio * 10).toFixed(1)}
+                                                        </span>
+                                                        <span className="text-xs text-slate-400">/10</span>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell className="text-center text-slate-500 hidden sm:table-cell">
                                                     {entry.games_played}
+                                                </TableCell>
+                                                <TableCell className="text-center hidden lg:table-cell">
+                                                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                                                        {entry.best_score}/10
+                                                    </span>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -111,6 +171,28 @@ export default function LeaderboardPage() {
                             )}
                         </CardContent>
                     </Card>
+
+                    {/* Explanation */}
+                    <div className="mt-8 p-6 bg-white rounded-2xl shadow-lg border">
+                        <h3 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <TrendingUp className="w-5 h-5 text-primary" />
+                            Comment fonctionne le classement ?
+                        </h3>
+                        <div className="grid md:grid-cols-2 gap-4 text-sm text-slate-600">
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">1.</span>
+                                <p><strong>Moyenne × 100</strong> — Votre score moyen récompense la qualité de jeu</p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">2.</span>
+                                <p><strong>√Parties × 10</strong> — Jouer régulièrement augmente votre score (avec rendements décroissants)</p>
+                            </div>
+                        </div>
+                        <p className="mt-4 text-xs text-slate-400">
+                            Ce système équilibre qualité et engagement : un joueur avec 8/10 de moyenne et 100 parties
+                            peut rivaliser avec un joueur à 9/10 de moyenne et 25 parties.
+                        </p>
+                    </div>
                 </div>
             </div>
             <Footer />

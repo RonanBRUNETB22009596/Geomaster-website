@@ -38,6 +38,7 @@ export function MapQuizCard({
     isSubmitting = false
 }: MapQuizCardProps) {
     const [userPoint, setUserPoint] = useState<{ lng: number; lat: number } | null>(null)
+    const [hasInteracted, setHasInteracted] = useState(false)
 
     const progress = (currentQuestionIndex / totalQuestions) * 100
 
@@ -53,6 +54,7 @@ export function MapQuizCard({
     }, [question.options])
 
     const handleMapClick = useCallback((e: any) => {
+        setHasInteracted(true)
         if (question.type === 'map_pinpoint' && !isSubmitting) {
             setUserPoint({ lng: e.lngLat.lng, lat: e.lngLat.lat })
         }
@@ -158,8 +160,8 @@ export function MapQuizCard({
                         )}
                     </Map>
 
-                    {question.type === 'map_pinpoint' && !userPoint && (
-                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-slate-900/5 backdrop-blur-[1px]">
+                    {question.type === 'map_pinpoint' && !userPoint && !hasInteracted && (
+                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-slate-900/5 backdrop-blur-[1px] transition-opacity duration-300">
                             <p className="bg-white/90 px-4 py-2 rounded-full text-xs font-bold text-slate-800 shadow-lg border border-white">
                                 Cliquez sur la carte pour placer la ville
                             </p>
