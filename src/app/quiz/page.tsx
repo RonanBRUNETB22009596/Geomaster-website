@@ -133,7 +133,8 @@ function QuizContent() {
             const { error } = await supabase.from('scores').insert({
                 user_id: user.id,
                 score: state.score,
-                total: state.questions.length
+                total: state.questions.length,
+                category: categoryStr || 'World'
             })
 
             if (error) {

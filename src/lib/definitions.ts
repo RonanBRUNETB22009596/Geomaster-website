@@ -24,5 +24,6 @@ export type Score = {
     user_id: string
     score: number
     total: number
+    category?: string
     created_at: string
 }
