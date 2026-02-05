@@ -130,6 +130,7 @@ function QuizContent() {
 
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
+            // Save score
             const { error } = await supabase.from('scores').insert({
                 user_id: user.id,
                 score: state.score,
@@ -142,6 +143,53 @@ function QuizContent() {
                 toast.error("Votre score n'a pas pu être sauvegardé sur votre compte.")
             } else {
                 toast.success("Score sauvegardé !")
+            }
+
+            // Manage streak
+            const isGoodScore = state.score >= 8 && state.questions.length === 10
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('streak, streak_warning')
+                .eq('id', user.id)
+                .single()
+
+            if (profile) {
+                const currentStreak = profile.streak || 0
+                const currentWarning = profile.streak_warning || 0
+
+                if (isGoodScore) {
+                    // Good score: increment streak, reset warning
+                    await supabase.from('profiles').update({
+                        streak: currentStreak + 1,
+                        streak_warning: 0
+                    }).eq('id', user.id)
+
+                    if (currentStreak + 1 > 1) {
+                        toast.success(`🔥 Streak de ${currentStreak + 1} !`, { duration: 2000 })
+                    }
+                } else {
+                    // Bad score
+                    if (currentWarning === 0) {
+                        // First warning
+                        await supabase.from('profiles').update({
+                            streak_warning: 1
+                        }).eq('id', user.id)
+
+                        if (currentStreak > 0) {
+                            toast.error(`⚠️ Attention ! Encore une erreur et vous perdez votre streak de ${currentStreak} 🔥`, { duration: 3000 })
+                        }
+                    } else {
+                        // Second failure: reset streak
+                        await supabase.from('profiles').update({
+                            streak: 0,
+                            streak_warning: 0
+                        }).eq('id', user.id)
+
+                        if (currentStreak > 0) {
+                            toast.error(`💔 Streak perdu ! (était de ${currentStreak})`, { duration: 3000 })
+                        }
+                    }
+                }
             }
         } else {
             console.log("Quiz terminé : Utilisateur non connecté. Score sauvegardé localement uniquement.")

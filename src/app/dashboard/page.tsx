@@ -6,7 +6,7 @@ import { Score } from "@/lib/definitions"
 import { NavBar } from "@/components/NavBar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Loader2, Trophy, Target, TrendingUp } from "lucide-react"
+import { Loader2, Trophy, Target, TrendingUp, Flame } from "lucide-react"
 import { Footer } from "@/components/Footer"
 import { ContinentMasteryMap } from "@/components/ContinentMasteryMap"
 
@@ -14,6 +14,8 @@ export default function DashboardPage() {
     const [scores, setScores] = useState<Score[]>([])
     const [loading, setLoading] = useState(true)
     const [masteryData, setMasteryData] = useState<Record<string, number>>({})
+    const [streak, setStreak] = useState(0)
+    const [streakWarning, setStreakWarning] = useState(0)
 
     useEffect(() => {
         async function fetchData() {
@@ -45,6 +47,18 @@ export default function DashboardPage() {
                 })
 
                 setMasteryData(mastery)
+            }
+
+            // Fetch streak
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('streak, streak_warning')
+                .eq('id', user.id)
+                .single()
+
+            if (profile) {
+                setStreak(profile.streak || 0)
+                setStreakWarning(profile.streak_warning || 0)
             }
 
             setLoading(false)
@@ -89,6 +103,24 @@ export default function DashboardPage() {
                             <div className="text-2xl font-bold text-blue-600">
                                 {loading ? "..." : (scores.reduce((acc, curr) => acc + curr.score, 0) / (scores.length || 1)).toFixed(1)}
                             </div>
+                        </CardContent>
+                    </Card>
+                    <Card className={streakWarning > 0 ? 'border-2 border-orange-400' : ''}>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium text-muted-foreground">
+                                Streak 🔥
+                                {streakWarning > 0 && <span className="ml-2 text-orange-500 text-xs">⚠️ Attention</span>}
+                            </CardTitle>
+                            <Flame className={`h-4 w-4 ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`} />
+                        </CardHeader>
+                        <CardContent>
+                            <div className={`text-2xl font-bold ${streak > 0 ? 'text-orange-500' : 'text-slate-400'}`}>
+                                {loading ? "..." : streak}
+                                {streak > 0 && <span className="text-sm ml-1">parties</span>}
+                            </div>
+                            {streakWarning > 0 && (
+                                <p className="text-xs text-orange-500 mt-1">1 mauvais score de plus = perte du streak</p>
+                            )}
                         </CardContent>
                     </Card>
                 </div>
