@@ -93,94 +93,125 @@ export default function LoginPage() {
     const passwordStatus = validatePassword(password)
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-50/50 p-4">
-            <Card className="w-full max-w-md shadow-lg">
-                <CardHeader>
-                    <CardTitle className="text-2xl font-bold text-center">
-                        {isSignUp ? "Créer un compte" : "Connexion"}
-                    </CardTitle>
-                    <CardDescription className="text-center">
+    return (
+        <div className="flex h-screen w-full bg-white">
+            <div className="w-1/2 hidden md:block relative">
+                {/* Fallback to local image or keep remote if preferred. Using remote for now to match request exactly */}
+                <img
+                    className="h-full w-full object-cover"
+                    src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png"
+                    alt="Login Banner"
+                />
+                <div className="absolute inset-0 bg-black/20" /> {/* Slight overlay for contrast if needed */}
+            </div>
+
+            <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8">
+
+                <form onSubmit={handleAuth} className="w-full max-w-sm flex flex-col items-center justify-center">
+                    <h2 className="text-4xl text-gray-900 font-medium font-sans mb-2">
+                        {isSignUp ? "Créer un compte" : "Bon retour !"}
+                    </h2>
+                    <p className="text-sm text-gray-500/90 mb-8 text-center">
                         {isSignUp
-                            ? "Rejoignez GeoMaster pour sauvegarder vos scores"
-                            : "Connectez-vous pour retrouver votre historique"}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="mb-4">
-                        <Button variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={loading}>
-                            <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
-                            Continuer avec Google
-                        </Button>
-                        <div className="relative my-4">
-                            <div className="absolute inset-0 flex items-center">
-                                <span className="w-full border-t" />
-                            </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-background px-2 text-muted-foreground">Ou avec email</span>
-                            </div>
-                        </div>
+                            ? "Inscrivez-vous pour enregistrer votre progression."
+                            : "Veuillez vous connecter pour continuer."}
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={handleGoogleLogin}
+                        disabled={loading}
+                        className="w-full bg-gray-50 hover:bg-gray-100 border border-gray-200 flex items-center justify-center h-12 rounded-full transition-colors"
+                    >
+                        <img className="h-6 w-6 mr-2" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="Google" />
+                        <span className="text-sm font-medium text-gray-600">Continuer avec Google</span>
+                    </button>
+
+                    <div className="flex items-center gap-4 w-full my-6">
+                        <div className="w-full h-px bg-gray-200"></div>
+                        <p className="w-full text-nowrap text-xs text-gray-400 font-medium uppercase tracking-wider text-center">ou avec email</p>
+                        <div className="w-full h-px bg-gray-200"></div>
                     </div>
 
-                    <form onSubmit={handleAuth} className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="exemple@email.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Mot de passe</Label>
-                            <Input
-                                id="password"
+                    <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3 mb-4">
+                        <svg width="16" height="11" viewBox="0 0 16 11" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" fill="currentColor" />
+                        </svg>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col w-full mb-2">
+                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3">
+                            <svg width="13" height="17" viewBox="0 0 13 17" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" fill="currentColor" />
+                            </svg>
+                            <input
                                 type="password"
+                                placeholder="Mot de passe"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
                                 required
                             />
-                            {isSignUp && (
-                                <div className="grid grid-cols-2 gap-1 mt-2 text-[10px]">
-                                    <p className={passwordStatus.minLength ? "text-green-600" : "text-slate-400"}>
-                                        ● Min. 8 caractères
-                                    </p>
-                                    <p className={passwordStatus.hasUpper ? "text-green-600" : "text-slate-400"}>
-                                        ● Une majuscule
-                                    </p>
-                                    <p className={passwordStatus.hasNumber ? "text-green-600" : "text-slate-400"}>
-                                        ● Un chiffre
-                                    </p>
-                                    <p className={passwordStatus.hasSpecial ? "text-green-600" : "text-slate-400"}>
-                                        ● Un symbole spécial
-                                    </p>
-                                </div>
-                            )}
                         </div>
-                        <Button className="w-full" type="submit" disabled={loading}>
-                            {loading
-                                ? "Chargement..."
-                                : isSignUp ? "S'inscrire" : "Se connecter"}
-                        </Button>
-                    </form>
-                </CardContent>
-                <CardFooter className="flex flex-col gap-2">
-                    <Button
-                        variant="link"
-                        onClick={() => setIsSignUp(!isSignUp)}
-                        className="w-full text-sm text-slate-500"
+                        {isSignUp && (
+                            <div className="flex flex-wrap gap-2 mt-2 px-2">
+                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.minLength ? "text-green-600" : "text-gray-400"}`}>
+                                    ● 8 car.
+                                </span>
+                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasUpper ? "text-green-600" : "text-gray-400"}`}>
+                                    ● Majuscule
+                                </span>
+                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasNumber ? "text-green-600" : "text-gray-400"}`}>
+                                    ● Chiffre
+                                </span>
+                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasSpecial ? "text-green-600" : "text-gray-400"}`}>
+                                    ● Symbole
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="w-full flex items-center justify-between mt-4 text-gray-500/80 mb-8">
+                        <div className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 transition-colors">
+                            <input className="h-4 w-4 accent-indigo-500 rounded border-gray-300" type="checkbox" id="checkbox" />
+                            <label className="text-sm cursor-pointer" htmlFor="checkbox">Se souvenir de moi</label>
+                        </div>
+                        <a className="text-sm underline hover:text-indigo-600 transition-colors" href="#">Mot de passe oublié ?</a>
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full h-12 rounded-full text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isSignUp
-                            ? "Déjà un compte ? Se connecter"
-                            : "Pas encore de compte ? S'inscrire"}
-                    </Button>
-                    <Button variant="ghost" asChild className="w-full text-xs">
-                        <Link href="/">Retour à l'accueil</Link>
-                    </Button>
-                </CardFooter>
-            </Card>
+                        {loading ? "Chargement..." : (isSignUp ? "S'inscrire" : "Se connecter")}
+                    </button>
+
+                    <p className="text-gray-500/90 text-sm mt-8">
+                        {isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}
+                        <button
+                            type="button"
+                            onClick={() => setIsSignUp(!isSignUp)}
+                            className="ml-1 text-indigo-500 font-semibold hover:underline bg-transparent border-none p-0 cursor-pointer"
+                        >
+                            {isSignUp ? "Se connecter" : "S'inscrire"}
+                        </button>
+                    </p>
+
+                    <Link href="/" className="mt-8 text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1">
+                        ← Retour à l'accueil
+                    </Link>
+                </form>
+            </div>
         </div>
+    )
     )
 }
