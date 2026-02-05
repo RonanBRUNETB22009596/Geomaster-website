@@ -14,7 +14,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
-    const [isSignUp, setIsSignUp] = useState(false)
+    const [isForgotPassword, setIsForgotPassword] = useState(false)
     const router = useRouter()
 
     const handleGoogleLogin = async () => {
@@ -90,9 +90,28 @@ export default function LoginPage() {
         setLoading(false)
     }
 
+    const handleResetPassword = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!email) {
+            toast.error("Veuillez entrer votre email.")
+            return
+        }
+        setLoading(true)
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: `${siteUrl}/auth/update-password`,
+        })
+        if (error) {
+            toast.error(error.message)
+        } else {
+            toast.success("Email de réinitialisation envoyé ! Vérifiez votre boîte de réception.")
+            setIsForgotPassword(false)
+        }
+        setLoading(false)
+    }
+
     const passwordStatus = validatePassword(password)
 
-    return (
     return (
         <div className="flex h-screen w-full bg-white">
             <div className="w-1/2 hidden md:block relative">
@@ -107,31 +126,37 @@ export default function LoginPage() {
 
             <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8">
 
-                <form onSubmit={handleAuth} className="w-full max-w-sm flex flex-col items-center justify-center">
+                <form onSubmit={isForgotPassword ? handleResetPassword : handleAuth} className="w-full max-w-sm flex flex-col items-center justify-center">
                     <h2 className="text-4xl text-gray-900 font-medium font-sans mb-2">
-                        {isSignUp ? "Créer un compte" : "Bon retour !"}
+                        {isForgotPassword ? "Réinitialisation" : isSignUp ? "Créer un compte" : "Bon retour !"}
                     </h2>
                     <p className="text-sm text-gray-500/90 mb-8 text-center">
-                        {isSignUp
-                            ? "Inscrivez-vous pour enregistrer votre progression."
-                            : "Veuillez vous connecter pour continuer."}
+                        {isForgotPassword
+                            ? "Entrez votre email pour recevoir un lien de réinitialisation."
+                            : isSignUp
+                                ? "Inscrivez-vous pour enregistrer votre progression."
+                                : "Veuillez vous connecter pour continuer."}
                     </p>
 
-                    <button
-                        type="button"
-                        onClick={handleGoogleLogin}
-                        disabled={loading}
-                        className="w-full bg-gray-50 hover:bg-gray-100 border border-gray-200 flex items-center justify-center h-12 rounded-full transition-colors"
-                    >
-                        <img className="h-6 w-6 mr-2" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="Google" />
-                        <span className="text-sm font-medium text-gray-600">Continuer avec Google</span>
-                    </button>
+                    {!isForgotPassword && (
+                        <>
+                            <button
+                                type="button"
+                                onClick={handleGoogleLogin}
+                                disabled={loading}
+                                className="w-full bg-gray-50 hover:bg-gray-100 border border-gray-200 flex items-center justify-center h-12 rounded-full transition-colors"
+                            >
+                                <img className="h-6 w-6 mr-2" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="Google" />
+                                <span className="text-sm font-medium text-gray-600">Continuer avec Google</span>
+                            </button>
 
-                    <div className="flex items-center gap-4 w-full my-6">
-                        <div className="w-full h-px bg-gray-200"></div>
-                        <p className="w-full text-nowrap text-xs text-gray-400 font-medium uppercase tracking-wider text-center">ou avec email</p>
-                        <div className="w-full h-px bg-gray-200"></div>
-                    </div>
+                            <div className="flex items-center gap-4 w-full my-6">
+                                <div className="w-full h-px bg-gray-200"></div>
+                                <p className="w-full text-nowrap text-xs text-gray-400 font-medium uppercase tracking-wider text-center">ou avec email</p>
+                                <div className="w-full h-px bg-gray-200"></div>
+                            </div>
+                        </>
+                    )}
 
                     <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3 mb-4">
                         <svg width="16" height="11" viewBox="0 0 16 11" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
@@ -147,62 +172,83 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    <div className="flex flex-col w-full mb-2">
-                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3">
-                            <svg width="13" height="17" viewBox="0 0 13 17" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" fill="currentColor" />
-                            </svg>
-                            <input
-                                type="password"
-                                placeholder="Mot de passe"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
-                                required
-                            />
-                        </div>
-                        {isSignUp && (
-                            <div className="flex flex-wrap gap-2 mt-2 px-2">
-                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.minLength ? "text-green-600" : "text-gray-400"}`}>
-                                    ● 8 car.
-                                </span>
-                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasUpper ? "text-green-600" : "text-gray-400"}`}>
-                                    ● Majuscule
-                                </span>
-                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasNumber ? "text-green-600" : "text-gray-400"}`}>
-                                    ● Chiffre
-                                </span>
-                                <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasSpecial ? "text-green-600" : "text-gray-400"}`}>
-                                    ● Symbole
-                                </span>
+                    {!isForgotPassword && (
+                        <div className="flex flex-col w-full mb-2">
+                            <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3">
+                                <svg width="13" height="17" viewBox="0 0 13 17" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" fill="currentColor" />
+                                </svg>
+                                <input
+                                    type="password"
+                                    placeholder="Mot de passe"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
+                                    required
+                                />
                             </div>
-                        )}
-                    </div>
-
-                    <div className="w-full flex items-center justify-between mt-4 text-gray-500/80 mb-8">
-                        <div className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 transition-colors">
-                            <input className="h-4 w-4 accent-indigo-500 rounded border-gray-300" type="checkbox" id="checkbox" />
-                            <label className="text-sm cursor-pointer" htmlFor="checkbox">Se souvenir de moi</label>
+                            {isSignUp && (
+                                <div className="flex flex-wrap gap-2 mt-2 px-2">
+                                    <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.minLength ? "text-green-600" : "text-gray-400"}`}>
+                                        ● 8 car.
+                                    </span>
+                                    <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasUpper ? "text-green-600" : "text-gray-400"}`}>
+                                        ● Majuscule
+                                    </span>
+                                    <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasNumber ? "text-green-600" : "text-gray-400"}`}>
+                                        ● Chiffre
+                                    </span>
+                                    <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasSpecial ? "text-green-600" : "text-gray-400"}`}>
+                                        ● Symbole
+                                    </span>
+                                </div>
+                            )}
                         </div>
-                        <a className="text-sm underline hover:text-indigo-600 transition-colors" href="#">Mot de passe oublié ?</a>
-                    </div>
+                    )}
+
+                    {!isForgotPassword && (
+                        <div className="w-full flex items-center justify-between mt-4 text-gray-500/80 mb-8">
+                            <div className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 transition-colors">
+                                <input className="h-4 w-4 accent-indigo-500 rounded border-gray-300" type="checkbox" id="checkbox" />
+                                <label className="text-sm cursor-pointer" htmlFor="checkbox">Se souvenir de moi</label>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setIsForgotPassword(true)}
+                                className="text-sm underline hover:text-indigo-600 transition-colors bg-transparent border-none p-0 cursor-pointer"
+                            >
+                                Mot de passe oublié ?
+                            </button>
+                        </div>
+                    )}
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-12 rounded-full text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full h-12 rounded-full text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed mt-4"
                     >
-                        {loading ? "Chargement..." : (isSignUp ? "S'inscrire" : "Se connecter")}
+                        {loading
+                            ? "Chargement..."
+                            : isForgotPassword
+                                ? "Envoyer le lien"
+                                : isSignUp ? "S'inscrire" : "Se connecter"}
                     </button>
 
                     <p className="text-gray-500/90 text-sm mt-8">
-                        {isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}
+                        {isForgotPassword
+                            ? "Vous avez retrouvé la mémoire ?"
+                            : isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}
                         <button
                             type="button"
-                            onClick={() => setIsSignUp(!isSignUp)}
+                            onClick={() => {
+                                setIsForgotPassword(false)
+                                if (!isForgotPassword) setIsSignUp(!isSignUp)
+                            }}
                             className="ml-1 text-indigo-500 font-semibold hover:underline bg-transparent border-none p-0 cursor-pointer"
                         >
-                            {isSignUp ? "Se connecter" : "S'inscrire"}
+                            {isForgotPassword
+                                ? "Se connecter"
+                                : isSignUp ? "Se connecter" : "S'inscrire"}
                         </button>
                     </p>
 
@@ -212,6 +258,5 @@ export default function LoginPage() {
                 </form>
             </div>
         </div>
-    )
     )
 }
