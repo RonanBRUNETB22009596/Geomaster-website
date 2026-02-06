@@ -136,30 +136,28 @@ export default function LoginPage() {
 
     return (
         <div className="flex h-screen w-full bg-white">
-            <div className="w-1/2 hidden md:block relative">
-                {/* Fallback to local image or keep remote if preferred. Using remote for now to match request exactly */}
+            <div className="w-full hidden md:flex md:w-1/2 relative">
                 <img
                     className="h-full w-full object-cover"
                     src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png"
                     alt="Login Banner"
                 />
-                <div className="absolute inset-0 bg-black/20" /> {/* Slight overlay for contrast if needed */}
             </div>
 
             <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8">
 
-                <form onSubmit={showVerify ? handleVerifyOtp : isForgotPassword ? handleResetPassword : handleAuth} className="w-full max-w-sm flex flex-col items-center justify-center">
-                    <h2 className="text-4xl text-gray-900 font-medium font-sans mb-2">
-                        {showVerify ? "Vérification OTP" : isForgotPassword ? "Réinitialisation" : isSignUp ? "Créer un compte" : "Bon retour !"}
+                <form onSubmit={showVerify ? handleVerifyOtp : isForgotPassword ? handleResetPassword : handleAuth} className="md:w-96 w-80 flex flex-col items-center justify-center">
+                    <h2 className="text-4xl text-gray-900 font-medium">
+                        {showVerify ? "Vérification" : isForgotPassword ? "Réinitialisation" : isSignUp ? "Créer un compte" : "Bon retour !"}
                     </h2>
-                    <p className="text-sm text-gray-500/90 mb-8 text-center">
+                    <p className="text-sm text-gray-500/90 mt-3 mb-8 text-center">
                         {showVerify
-                            ? "Entrez le code à 6 chiffres reçu par email."
+                            ? "Entrez le code reçu par email."
                             : isForgotPassword
-                                ? "Entrez votre email pour recevoir un lien de réinitialisation."
+                                ? "Entrez votre email pour réinitialiser."
                                 : isSignUp
-                                    ? "Inscrivez-vous pour enregistrer votre progression."
-                                    : "Veuillez vous connecter pour continuer."}
+                                    ? "Inscrivez-vous pour continuer."
+                                    : "Connectez-vous pour continuer."}
                     </p>
 
                     {!isForgotPassword && !showVerify && (
@@ -168,31 +166,30 @@ export default function LoginPage() {
                                 type="button"
                                 onClick={handleGoogleLogin}
                                 disabled={loading}
-                                className="w-full bg-gray-50 hover:bg-gray-100 border border-gray-200 flex items-center justify-center h-12 rounded-full transition-colors"
+                                className="w-full bg-gray-500/10 hover:bg-gray-500/20 flex items-center justify-center h-12 rounded-full transition-colors"
                             >
-                                <img className="h-6 w-6 mr-2" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="Google" />
-                                <span className="text-sm font-medium text-gray-600">Continuer avec Google</span>
+                                <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="googleLogo" />
                             </button>
 
-                            <div className="flex items-center gap-4 w-full my-6">
-                                <div className="w-full h-px bg-gray-200"></div>
-                                <p className="w-full text-nowrap text-xs text-gray-400 font-medium uppercase tracking-wider text-center">ou avec email</p>
-                                <div className="w-full h-px bg-gray-200"></div>
+                            <div className="flex items-center gap-4 w-full my-5">
+                                <div className="w-full h-px bg-gray-300/90"></div>
+                                <p className="w-full text-nowrap text-sm text-gray-500/90">ou via email</p>
+                                <div className="w-full h-px bg-gray-300/90"></div>
                             </div>
                         </>
                     )}
 
                     {!showVerify && (
-                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3 mb-4">
-                            <svg width="16" height="11" viewBox="0 0 16 11" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" fill="currentColor" />
+                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2 mb-4">
+                            <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" fill="#6B7280" />
                             </svg>
                             <input
                                 type="email"
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
+                                className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
                                 required
                                 disabled={showVerify}
                             />
@@ -200,7 +197,7 @@ export default function LoginPage() {
                     )}
 
                     {showVerify && (
-                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3 mb-4">
+                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2 mb-4">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 w-4 h-4">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             </svg>
@@ -209,24 +206,24 @@ export default function LoginPage() {
                                 placeholder="Code (6 chiffres)"
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value)}
-                                className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
+                                className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
                                 required
                             />
                         </div>
                     )}
 
                     {!isForgotPassword && !showVerify && (
-                        <div className="flex flex-col w-full mb-2">
-                            <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3">
-                                <svg width="13" height="17" viewBox="0 0 13 17" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" fill="currentColor" />
+                        <div className="flex flex-col w-full">
+                            <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
+                                <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" fill="#6B7280" />
                                 </svg>
                                 <input
                                     type="password"
                                     placeholder="Mot de passe"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
+                                    className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
                                     required
                                 />
                             </div>
@@ -236,7 +233,7 @@ export default function LoginPage() {
                                         ● 8 car.
                                     </span>
                                     <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasUpper ? "text-green-600" : "text-gray-400"}`}>
-                                        ● Majuscule
+                                        ● Maj.
                                     </span>
                                     <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasNumber ? "text-green-600" : "text-gray-400"}`}>
                                         ● Chiffre
@@ -250,10 +247,10 @@ export default function LoginPage() {
                     )}
 
                     {!isForgotPassword && !showVerify && (
-                        <div className="w-full flex items-center justify-between mt-4 text-gray-500/80 mb-8">
-                            <div className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 transition-colors">
-                                <input className="h-4 w-4 accent-indigo-500 rounded border-gray-300" type="checkbox" id="checkbox" />
-                                <label className="text-sm cursor-pointer" htmlFor="checkbox">Se souvenir de moi</label>
+                        <div className="w-full flex items-center justify-between mt-8 text-gray-500/80">
+                            <div className="flex items-center gap-2">
+                                <input className="h-5 accent-indigo-500" type="checkbox" id="checkbox" />
+                                <label className="text-sm" htmlFor="checkbox">Se souvenir de moi</label>
                             </div>
                             <button
                                 type="button"
@@ -268,21 +265,21 @@ export default function LoginPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-12 rounded-full text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                        className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity disabled:opacity-50"
                     >
                         {loading
                             ? "Chargement..."
                             : showVerify
-                                ? "Vérifier le code"
+                                ? "Vérifier"
                                 : isForgotPassword
-                                    ? "Envoyer le lien"
+                                    ? "Envoyer"
                                     : isSignUp ? "S'inscrire" : "Se connecter"}
                     </button>
 
                     {!showVerify && (
-                        <p className="text-gray-500/90 text-sm mt-8">
+                        <p className="text-gray-500/90 text-sm mt-4">
                             {isForgotPassword
-                                ? "Vous avez retrouvé la mémoire ?"
+                                ? "Retour à la connexion ?"
                                 : isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}
                             <button
                                 type="button"
@@ -290,7 +287,7 @@ export default function LoginPage() {
                                     setIsForgotPassword(false)
                                     if (!isForgotPassword) setIsSignUp(!isSignUp)
                                 }}
-                                className="ml-1 text-indigo-500 font-semibold hover:underline bg-transparent border-none p-0 cursor-pointer"
+                                className="ml-1 text-indigo-400 hover:underline bg-transparent border-none p-0 cursor-pointer"
                             >
                                 {isForgotPassword
                                     ? "Se connecter"
