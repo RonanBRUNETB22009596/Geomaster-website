@@ -14,7 +14,10 @@ export default function LoginPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
+    const [isSignUp, setIsSignUp] = useState(false)
     const [isForgotPassword, setIsForgotPassword] = useState(false)
+    const [showVerify, setShowVerify] = useState(false)
+    const [otp, setOtp] = useState("")
     const router = useRouter()
 
     const handleGoogleLogin = async () => {
@@ -67,8 +70,8 @@ export default function LoginPage() {
             if (error) {
                 toast.error(error.message)
             } else if (data.user && !data.session) {
-                toast.success("Inscription enregistrée ! Veuillez vérifier vos emails pour valider le compte.")
-                setIsSignUp(false)
+                toast.success("Code de vérification envoyé ! Vérifiez vos emails.")
+                setShowVerify(true)
             } else {
                 toast.success("Inscription réussie !")
                 router.refresh()
@@ -110,6 +113,25 @@ export default function LoginPage() {
         setLoading(false)
     }
 
+    const handleVerifyOtp = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setLoading(true)
+        const { data, error } = await supabase.auth.verifyOtp({
+            email,
+            token: otp,
+            type: 'signup'
+        })
+
+        if (error) {
+            toast.error(error.message || "Code invalide.")
+        } else {
+            toast.success("Compte vérifié avec succès !")
+            router.refresh()
+            router.push("/")
+        }
+        setLoading(false)
+    }
+
     const passwordStatus = validatePassword(password)
 
     return (
@@ -126,19 +148,21 @@ export default function LoginPage() {
 
             <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8">
 
-                <form onSubmit={isForgotPassword ? handleResetPassword : handleAuth} className="w-full max-w-sm flex flex-col items-center justify-center">
+                <form onSubmit={showVerify ? handleVerifyOtp : isForgotPassword ? handleResetPassword : handleAuth} className="w-full max-w-sm flex flex-col items-center justify-center">
                     <h2 className="text-4xl text-gray-900 font-medium font-sans mb-2">
-                        {isForgotPassword ? "Réinitialisation" : isSignUp ? "Créer un compte" : "Bon retour !"}
+                        {showVerify ? "Vérification OTP" : isForgotPassword ? "Réinitialisation" : isSignUp ? "Créer un compte" : "Bon retour !"}
                     </h2>
                     <p className="text-sm text-gray-500/90 mb-8 text-center">
-                        {isForgotPassword
-                            ? "Entrez votre email pour recevoir un lien de réinitialisation."
-                            : isSignUp
-                                ? "Inscrivez-vous pour enregistrer votre progression."
-                                : "Veuillez vous connecter pour continuer."}
+                        {showVerify
+                            ? "Entrez le code à 6 chiffres reçu par email."
+                            : isForgotPassword
+                                ? "Entrez votre email pour recevoir un lien de réinitialisation."
+                                : isSignUp
+                                    ? "Inscrivez-vous pour enregistrer votre progression."
+                                    : "Veuillez vous connecter pour continuer."}
                     </p>
 
-                    {!isForgotPassword && (
+                    {!isForgotPassword && !showVerify && (
                         <>
                             <button
                                 type="button"
@@ -158,21 +182,40 @@ export default function LoginPage() {
                         </>
                     )}
 
-                    <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3 mb-4">
-                        <svg width="16" height="11" viewBox="0 0 16 11" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" fill="currentColor" />
-                        </svg>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
-                            required
-                        />
-                    </div>
+                    {!showVerify && (
+                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3 mb-4">
+                            <svg width="16" height="11" viewBox="0 0 16 11" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" fill="currentColor" />
+                            </svg>
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
+                                required
+                                disabled={showVerify}
+                            />
+                        </div>
+                    )}
 
-                    {!isForgotPassword && (
+                    {showVerify && (
+                        <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3 mb-4">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 w-4 h-4">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <input
+                                type="text"
+                                placeholder="Code (6 chiffres)"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                className="bg-transparent text-gray-700 placeholder-gray-400 outline-none text-sm w-full h-full pr-4"
+                                required
+                            />
+                        </div>
+                    )}
+
+                    {!isForgotPassword && !showVerify && (
                         <div className="flex flex-col w-full mb-2">
                             <div className="flex items-center w-full bg-transparent border border-gray-300/60 focus-within:border-indigo-500/80 focus-within:ring-2 focus-within:ring-indigo-100 transition-all h-12 rounded-full overflow-hidden pl-5 gap-3">
                                 <svg width="13" height="17" viewBox="0 0 13 17" fill="none" className="text-gray-400" xmlns="http://www.w3.org/2000/svg">
@@ -206,7 +249,7 @@ export default function LoginPage() {
                         </div>
                     )}
 
-                    {!isForgotPassword && (
+                    {!isForgotPassword && !showVerify && (
                         <div className="w-full flex items-center justify-between mt-4 text-gray-500/80 mb-8">
                             <div className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 transition-colors">
                                 <input className="h-4 w-4 accent-indigo-500 rounded border-gray-300" type="checkbox" id="checkbox" />
@@ -229,28 +272,32 @@ export default function LoginPage() {
                     >
                         {loading
                             ? "Chargement..."
-                            : isForgotPassword
-                                ? "Envoyer le lien"
-                                : isSignUp ? "S'inscrire" : "Se connecter"}
+                            : showVerify
+                                ? "Vérifier le code"
+                                : isForgotPassword
+                                    ? "Envoyer le lien"
+                                    : isSignUp ? "S'inscrire" : "Se connecter"}
                     </button>
 
-                    <p className="text-gray-500/90 text-sm mt-8">
-                        {isForgotPassword
-                            ? "Vous avez retrouvé la mémoire ?"
-                            : isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setIsForgotPassword(false)
-                                if (!isForgotPassword) setIsSignUp(!isSignUp)
-                            }}
-                            className="ml-1 text-indigo-500 font-semibold hover:underline bg-transparent border-none p-0 cursor-pointer"
-                        >
+                    {!showVerify && (
+                        <p className="text-gray-500/90 text-sm mt-8">
                             {isForgotPassword
-                                ? "Se connecter"
-                                : isSignUp ? "Se connecter" : "S'inscrire"}
-                        </button>
-                    </p>
+                                ? "Vous avez retrouvé la mémoire ?"
+                                : isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsForgotPassword(false)
+                                    if (!isForgotPassword) setIsSignUp(!isSignUp)
+                                }}
+                                className="ml-1 text-indigo-500 font-semibold hover:underline bg-transparent border-none p-0 cursor-pointer"
+                            >
+                                {isForgotPassword
+                                    ? "Se connecter"
+                                    : isSignUp ? "Se connecter" : "S'inscrire"}
+                            </button>
+                        </p>
+                    )}
 
                     <Link href="/" className="mt-8 text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1">
                         ← Retour à l'accueil
