@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress"
 import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map"
 import { Question } from "@/lib/definitions"
 import { cn } from "@/lib/utils"
-import { MapIcon, MousePointer2, Target } from "lucide-react"
+import { MapIcon, MousePointer2, Target, MapPin, Navigation } from "lucide-react"
 
 interface MapQuizCardProps {
     question: Question
@@ -39,6 +39,9 @@ export function MapQuizCard({
 }: MapQuizCardProps) {
     const [userPoint, setUserPoint] = useState<{ lng: number; lat: number } | null>(null)
     const [hasInteracted, setHasInteracted] = useState(false)
+    const [showResult, setShowResult] = useState(false)
+    const [resultDistance, setResultDistance] = useState<number | null>(null)
+    const [resultIsCorrect, setResultIsCorrect] = useState(false)
 
     const progress = (currentQuestionIndex / totalQuestions) * 100
 
@@ -55,10 +58,10 @@ export function MapQuizCard({
 
     const handleMapClick = useCallback((e: any) => {
         setHasInteracted(true)
-        if (question.type === 'map_pinpoint' && !isSubmitting) {
+        if (question.type === 'map_pinpoint' && !isSubmitting && !showResult) {
             setUserPoint({ lng: e.lngLat.lng, lat: e.lngLat.lat })
         }
-    }, [question.type, isSubmitting])
+    }, [question.type, isSubmitting, showResult])
 
     const handleConfirm = () => {
         if (question.type === 'map_pinpoint' && userPoint) {
@@ -68,11 +71,17 @@ export function MapQuizCard({
                 question.latitude ?? 0,
                 question.longitude ?? 0
             )
-            if (distance <= 400) {
-                onAnswer(question.correct_answer)
-            } else {
-                onAnswer("WRONG_LOCATION")
-            }
+            setResultDistance(Math.round(distance))
+            setResultIsCorrect(distance <= 400)
+            setShowResult(true)
+        }
+    }
+
+    const handleContinue = () => {
+        if (resultIsCorrect) {
+            onAnswer(question.correct_answer)
+        } else {
+            onAnswer("WRONG_LOCATION")
         }
     }
 
@@ -101,7 +110,7 @@ export function MapQuizCard({
             <CardContent className="space-y-4">
                 <div className={cn(
                     "relative h-[300px] md:h-[350px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner group",
-                    question.type === 'map_pinpoint' && "cursor-crosshair"
+                    question.type === 'map_pinpoint' && !showResult && "cursor-crosshair"
                 )}>
                     <Map
                         key={question.id}
@@ -148,14 +157,40 @@ export function MapQuizCard({
                             </MapMarker>
                         ))}
 
-                        {/* Mode Pro : Placement de point par le joueur */}
+                        {/* Mode Pro : Point placé par le joueur (orange en résultat, rose sinon) */}
                         {question.type === 'map_pinpoint' && userPoint && (
                             <MapMarker
                                 longitude={userPoint.lng}
                                 latitude={userPoint.lat}
                             >
                                 <MarkerContent>
-                                    <Target className="w-8 h-8 text-rose-500 drop-shadow-lg" />
+                                    {showResult ? (
+                                        <div className="flex flex-col items-center">
+                                            <div className="w-5 h-5 bg-orange-500 rounded-full border-3 border-white shadow-xl" />
+                                            <span className="mt-1 text-[10px] font-bold text-orange-600 bg-white/90 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap">
+                                                Votre réponse
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        <Target className="w-8 h-8 text-rose-500 drop-shadow-lg" />
+                                    )}
+                                </MarkerContent>
+                            </MapMarker>
+                        )}
+
+                        {/* Résultat : Marqueur vert à la bonne position */}
+                        {showResult && question.type === 'map_pinpoint' && (
+                            <MapMarker
+                                longitude={question.longitude ?? 0}
+                                latitude={question.latitude ?? 0}
+                            >
+                                <MarkerContent>
+                                    <div className="flex flex-col items-center animate-in zoom-in duration-300">
+                                        <MapPin className="w-8 h-8 text-emerald-500 drop-shadow-lg fill-emerald-500" />
+                                        <span className="mt-1 text-[10px] font-bold text-emerald-700 bg-white/90 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap">
+                                            {question.correct_answer}
+                                        </span>
+                                    </div>
                                 </MarkerContent>
                             </MapMarker>
                         )}
@@ -169,6 +204,30 @@ export function MapQuizCard({
                         </div>
                     )}
                 </div>
+
+                {/* Résultat : Distance et feedback */}
+                {showResult && question.type === 'map_pinpoint' && resultDistance !== null && (
+                    <div className={cn(
+                        "flex items-center justify-center gap-3 p-4 rounded-2xl border-2 animate-in slide-in-from-bottom-4 duration-500",
+                        resultIsCorrect
+                            ? "bg-emerald-50 border-emerald-200"
+                            : "bg-red-50 border-red-200"
+                    )}>
+                        <Navigation className={cn(
+                            "w-5 h-5",
+                            resultIsCorrect ? "text-emerald-500" : "text-red-500"
+                        )} />
+                        <p className={cn(
+                            "text-sm font-bold",
+                            resultIsCorrect ? "text-emerald-700" : "text-red-700"
+                        )}>
+                            {resultIsCorrect
+                                ? `Bravo ! Vous étiez à ${resultDistance} km de ${question.correct_answer}.`
+                                : `Raté ! Vous étiez à ${resultDistance} km de ${question.correct_answer}.`
+                            }
+                        </p>
+                    </div>
+                )}
 
                 {/* Choix Multiple pour le mode Débutant */}
                 {question.type === 'map_point' && (
@@ -190,14 +249,29 @@ export function MapQuizCard({
 
             {question.type === 'map_pinpoint' && (
                 <CardFooter className="bg-slate-50 border-t border-slate-100 p-6 flex justify-center">
-                    <Button
-                        size="lg"
-                        className="px-12 font-black rounded-full shadow-xl shadow-primary/20 transition-all hover:scale-105"
-                        disabled={!userPoint || isSubmitting}
-                        onClick={handleConfirm}
-                    >
-                        Valider ma position
-                    </Button>
+                    {!showResult ? (
+                        <Button
+                            size="lg"
+                            className="px-12 font-black rounded-full shadow-xl shadow-primary/20 transition-all hover:scale-105"
+                            disabled={!userPoint || isSubmitting}
+                            onClick={handleConfirm}
+                        >
+                            Valider ma position
+                        </Button>
+                    ) : (
+                        <Button
+                            size="lg"
+                            className={cn(
+                                "px-12 font-black rounded-full shadow-xl transition-all hover:scale-105",
+                                resultIsCorrect
+                                    ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-200"
+                                    : "bg-slate-800 hover:bg-slate-900 shadow-slate-200"
+                            )}
+                            onClick={handleContinue}
+                        >
+                            Continuer →
+                        </Button>
+                    )}
                 </CardFooter>
             )}
         </Card>

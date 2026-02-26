@@ -174,41 +174,8 @@ export default function LeaderboardPage() {
                         </CardContent>
                     </Card>
 
-                    {/* Info Button */}
-                    <div className="mt-8">
-                        <Button
-                            variant="outline"
-                            onClick={() => setShowInfo(!showInfo)}
-                            className="w-full flex items-center justify-center gap-2 py-6 bg-white hover:bg-slate-50 border-2"
-                        >
-                            <Info className="w-5 h-5 text-primary" />
-                            <span className="font-semibold">Comment fonctionne le classement ?</span>
-                            <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showInfo ? 'rotate-180' : ''}`} />
-                        </Button>
 
-                        {showInfo && (
-                            <div className="mt-4 p-6 bg-white rounded-2xl shadow-lg border animate-in slide-in-from-top-2 duration-300">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <TrendingUp className="w-5 h-5 text-primary" />
-                                    <h3 className="font-bold text-slate-800">Calcul du Score Pondéré</h3>
-                                </div>
-                                <div className="grid md:grid-cols-2 gap-4 text-sm text-slate-600">
-                                    <div className="flex items-start gap-2">
-                                        <span className="text-primary font-bold">1.</span>
-                                        <p><strong>Moyenne × 100</strong> — Votre score moyen récompense la qualité de jeu</p>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                        <span className="text-primary font-bold">2.</span>
-                                        <p><strong>√Parties × 10</strong> — Jouer régulièrement augmente votre score (avec rendements décroissants)</p>
-                                    </div>
-                                </div>
-                                <p className="mt-4 text-xs text-slate-400">
-                                    Ce système équilibre qualité et engagement : un joueur avec 8/10 de moyenne et 100 parties
-                                    peut rivaliser avec un joueur à 9/10 de moyenne et 25 parties.
-                                </p>
-                            </div>
-                        )}
-                    </div>
+
                 </div>
             </div>
             <Footer />
