@@ -105,11 +105,17 @@ export function MapQuizCard({
                 <CardTitle className="text-2xl md:text-3xl font-black text-slate-900 text-center leading-tight">
                     {question.question_text}
                 </CardTitle>
+                {question.type === 'map_pinpoint' && !showResult && (
+                    <p className="text-center text-sm text-slate-400 mt-2 flex items-center justify-center gap-1.5">
+                        <MapIcon className="w-3.5 h-3.5" />
+                        Réponse correcte dans un rayon de 400 km
+                    </p>
+                )}
             </CardHeader>
 
             <CardContent className="space-y-4">
                 <div className={cn(
-                    "relative h-[300px] md:h-[350px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner group",
+                    "relative h-[220px] md:h-[260px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner group",
                     question.type === 'map_pinpoint' && !showResult && "cursor-crosshair"
                 )}>
                     <Map
@@ -205,16 +211,20 @@ export function MapQuizCard({
                     )}
                 </div>
 
-                {/* Résultat : Distance et feedback */}
-                {showResult && question.type === 'map_pinpoint' && resultDistance !== null && (
-                    <div className={cn(
-                        "flex items-center justify-center gap-3 p-4 rounded-2xl border-2 animate-in slide-in-from-bottom-4 duration-500",
-                        resultIsCorrect
-                            ? "bg-emerald-50 border-emerald-200"
-                            : "bg-red-50 border-red-200"
-                    )}>
+                {/* Résultat : Bannière cliquable = bouton continuer */}
+                {showResult && resultDistance !== null && (
+                    <button
+                        type="button"
+                        onClick={handleContinue}
+                        className={cn(
+                            "relative z-10 w-full flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer",
+                            resultIsCorrect
+                                ? "bg-emerald-50 border-emerald-300 hover:bg-emerald-100"
+                                : "bg-red-50 border-red-300 hover:bg-red-100"
+                        )}
+                    >
                         <Navigation className={cn(
-                            "w-5 h-5",
+                            "w-5 h-5 shrink-0",
                             resultIsCorrect ? "text-emerald-500" : "text-red-500"
                         )} />
                         <p className={cn(
@@ -226,7 +236,13 @@ export function MapQuizCard({
                                 : `Raté ! Vous étiez à ${resultDistance} km de ${question.correct_answer}.`
                             }
                         </p>
-                    </div>
+                        <span className={cn(
+                            "text-xs font-black uppercase tracking-wider shrink-0",
+                            resultIsCorrect ? "text-emerald-500" : "text-red-500"
+                        )}>
+                            Continuer →
+                        </span>
+                    </button>
                 )}
 
                 {/* Choix Multiple pour le mode Débutant */}
@@ -247,31 +263,16 @@ export function MapQuizCard({
                 )}
             </CardContent>
 
-            {question.type === 'map_pinpoint' && (
+            {question.type === 'map_pinpoint' && !showResult && (
                 <CardFooter className="bg-slate-50 border-t border-slate-100 p-6 flex justify-center">
-                    {!showResult ? (
-                        <Button
-                            size="lg"
-                            className="px-12 font-black rounded-full shadow-xl shadow-primary/20 transition-all hover:scale-105"
-                            disabled={!userPoint || isSubmitting}
-                            onClick={handleConfirm}
-                        >
-                            Valider ma position
-                        </Button>
-                    ) : (
-                        <Button
-                            size="lg"
-                            className={cn(
-                                "px-12 font-black rounded-full shadow-xl transition-all hover:scale-105",
-                                resultIsCorrect
-                                    ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-200"
-                                    : "bg-slate-800 hover:bg-slate-900 shadow-slate-200"
-                            )}
-                            onClick={handleContinue}
-                        >
-                            Continuer →
-                        </Button>
-                    )}
+                    <Button
+                        size="lg"
+                        className="px-12 font-black rounded-full shadow-xl shadow-primary/20 transition-all hover:scale-105"
+                        disabled={!userPoint || isSubmitting}
+                        onClick={handleConfirm}
+                    >
+                        Valider ma position
+                    </Button>
                 </CardFooter>
             )}
         </Card>

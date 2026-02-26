@@ -260,7 +260,7 @@ function QuizContent() {
     const isMapQuestion = ['map_point', 'map_click_name', 'map_pinpoint'].includes(currentQuestion.type)
 
     return (
-        <div className="container mx-auto py-10 px-4 flex-1 flex flex-col items-center justify-center relative">
+        <div className="container mx-auto pt-20 pb-10 px-4 flex-1 flex flex-col items-center relative">
             <div className="w-full max-w-4xl mb-4 flex justify-end">
                 <Button
                     variant="outline"
