@@ -9,6 +9,7 @@ import { Shield, ShieldAlert, ShieldCheck } from "lucide-react"
 
 import BounceCards from "@/components/BounceCards"
 import { StreakBadge } from "@/components/StreakBadge"
+import { Footer } from "@/components/Footer"
 
 function DifficultyContent() {
     const router = useRouter()
@@ -114,11 +115,14 @@ function DifficultyContent() {
 
 export default function DifficultyPage() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-slate-50 flex flex-col">
             <NavBar />
-            <Suspense fallback={<div className="p-32 text-center">Préparation...</div>}>
-                <DifficultyContent />
-            </Suspense>
+            <div className="flex-1">
+                <Suspense fallback={<div className="p-32 text-center">Préparation...</div>}>
+                    <DifficultyContent />
+                </Suspense>
+            </div>
+            <Footer />
         </div>
     )
 }

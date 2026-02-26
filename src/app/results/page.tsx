@@ -87,6 +87,9 @@ function ResultsContent() {
                         <div className="text-6xl font-black text-slate-800">
                             {score} <span className="text-2xl text-slate-400 font-medium">/ {total}</span>
                         </div>
+                        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold ${percentage >= 80 ? 'bg-emerald-100 text-emerald-700' : percentage >= 50 ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
+                            {percentage}%
+                        </div>
                         <p className={`text-lg font-medium ${color}`}>
                             {message}
                         </p>
@@ -115,7 +118,7 @@ function ResultsContent() {
 
 export default function ResultsPage() {
     return (
-        <div className="min-h-screen bg-gray-50/50 flex flex-col">
+        <div className="min-h-screen bg-slate-50 flex flex-col">
             <NavBar />
             <div className="flex-1">
                 <Suspense fallback={<div className="p-10 text-center">Chargement des résultats...</div>}>

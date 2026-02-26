@@ -261,10 +261,10 @@ function QuizContent() {
 
     return (
         <div className="container mx-auto py-10 px-4 flex-1 flex flex-col items-center justify-center relative">
-            <div className="w-full max-w-2xl mb-6 flex justify-end">
+            <div className="w-full max-w-4xl mb-4 flex justify-end">
                 <Button
-                    variant="ghost"
-                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors gap-2"
+                    variant="outline"
+                    className="text-slate-500 border-slate-300 hover:text-red-500 hover:border-red-300 hover:bg-red-50 transition-colors gap-2"
                     onClick={() => {
                         router.push('/')
                     }}

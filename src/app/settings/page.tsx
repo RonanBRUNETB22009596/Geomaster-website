@@ -145,17 +145,22 @@ export default function SettingsPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50/50 flex flex-col items-center justify-center">
+            <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gray-50/50 flex flex-col">
+        <div className="min-h-screen bg-slate-50 flex flex-col">
             <NavBar />
-            <div className="container mx-auto py-32 px-4 flex-1 max-w-2xl">
-                <h1 className="text-3xl font-bold mb-8">Paramètres du compte</h1>
+            <div className="container mx-auto pt-24 pb-10 px-4 flex-1 max-w-2xl">
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="p-2.5 bg-primary/10 rounded-xl">
+                        <User className="h-6 w-6 text-primary" />
+                    </div>
+                    <h1 className="text-3xl font-black text-slate-900">Paramètres</h1>
+                </div>
 
                 <div className="space-y-6">
                     {/* Profile Section */}

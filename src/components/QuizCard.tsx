@@ -76,8 +76,10 @@ export function QuizCard({
                         key={idx}
                         variant="outline"
                         className={cn(
-                            "h-auto py-6 text-lg justify-start px-6 whitespace-normal text-left hover:border-primary hover:bg-primary/5 transition-all",
-                            "active:scale-95 transform duration-100"
+                            "h-auto py-6 text-lg justify-start px-6 whitespace-normal text-left",
+                            "hover:border-primary hover:bg-primary/5 hover:shadow-md hover:-translate-y-0.5",
+                            "transition-all duration-200",
+                            "active:scale-[0.98] transform"
                         )}
                         onClick={() => onAnswer(option)}
                         disabled={isSubmitting}

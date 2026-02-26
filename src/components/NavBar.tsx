@@ -13,7 +13,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Globe, User, LogOut, ShieldAlert, Trophy } from "lucide-react"
+import { Globe, User, LogOut, Settings, Trophy } from "lucide-react"
 
 export function NavBar() {
     const [user, setUser] = useState<any>(null)
@@ -99,7 +99,7 @@ export function NavBar() {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <Link href="/settings" className="cursor-pointer rounded-xl">
-                                        <ShieldAlert className="mr-2 h-4 w-4" />
+                                        <Settings className="mr-2 h-4 w-4" />
                                         Paramètres
                                     </Link>
                                 </DropdownMenuItem>
