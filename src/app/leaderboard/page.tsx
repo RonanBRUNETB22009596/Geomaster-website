@@ -55,7 +55,7 @@ export default function LeaderboardPage() {
             <NavBar />
             <div className="container mx-auto py-32 px-4 flex-1">
                 <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-20">
+                    <div className="text-center mb-28">
                         <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                             Classement Mondial
                         </h1>
@@ -64,7 +64,7 @@ export default function LeaderboardPage() {
                         </p>
                     </div>
 
-                    <Card className="shadow-2xl border-none overflow-hidden bg-black/40 backdrop-blur-md border border-white/10 text-white">
+                    <Card className="shadow-2xl border-none overflow-hidden bg-black/40 backdrop-blur-md border border-white/10 text-white rounded-[32px]">
                         <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white pb-8">
                             <div className="flex items-center gap-3">
                                 <Trophy className="w-8 h-8" />
@@ -87,8 +87,8 @@ export default function LeaderboardPage() {
                                 </div>
                             ) : (
                                 <Table>
-                                    <TableHeader className="bg-white/5 text-white">
-                                        <TableRow>
+                                    <TableHeader className="bg-white/5 text-white border-b-0">
+                                        <TableRow className="border-none hover:bg-transparent">
                                             <TableHead className="w-16 text-center font-bold text-white">Rang</TableHead>
                                             <TableHead className="font-bold text-white">Explorateur</TableHead>
                                             <TableHead className="text-center font-bold text-white">
@@ -111,9 +111,9 @@ export default function LeaderboardPage() {
                                         {entries.map((entry, index) => (
                                             <TableRow
                                                 key={index}
-                                                className={`hover:bg-white/10 transition-colors ${index === 0 ? 'bg-yellow-50/50' :
+                                                className={`border-none hover:bg-white/5 transition-colors ${index === 0 ? 'bg-yellow-500/20' :
                                                     index === 1 ? 'bg-white/10' :
-                                                        index === 2 ? 'bg-amber-50/30' : ''
+                                                        index === 2 ? 'bg-amber-500/10' : ''
                                                     }`}
                                             >
                                                 <TableCell className="text-center">
