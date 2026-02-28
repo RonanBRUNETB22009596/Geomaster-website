@@ -66,7 +66,7 @@ function ResultsContent() {
     }
 
     return (
-        <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-64px)] p-4">
+        <div className="flex-1 w-full container mx-auto flex flex-col items-center justify-center pt-24 pb-12 px-4">
             <TiltedCard
                 containerWidth="100%"
                 containerHeight="auto"
@@ -120,7 +120,7 @@ export default function ResultsPage() {
     return (
         <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
-            <div className="flex-1">
+            <div className="flex-1 flex flex-col">
                 <Suspense fallback={<div className="p-10 text-center">Chargement des résultats...</div>}>
                     <ResultsContent />
                 </Suspense>
