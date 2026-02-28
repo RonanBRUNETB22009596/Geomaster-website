@@ -4,7 +4,6 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import ClickSpark from "@/components/ClickSpark";
-import GradualBlur from "@/components/GradualBlur";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -34,12 +33,6 @@ export default function RootLayout({
         >
           <main className="relative z-[2]">{children}</main>
         </ClickSpark>
-        <GradualBlur
-          preset="page-footer"
-          height="12rem"
-          strength={3}
-          curve="bezier"
-        />
         <Toaster position="top-center" richColors />
       </body>
     </html>
