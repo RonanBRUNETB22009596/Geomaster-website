@@ -128,7 +128,7 @@ export default function TiltedCard({
                     transformStyle: 'preserve-3d',
                     ...glareVars
                 }}
-                className="tilted-card-figure group bg-white shadow-xl hover:shadow-2xl transition-shadow duration-500"
+                className="tilted-card-figure group bg-black border border-white/20 shadow-xl hover:shadow-2xl hover:border-white/40 transition-all duration-500"
             >
                 <div className="tilted-card-inner">
                     {children ? (
