@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+import ClickSpark from "@/components/ClickSpark";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -23,7 +24,15 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${outfit.variable} ${outfit.className} font-sans bg-[#0B0914]`}>
         <ParticlesBackground />
-        <main className="relative z-[2]">{children}</main>
+        <ClickSpark
+          sparkColor='#fff'
+          sparkSize={10}
+          sparkRadius={15}
+          sparkCount={8}
+          duration={400}
+        >
+          <main className="relative z-[2]">{children}</main>
+        </ClickSpark>
         <Toaster position="top-center" richColors />
       </body>
     </html>
