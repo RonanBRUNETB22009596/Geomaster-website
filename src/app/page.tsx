@@ -58,11 +58,11 @@ export default function Home() {
       </section>
 
       {/* Categories Section */}
-      <section id="categories" className="py-24 bg-white relative z-10 overflow-hidden">
+      <section id="categories" className="py-24 bg-transparent relative z-10 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Choisissez votre défi</h2>
-            <p className="text-slate-500 text-lg">Sélectionnez une région pour tester vos connaissances géographiques.</p>
+            <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Choisissez votre défi</h2>
+            <p className="text-slate-300 text-lg">Sélectionnez une région pour tester vos connaissances géographiques.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl mx-auto place-items-center">
