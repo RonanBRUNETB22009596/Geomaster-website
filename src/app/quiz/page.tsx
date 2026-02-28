@@ -284,19 +284,6 @@ function QuizContent() {
 
     return (
         <div className="flex-1 w-full container mx-auto flex flex-col items-center justify-center pt-24 pb-12 px-4 relative">
-            <div className="absolute top-6 right-4 md:top-8 md:right-8 z-10 text-right">
-                <Button
-                    variant="outline"
-                    className="text-slate-300 border-slate-300 hover:text-red-500 hover:border-red-300 hover:bg-red-50 transition-colors gap-2"
-                    onClick={() => {
-                        router.push('/')
-                    }}
-                >
-                    <X className="w-4 h-4" />
-                    Quitter le quiz
-                </Button>
-            </div>
-
             {isMapQuestion ? (
                 <MapQuizCard
                     key={state.currentIndex}
@@ -304,6 +291,7 @@ function QuizContent() {
                     currentQuestionIndex={state.currentIndex}
                     totalQuestions={state.questions.length}
                     onAnswer={handleAnswer}
+                    onQuit={() => router.push('/')}
                 />
             ) : (
                 <QuizCard
@@ -312,6 +300,7 @@ function QuizContent() {
                     currentQuestionIndex={state.currentIndex}
                     totalQuestions={state.questions.length}
                     onAnswer={handleAnswer}
+                    onQuit={() => router.push('/')}
                 />
             )}
         </div>

@@ -2,6 +2,8 @@
 
 import { useMemo } from "react"
 
+import { X } from "lucide-react"
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
@@ -13,6 +15,7 @@ interface QuizCardProps {
     currentQuestionIndex: number
     totalQuestions: number
     onAnswer: (option: string) => void
+    onQuit?: () => void
     isSubmitting?: boolean
 }
 
@@ -21,6 +24,7 @@ export function QuizCard({
     currentQuestionIndex,
     totalQuestions,
     onAnswer,
+    onQuit,
     isSubmitting = false
 }: QuizCardProps) {
     // Parse options if it's a string (from some legacy DB ingest) or valid array
@@ -58,6 +62,16 @@ export function QuizCard({
                         <span className="text-xs font-semibold px-2 py-1 bg-primary/10 text-primary rounded-full uppercase">
                             {question.category || 'Général'}
                         </span>
+                        {onQuit && (
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="w-6 h-6 rounded-full bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors ml-1"
+                                onClick={onQuit}
+                            >
+                                <X className="w-3.5 h-3.5" />
+                            </Button>
+                        )}
                     </div>
                 </div>
                 <Progress value={progress} className="h-2 bg-white/10" />

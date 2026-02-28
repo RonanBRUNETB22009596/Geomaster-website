@@ -7,13 +7,14 @@ import { Progress } from "@/components/ui/progress"
 import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map"
 import { Question } from "@/lib/definitions"
 import { cn } from "@/lib/utils"
-import { MapIcon, MousePointer2, Target, MapPin, Navigation } from "lucide-react"
+import { MapIcon, MousePointer2, Target, MapPin, Navigation, X } from "lucide-react"
 
 interface MapQuizCardProps {
     question: Question
     currentQuestionIndex: number
     totalQuestions: number
     onAnswer: (answer: string) => void
+    onQuit?: () => void
     isSubmitting?: boolean
 }
 
@@ -35,6 +36,7 @@ export function MapQuizCard({
     currentQuestionIndex,
     totalQuestions,
     onAnswer,
+    onQuit,
     isSubmitting = false
 }: MapQuizCardProps) {
     const [userPoint, setUserPoint] = useState<{ lng: number; lat: number } | null>(null)
@@ -106,6 +108,16 @@ export function MapQuizCard({
                         <span className="text-[10px] font-black px-3 py-1 bg-white/10 text-white rounded-full uppercase tracking-widest border border-white/20">
                             {question.category || 'Général'}
                         </span>
+                        {onQuit && (
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="w-6 h-6 rounded-full bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors ml-1"
+                                onClick={onQuit}
+                            >
+                                <X className="w-3.5 h-3.5" />
+                            </Button>
+                        )}
                     </div>
                 </div>
                 <Progress value={progress} className="h-1.5 mb-6 bg-white/10" />
