@@ -104,7 +104,7 @@ function ResultsContent() {
                                 <RefreshCw className="mr-2 h-5 w-5" /> Recommencer
                             </Link>
                         </Button>
-                        <Button variant="outline" asChild className="w-full bg-white text-black hover:bg-slate-200 border-none">
+                        <Button variant="outline" asChild className="w-full h-12 text-lg bg-white text-black hover:bg-slate-200 border-none">
                             <Link href="/">
                                 <Home className="mr-2 h-4 w-4" /> Retour à l'accueil
                             </Link>
