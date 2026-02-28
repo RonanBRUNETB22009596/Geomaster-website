@@ -65,7 +65,7 @@ export default function LeaderboardPage() {
                     </div>
 
                     <Card className="shadow-2xl border-none overflow-hidden bg-black/40 backdrop-blur-md border border-white/10 text-white rounded-[32px]">
-                        <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white pb-8">
+                        <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white pt-10 pb-8 rounded-t-[32px]">
                             <div className="flex items-center gap-3">
                                 <Trophy className="w-8 h-8" />
                                 <div>
@@ -111,10 +111,7 @@ export default function LeaderboardPage() {
                                         {entries.map((entry, index) => (
                                             <TableRow
                                                 key={index}
-                                                className={`border-none hover:bg-white/5 transition-colors ${index === 0 ? 'bg-yellow-500/20' :
-                                                    index === 1 ? 'bg-white/10' :
-                                                        index === 2 ? 'bg-amber-500/10' : ''
-                                                    }`}
+                                                className={`border-none hover:bg-white/5 transition-colors ${index === 0 ? 'bg-white/10' : ''}`}
                                             >
                                                 <TableCell className="text-center">
                                                     {index === 0 ? (
