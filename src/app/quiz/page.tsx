@@ -283,8 +283,8 @@ function QuizContent() {
     const isMapQuestion = ['map_point', 'map_click_name', 'map_pinpoint'].includes(currentQuestion.type)
 
     return (
-        <div className="container mx-auto pt-20 pb-10 px-4 flex-1 flex flex-col items-center relative">
-            <div className="w-full max-w-4xl mb-4 flex justify-end">
+        <div className="flex-1 w-full container mx-auto flex flex-col items-center justify-center pt-24 pb-12 px-4 relative">
+            <div className="absolute top-6 right-4 md:top-8 md:right-8 z-10 text-right">
                 <Button
                     variant="outline"
                     className="text-slate-300 border-slate-300 hover:text-red-500 hover:border-red-300 hover:bg-red-50 transition-colors gap-2"
@@ -322,9 +322,11 @@ export default function QuizPage() {
     return (
         <div className="flex flex-col min-h-screen bg-transparent">
             <NavBar />
-            <Suspense fallback={<div className="p-10 text-center">Chargement du quiz...</div>}>
-                <QuizContent />
-            </Suspense>
+            <div className="flex-1 flex flex-col">
+                <Suspense fallback={<div className="p-10 text-center">Chargement du quiz...</div>}>
+                    <QuizContent />
+                </Suspense>
+            </div>
         </div>
     )
 }
