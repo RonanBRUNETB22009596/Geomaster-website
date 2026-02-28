@@ -55,17 +55,13 @@ export default function LeaderboardPage() {
             <NavBar />
             <div className="container mx-auto py-32 px-4 flex-1">
                 <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-12">
+                    <div className="text-center mb-20">
                         <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                             Classement Mondial
                         </h1>
-                        <p className="text-slate-300 text-lg mb-2">
+                        <p className="text-white text-lg mb-2">
                             Les meilleurs explorateurs de GeoMaster
                         </p>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-sm text-slate-200">
-                            <TrendingUp className="w-4 h-4" />
-                            Score = (Moyenne × 100) + (√Parties × 10)
-                        </div>
                     </div>
 
                     <Card className="shadow-2xl border-none overflow-hidden bg-black/40 backdrop-blur-md border border-white/10 text-white">
@@ -74,7 +70,7 @@ export default function LeaderboardPage() {
                                 <Trophy className="w-8 h-8" />
                                 <div>
                                     <CardTitle className="text-2xl">Top 20 Explorateurs</CardTitle>
-                                    <p className="text-white/70 text-sm mt-1">
+                                    <p className="text-white/90 text-sm mt-1">
                                         Classement équilibré : qualité + expérience
                                     </p>
                                 </div>
@@ -91,24 +87,24 @@ export default function LeaderboardPage() {
                                 </div>
                             ) : (
                                 <Table>
-                                    <TableHeader className="bg-white/5">
+                                    <TableHeader className="bg-white/5 text-white">
                                         <TableRow>
-                                            <TableHead className="w-16 text-center font-bold">Rang</TableHead>
-                                            <TableHead className="font-bold">Explorateur</TableHead>
-                                            <TableHead className="text-center font-bold">
+                                            <TableHead className="w-16 text-center font-bold text-white">Rang</TableHead>
+                                            <TableHead className="font-bold text-white">Explorateur</TableHead>
+                                            <TableHead className="text-center font-bold text-white">
                                                 <div className="flex items-center justify-center gap-1">
                                                     <Star className="w-4 h-4" />
                                                     Score
                                                 </div>
                                             </TableHead>
-                                            <TableHead className="text-center font-bold hidden md:table-cell">
+                                            <TableHead className="text-center font-bold hidden md:table-cell text-white">
                                                 <div className="flex items-center justify-center gap-1">
                                                     <Target className="w-4 h-4" />
                                                     Moyenne
                                                 </div>
                                             </TableHead>
-                                            <TableHead className="text-center font-bold hidden sm:table-cell">Parties</TableHead>
-                                            <TableHead className="text-center font-bold hidden lg:table-cell">Record</TableHead>
+                                            <TableHead className="text-center font-bold hidden sm:table-cell text-white">Parties</TableHead>
+                                            <TableHead className="text-center font-bold hidden lg:table-cell text-white">Record</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -128,7 +124,7 @@ export default function LeaderboardPage() {
                                                     ) : index === 2 ? (
                                                         <Medal className="w-6 h-6 text-amber-600 mx-auto" />
                                                     ) : (
-                                                        <span className="font-bold text-slate-400">{index + 1}</span>
+                                                        <span className="font-bold text-white">{index + 1}</span>
                                                     )}
                                                 </TableCell>
                                                 <TableCell>
@@ -139,7 +135,7 @@ export default function LeaderboardPage() {
                                                                 {entry.username.slice(0, 2).toUpperCase()}
                                                             </AvatarFallback>
                                                         </Avatar>
-                                                        <span className={`font-bold ${index < 3 ? 'text-white' : 'text-white/80'}`}>
+                                                        <span className={`font-bold ${index < 3 ? 'text-white' : 'text-white/90'}`}>
                                                             {entry.username}
                                                         </span>
                                                     </div>
@@ -152,13 +148,13 @@ export default function LeaderboardPage() {
                                                 </TableCell>
                                                 <TableCell className="text-center hidden md:table-cell">
                                                     <div className="flex items-center justify-center gap-1">
-                                                        <span className="font-semibold text-slate-200">
+                                                        <span className="font-semibold text-white">
                                                             {(entry.average_ratio * 10).toFixed(1)}
                                                         </span>
-                                                        <span className="text-xs text-slate-400">/10</span>
+                                                        <span className="text-xs text-white/70">/10</span>
                                                     </div>
                                                 </TableCell>
-                                                <TableCell className="text-center text-slate-300 hidden sm:table-cell">
+                                                <TableCell className="text-center text-white hidden sm:table-cell">
                                                     {entry.games_played}
                                                 </TableCell>
                                                 <TableCell className="text-center hidden lg:table-cell">
