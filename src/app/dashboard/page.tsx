@@ -6,7 +6,8 @@ import { Score } from "@/lib/definitions"
 import { NavBar } from "@/components/NavBar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Loader2, Trophy, Target, TrendingUp, Flame, BarChart3 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Loader2, Trophy, Target, TrendingUp, Flame, BarChart3, ChevronDown, ChevronUp } from "lucide-react"
 import { Footer } from "@/components/Footer"
 import dynamic from "next/dynamic"
 
@@ -21,6 +22,7 @@ export default function DashboardPage() {
     const [masteryData, setMasteryData] = useState<Record<string, number>>({})
     const [streak, setStreak] = useState(0)
     const [streakWarning, setStreakWarning] = useState(0)
+    const [showAll, setShowAll] = useState(false)
 
     useEffect(() => {
         async function fetchData() {
@@ -199,7 +201,7 @@ export default function DashboardPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {scores.slice(0, 15).map((score) => (
+                                        {(showAll ? scores : scores.slice(0, 5)).map((score) => (
                                             <TableRow key={score.id} className="hover:bg-white/10">
                                                 <TableCell className="text-sm text-white">
                                                     {new Date(score.created_at).toLocaleDateString('fr-FR', {
@@ -224,6 +226,22 @@ export default function DashboardPage() {
                                         ))}
                                     </TableBody>
                                 </Table>
+
+                                {scores.length > 5 && (
+                                    <div className="flex justify-center p-4 border-t border-white/5">
+                                        <Button
+                                            variant="ghost"
+                                            onClick={() => setShowAll(!showAll)}
+                                            className="text-white hover:bg-white/10 rounded-full group"
+                                        >
+                                            {showAll ? (
+                                                <>Voir moins <ChevronUp className="ml-2 w-4 h-4 group-hover:-translate-y-1 transition-transform" /></>
+                                            ) : (
+                                                <>Voir plus ({scores.length - 5} autres) <ChevronDown className="ml-2 w-4 h-4 group-hover:translate-y-1 transition-transform" /></>
+                                            )}
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </CardContent>
