@@ -17,7 +17,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <NavBar />
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex flex-col items-center justify-center overflow-hidden pt-48 pb-32 px-6 text-center bg-black/80">
+      <section className="relative min-h-[95vh] flex flex-col items-center justify-center overflow-hidden pt-48 pb-32 px-6 text-center">
 
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-center">
