@@ -66,7 +66,7 @@ export default function AdminUsersPage() {
             toast.error("Erreur de mise à jour: " + error.message)
         } else {
             toast.success("Rôle mis à jour.")
-            setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u))
+            setUsers(users.map(u => u.id === userId ? { ...u, role: newRole as Profile['role'] } : u))
         }
     }
 
@@ -164,8 +164,8 @@ export default function AdminUsersPage() {
                                                 </Select>
                                             ) : (
                                                 <span className={`px-2 py-1 rounded-full text-xs font-bold ${u.role === 'super_admin' ? 'bg-red-500/20 text-red-400' :
-                                                        u.role === 'admin' ? 'bg-purple-500/20 text-purple-400' :
-                                                            'bg-slate-800 text-slate-300'
+                                                    u.role === 'admin' ? 'bg-purple-500/20 text-purple-400' :
+                                                        'bg-slate-800 text-slate-300'
                                                     }`}>
                                                     {u.role === 'super_admin' ? 'Super Admin' : u.role === 'admin' ? 'Admin' : 'Utilisateur'}
                                                 </span>
