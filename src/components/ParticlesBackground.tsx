@@ -6,7 +6,7 @@ const Particles = dynamic(() => import("@/components/Particles"), { ssr: false }
 
 export function ParticlesBackground() {
     return (
-        <div className="fixed inset-0 z-[1] pointer-events-none" style={{ width: '100vw', height: '100vh' }}>
+        <div className="fixed inset-0 z-[1] pointer-events-none blur-[2px]" style={{ width: '100vw', height: '100vh' }}>
             <Particles
                 particleColors={["#ffffff"]}
                 particleCount={800}
