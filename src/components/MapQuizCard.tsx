@@ -98,7 +98,7 @@ export function MapQuizCard({
                         </span>
                     </div>
                     <span className="text-[10px] font-black px-3 py-1 bg-white/10 text-white rounded-full uppercase tracking-widest border border-white/20">
-                        {question.difficulty}
+                        {question.difficulty ? `(${question.difficulty}) ` : ''}{question.category || 'Général'}
                     </span>
                 </div>
                 <Progress value={progress} className="h-1.5 mb-6 bg-white/10" />

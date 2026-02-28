@@ -50,7 +50,7 @@ export function QuizCard({
                         Question {currentQuestionIndex + 1} / {totalQuestions}
                     </span>
                     <span className="text-xs font-semibold px-2 py-1 bg-primary/10 text-primary rounded-full uppercase">
-                        {question.category || 'Général'}
+                        {question.difficulty ? `(${question.difficulty}) ` : ''}{question.category || 'Général'}
                     </span>
                 </div>
                 <Progress value={progress} className="h-2 bg-white/10" />
