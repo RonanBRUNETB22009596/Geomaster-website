@@ -76,7 +76,7 @@ function ResultsContent() {
                 scaleOnHover={1.01}
                 glareOpacity={0.12}
             >
-                <Card className="w-full text-center shadow-2xl border-t-8 border-t-primary animate-in fade-in slide-in-from-bottom-5">
+                <Card className="w-full text-center shadow-2xl border-x border-b border-x-white/10 border-b-white/10 bg-black/40 backdrop-blur-md border-t-8 border-t-primary animate-in fade-in slide-in-from-bottom-5 text-white">
                     <CardHeader>
                         <div className="mx-auto bg-primary/10 p-4 rounded-full mb-4 w-20 h-20 flex items-center justify-center">
                             <Trophy className="w-10 h-10 text-primary" />
@@ -84,7 +84,7 @@ function ResultsContent() {
                         <CardTitle className="text-3xl font-bold">Quiz Terminé !</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="text-6xl font-black text-slate-800">
+                        <div className="text-6xl font-black text-white/90">
                             {score} <span className="text-2xl text-slate-400 font-medium">/ {total}</span>
                         </div>
                         <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold ${percentage >= 80 ? 'bg-emerald-100 text-emerald-700' : percentage >= 50 ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
@@ -118,7 +118,7 @@ function ResultsContent() {
 
 export default function ResultsPage() {
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col">
+        <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
             <div className="flex-1">
                 <Suspense fallback={<div className="p-10 text-center">Chargement des résultats...</div>}>

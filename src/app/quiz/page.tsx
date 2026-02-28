@@ -14,7 +14,7 @@ import dynamic from "next/dynamic"
 
 const MapQuizCard = dynamic(() => import("@/components/MapQuizCard").then(m => ({ default: m.MapQuizCard })), {
     ssr: false,
-    loading: () => <div className="w-full max-w-4xl mx-auto h-96 animate-pulse bg-slate-100 rounded-2xl" />
+    loading: () => <div className="w-full max-w-4xl mx-auto h-96 animate-pulse bg-white/10 rounded-2xl" />
 })
 
 // State Management
@@ -263,7 +263,7 @@ function QuizContent() {
         return (
             <div className="container mx-auto py-20 px-4 text-center">
                 <h2 className="text-2xl font-bold text-red-600 mb-4">Oups !</h2>
-                <p className="text-slate-600 mb-8">Nous n'avons pas trouvé de questions pour cette catégorie.</p>
+                <p className="text-slate-200 mb-8">Nous n'avons pas trouvé de questions pour cette catégorie.</p>
                 <button onClick={() => router.push('/quiz')} className="text-primary hover:underline">
                     Essayer le quiz général
                 </button>
@@ -287,7 +287,7 @@ function QuizContent() {
             <div className="w-full max-w-4xl mb-4 flex justify-end">
                 <Button
                     variant="outline"
-                    className="text-slate-500 border-slate-300 hover:text-red-500 hover:border-red-300 hover:bg-red-50 transition-colors gap-2"
+                    className="text-slate-300 border-slate-300 hover:text-red-500 hover:border-red-300 hover:bg-red-50 transition-colors gap-2"
                     onClick={() => {
                         router.push('/')
                     }}
@@ -320,7 +320,7 @@ function QuizContent() {
 
 export default function QuizPage() {
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50/50">
+        <div className="flex flex-col min-h-screen bg-transparent">
             <NavBar />
             <Suspense fallback={<div className="p-10 text-center">Chargement du quiz...</div>}>
                 <QuizContent />

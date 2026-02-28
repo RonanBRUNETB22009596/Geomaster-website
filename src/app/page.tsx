@@ -54,7 +54,7 @@ export default function Home() {
             >
               Commencer le Quiz
             </Button>
-            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 bg-white/80 backdrop-blur-sm hover:bg-white text-slate-900 font-bold border-none">
+            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 bg-black/40 backdrop-blur-md border border-white/10 text-white/80 backdrop-blur-sm hover:bg-white text-white font-bold border-none">
               <Link href="/leaderboard">Leaderboard</Link>
             </Button>
           </div>

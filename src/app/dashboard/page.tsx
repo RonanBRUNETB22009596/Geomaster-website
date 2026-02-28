@@ -12,7 +12,7 @@ import dynamic from "next/dynamic"
 
 const ContinentMasteryMap = dynamic(() => import("@/components/ContinentMasteryMap").then(m => ({ default: m.ContinentMasteryMap })), {
     ssr: false,
-    loading: () => <div className="h-48 animate-pulse bg-slate-100 rounded-xl" />
+    loading: () => <div className="h-48 animate-pulse bg-white/10 rounded-xl" />
 })
 
 export default function DashboardPage() {
@@ -76,7 +76,7 @@ export default function DashboardPage() {
         : 0
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col">
+        <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
             <div className="container mx-auto pt-24 pb-10 px-4 flex-1">
 
@@ -86,56 +86,56 @@ export default function DashboardPage() {
                         <BarChart3 className="h-7 w-7 text-primary" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-black text-slate-900">Tableau de bord</h1>
-                        <p className="text-sm text-slate-500">Vos statistiques et votre progression</p>
+                        <h1 className="text-3xl font-black text-white">Tableau de bord</h1>
+                        <p className="text-sm text-slate-300">Vos statistiques et votre progression</p>
                     </div>
                 </div>
 
                 {/* Stats Grid */}
                 <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 mb-8">
-                    <Card className="border-none shadow-lg bg-white">
+                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Parties</p>
-                                    <p className="text-3xl font-black text-slate-900 mt-1">{loading ? "..." : scores.length}</p>
+                                    <p className="text-3xl font-black text-white mt-1">{loading ? "..." : scores.length}</p>
                                 </div>
-                                <div className="p-3 bg-blue-50 rounded-xl">
+                                <div className="p-3 bg-blue-500/20 rounded-xl">
                                     <Target className="w-5 h-5 text-blue-500" />
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="border-none shadow-lg bg-white">
+                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Meilleur score</p>
                                     <p className="text-3xl font-black text-emerald-600 mt-1">{loading ? "..." : best}/10</p>
                                 </div>
-                                <div className="p-3 bg-emerald-50 rounded-xl">
+                                <div className="p-3 bg-emerald-500/20 rounded-xl">
                                     <Trophy className="w-5 h-5 text-emerald-500" />
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="border-none shadow-lg bg-white">
+                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Moyenne</p>
                                     <p className="text-3xl font-black text-blue-600 mt-1">{loading ? "..." : avg}</p>
                                 </div>
-                                <div className="p-3 bg-purple-50 rounded-xl">
+                                <div className="p-3 bg-purple-500/20 rounded-xl">
                                     <TrendingUp className="w-5 h-5 text-purple-500" />
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className={`border-none shadow-lg bg-white ${streakWarning > 0 ? 'ring-2 ring-orange-300' : ''}`}>
+                    <Card className={`border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white ${streakWarning > 0 ? 'ring-2 ring-orange-300' : ''}`}>
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -150,7 +150,7 @@ export default function DashboardPage() {
                                         <p className="text-[10px] text-orange-500 mt-1">{streakWarning}/6 strikes</p>
                                     )}
                                 </div>
-                                <div className="p-3 bg-orange-50 rounded-xl">
+                                <div className="p-3 bg-orange-500/20 rounded-xl">
                                     <Flame className={`w-5 h-5 ${streak > 0 ? 'text-orange-500' : 'text-slate-300'}`} />
                                 </div>
                             </div>
@@ -159,7 +159,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Continent Mastery Map */}
-                <Card className="mb-8 border-none shadow-lg bg-white">
+                <Card className="mb-8 border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-lg">
                             🌍 Carte de Maîtrise
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                 </Card>
 
                 {/* History */}
-                <Card className="border-none shadow-lg bg-white">
+                <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                     <CardHeader>
                         <CardTitle className="text-lg">Historique des parties</CardTitle>
                     </CardHeader>
@@ -191,7 +191,7 @@ export default function DashboardPage() {
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-slate-50">
+                                        <TableRow className="bg-white/5">
                                             <TableHead className="font-bold">Date</TableHead>
                                             <TableHead className="font-bold">Catégorie</TableHead>
                                             <TableHead className="font-bold">Score</TableHead>
@@ -200,8 +200,8 @@ export default function DashboardPage() {
                                     </TableHeader>
                                     <TableBody>
                                         {scores.slice(0, 20).map((score) => (
-                                            <TableRow key={score.id} className="hover:bg-slate-50/60">
-                                                <TableCell className="text-sm text-slate-600">
+                                            <TableRow key={score.id} className="hover:bg-white/10">
+                                                <TableCell className="text-sm text-slate-200">
                                                     {new Date(score.created_at).toLocaleDateString('fr-FR', {
                                                         day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                                                     })}
@@ -211,7 +211,7 @@ export default function DashboardPage() {
                                                         {score.category || 'World'}
                                                     </span>
                                                 </TableCell>
-                                                <TableCell className="font-black text-slate-800">{score.score} / {score.total}</TableCell>
+                                                <TableCell className="font-black text-white/90">{score.score} / {score.total}</TableCell>
                                                 <TableCell>
                                                     <span className={`text-xs font-bold ${(score.score / score.total) >= 0.8 ? 'text-emerald-600' :
                                                         (score.score / score.total) >= 0.5 ? 'text-amber-600' : 'text-red-500'

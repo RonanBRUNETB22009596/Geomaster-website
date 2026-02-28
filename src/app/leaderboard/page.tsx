@@ -51,24 +51,24 @@ export default function LeaderboardPage() {
     }, [])
 
     return (
-        <div className="min-h-screen bg-gray-50/50 flex flex-col">
+        <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
             <div className="container mx-auto py-32 px-4 flex-1">
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-12">
-                        <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
+                        <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                             Classement Mondial
                         </h1>
-                        <p className="text-slate-500 text-lg mb-2">
+                        <p className="text-slate-300 text-lg mb-2">
                             Les meilleurs explorateurs de GeoMaster
                         </p>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm text-slate-600">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-sm text-slate-200">
                             <TrendingUp className="w-4 h-4" />
                             Score = (Moyenne × 100) + (√Parties × 10)
                         </div>
                     </div>
 
-                    <Card className="shadow-2xl border-none overflow-hidden">
+                    <Card className="shadow-2xl border-none overflow-hidden bg-black/40 backdrop-blur-md border border-white/10 text-white">
                         <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white pb-8">
                             <div className="flex items-center gap-3">
                                 <Trophy className="w-8 h-8" />
@@ -91,7 +91,7 @@ export default function LeaderboardPage() {
                                 </div>
                             ) : (
                                 <Table>
-                                    <TableHeader className="bg-slate-50">
+                                    <TableHeader className="bg-white/5">
                                         <TableRow>
                                             <TableHead className="w-16 text-center font-bold">Rang</TableHead>
                                             <TableHead className="font-bold">Explorateur</TableHead>
@@ -115,8 +115,8 @@ export default function LeaderboardPage() {
                                         {entries.map((entry, index) => (
                                             <TableRow
                                                 key={index}
-                                                className={`hover:bg-slate-50/50 transition-colors ${index === 0 ? 'bg-yellow-50/50' :
-                                                    index === 1 ? 'bg-slate-50/50' :
+                                                className={`hover:bg-white/10 transition-colors ${index === 0 ? 'bg-yellow-50/50' :
+                                                    index === 1 ? 'bg-white/10' :
                                                         index === 2 ? 'bg-amber-50/30' : ''
                                                     }`}
                                             >
@@ -139,7 +139,7 @@ export default function LeaderboardPage() {
                                                                 {entry.username.slice(0, 2).toUpperCase()}
                                                             </AvatarFallback>
                                                         </Avatar>
-                                                        <span className={`font-bold ${index < 3 ? 'text-slate-900' : 'text-slate-700'}`}>
+                                                        <span className={`font-bold ${index < 3 ? 'text-white' : 'text-white/80'}`}>
                                                             {entry.username}
                                                         </span>
                                                     </div>
@@ -152,13 +152,13 @@ export default function LeaderboardPage() {
                                                 </TableCell>
                                                 <TableCell className="text-center hidden md:table-cell">
                                                     <div className="flex items-center justify-center gap-1">
-                                                        <span className="font-semibold text-slate-600">
+                                                        <span className="font-semibold text-slate-200">
                                                             {(entry.average_ratio * 10).toFixed(1)}
                                                         </span>
                                                         <span className="text-xs text-slate-400">/10</span>
                                                     </div>
                                                 </TableCell>
-                                                <TableCell className="text-center text-slate-500 hidden sm:table-cell">
+                                                <TableCell className="text-center text-slate-300 hidden sm:table-cell">
                                                     {entry.games_played}
                                                 </TableCell>
                                                 <TableCell className="text-center hidden lg:table-cell">

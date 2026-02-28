@@ -24,7 +24,7 @@ function DifficultyContent() {
             description: 'Les pays les plus connus et leurs capitales emblématiques.',
             icon: ShieldCheck,
             color: 'text-emerald-500',
-            bg: 'bg-emerald-500/10',
+            bg: 'bg-emerald-500/200/10',
             border: 'border-emerald-500/20'
         },
         {
@@ -56,10 +56,10 @@ function DifficultyContent() {
 
     return (
         <div className="container mx-auto max-w-5xl px-4 py-32 flex flex-col items-center">
-            <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-black text-white mb-4 text-center">
                 Choisissez votre défi
             </h1>
-            <p className="text-slate-500 text-lg mb-6 text-center max-w-2xl">
+            <p className="text-slate-300 text-lg mb-6 text-center max-w-2xl">
                 Catégorie : <span className="font-bold text-primary">{category}</span>.
                 Sélectionnez un niveau de difficulté pour commencer votre aventure.
             </p>
@@ -87,7 +87,7 @@ function DifficultyContent() {
                                 <level.icon className={`w-8 h-8 ${level.color}`} />
                             </div>
                             <CardTitle className="text-2xl font-bold mb-2">{level.name}</CardTitle>
-                            <CardDescription className="text-slate-600 px-4">
+                            <CardDescription className="text-slate-200 px-4">
                                 {level.description}
                             </CardDescription>
                         </CardHeader>
@@ -106,7 +106,7 @@ function DifficultyContent() {
 
             <button
                 onClick={() => router.push('/#categories')}
-                className="mt-12 text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest text-xs font-bold"
+                className="mt-12 text-slate-400 hover:text-slate-200 transition-colors uppercase tracking-widest text-xs font-bold"
             >
                 ← Retour aux régions
             </button>
@@ -116,7 +116,7 @@ function DifficultyContent() {
 
 export default function DifficultyPage() {
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col">
+        <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
             <div className="flex-1">
                 <Suspense fallback={<div className="p-32 text-center">Préparation...</div>}>

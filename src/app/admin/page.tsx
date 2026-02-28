@@ -183,7 +183,7 @@ export default function AdminPage() {
                 "flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all",
                 activeTab === tab
                     ? "bg-slate-900 text-white shadow-lg shadow-slate-900/20"
-                    : "bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 border border-slate-200"
+                    : "bg-black/40 backdrop-blur-md border border-white/10 text-white text-slate-300 hover:bg-white/5 hover:text-white/80 border border-slate-200"
             )}
         >
             <Icon className="w-4 h-4" />
@@ -192,7 +192,7 @@ export default function AdminPage() {
     )
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200/60 flex flex-col">
+        <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
             <div className="container mx-auto py-8 px-4 flex-1">
                 {/* Header */}
@@ -202,8 +202,8 @@ export default function AdminPage() {
                             <ShieldAlert className="h-8 w-8 text-red-600" />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-black text-slate-900">Administration</h1>
-                            <p className="text-sm text-slate-500">Panneau de contrôle GeoMaster</p>
+                            <h1 className="text-3xl font-black text-white">Administration</h1>
+                            <p className="text-sm text-slate-300">Panneau de contrôle GeoMaster</p>
                         </div>
                     </div>
                     <div className="flex gap-2 flex-wrap">
@@ -224,42 +224,42 @@ export default function AdminPage() {
                             <div className="space-y-6 animate-in fade-in duration-300">
                                 {/* KPI Cards */}
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    <Card className="border-none shadow-lg bg-white">
+                                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                         <CardContent className="p-6">
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Utilisateurs</p>
-                                                    <p className="text-3xl font-black text-slate-900 mt-1">{stats.totalUsers}</p>
+                                                    <p className="text-3xl font-black text-white mt-1">{stats.totalUsers}</p>
                                                     <p className="text-xs text-emerald-500 font-bold mt-1">+{stats.recentUsers} cette semaine</p>
                                                 </div>
-                                                <div className="p-3 bg-blue-50 rounded-xl">
+                                                <div className="p-3 bg-blue-500/20 rounded-xl">
                                                     <Users className="w-6 h-6 text-blue-500" />
                                                 </div>
                                             </div>
                                         </CardContent>
                                     </Card>
 
-                                    <Card className="border-none shadow-lg bg-white">
+                                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                         <CardContent className="p-6">
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Questions</p>
-                                                    <p className="text-3xl font-black text-slate-900 mt-1">{stats.totalQuestions}</p>
+                                                    <p className="text-3xl font-black text-white mt-1">{stats.totalQuestions}</p>
                                                     <p className="text-xs text-slate-400 mt-1">{Object.keys(stats.categoryCounts).length} catégories</p>
                                                 </div>
-                                                <div className="p-3 bg-purple-50 rounded-xl">
+                                                <div className="p-3 bg-purple-500/20 rounded-xl">
                                                     <HelpCircle className="w-6 h-6 text-purple-500" />
                                                 </div>
                                             </div>
                                         </CardContent>
                                     </Card>
 
-                                    <Card className="border-none shadow-lg bg-white">
+                                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                         <CardContent className="p-6">
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Parties jouées</p>
-                                                    <p className="text-3xl font-black text-slate-900 mt-1">{stats.totalGames}</p>
+                                                    <p className="text-3xl font-black text-white mt-1">{stats.totalGames}</p>
                                                     <p className="text-xs text-emerald-500 font-bold mt-1">+{stats.recentGames} cette semaine</p>
                                                 </div>
                                                 <div className="p-3 bg-amber-50 rounded-xl">
@@ -269,15 +269,15 @@ export default function AdminPage() {
                                         </CardContent>
                                     </Card>
 
-                                    <Card className="border-none shadow-lg bg-white">
+                                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                         <CardContent className="p-6">
                                             <div className="flex items-center justify-between">
                                                 <div>
                                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Score moyen</p>
-                                                    <p className="text-3xl font-black text-slate-900 mt-1">{stats.avgScore}%</p>
+                                                    <p className="text-3xl font-black text-white mt-1">{stats.avgScore}%</p>
                                                     <p className="text-xs text-slate-400 mt-1">sur {stats.totalGames} parties</p>
                                                 </div>
-                                                <div className="p-3 bg-emerald-50 rounded-xl">
+                                                <div className="p-3 bg-emerald-500/20 rounded-xl">
                                                     <TrendingUp className="w-6 h-6 text-emerald-500" />
                                                 </div>
                                             </div>
@@ -288,7 +288,7 @@ export default function AdminPage() {
                                 {/* Breakdowns */}
                                 <div className="grid md:grid-cols-3 gap-4">
                                     {/* By Category */}
-                                    <Card className="border-none shadow-lg bg-white">
+                                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                         <CardHeader className="pb-3">
                                             <CardTitle className="text-base font-bold flex items-center gap-2">
                                                 <Globe className="w-4 h-4 text-primary" />
@@ -301,15 +301,15 @@ export default function AdminPage() {
                                                 .slice(0, 8)
                                                 .map(([cat, count]) => (
                                                     <div key={cat} className="flex items-center justify-between">
-                                                        <span className="text-sm text-slate-600 truncate max-w-[180px]">{cat}</span>
-                                                        <span className="text-xs font-bold bg-slate-100 px-2 py-1 rounded-full text-slate-700">{count}</span>
+                                                        <span className="text-sm text-slate-200 truncate max-w-[180px]">{cat}</span>
+                                                        <span className="text-xs font-bold bg-white/10 px-2 py-1 rounded-full text-white/80">{count}</span>
                                                     </div>
                                                 ))}
                                         </CardContent>
                                     </Card>
 
                                     {/* By Type */}
-                                    <Card className="border-none shadow-lg bg-white">
+                                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                         <CardHeader className="pb-3">
                                             <CardTitle className="text-base font-bold flex items-center gap-2">
                                                 <MapPin className="w-4 h-4 text-primary" />
@@ -321,15 +321,15 @@ export default function AdminPage() {
                                                 .sort((a, b) => b[1] - a[1])
                                                 .map(([type, count]) => (
                                                     <div key={type} className="flex items-center justify-between">
-                                                        <span className="text-sm text-slate-600">{typeLabels[type] || type}</span>
-                                                        <span className="text-xs font-bold bg-slate-100 px-2 py-1 rounded-full text-slate-700">{count}</span>
+                                                        <span className="text-sm text-slate-200">{typeLabels[type] || type}</span>
+                                                        <span className="text-xs font-bold bg-white/10 px-2 py-1 rounded-full text-white/80">{count}</span>
                                                     </div>
                                                 ))}
                                         </CardContent>
                                     </Card>
 
                                     {/* By Difficulty */}
-                                    <Card className="border-none shadow-lg bg-white">
+                                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                         <CardHeader className="pb-3">
                                             <CardTitle className="text-base font-bold flex items-center gap-2">
                                                 <BookOpen className="w-4 h-4 text-primary" />
@@ -344,13 +344,13 @@ export default function AdminPage() {
                                                         <div className="flex items-center gap-2">
                                                             <div className={cn(
                                                                 "w-2 h-2 rounded-full",
-                                                                diff === 'Beginner' ? 'bg-emerald-500' :
+                                                                diff === 'Beginner' ? 'bg-emerald-500/200' :
                                                                     diff === 'Intermediate' ? 'bg-amber-500' :
                                                                         diff === 'Professional' ? 'bg-red-500' : 'bg-slate-400'
                                                             )} />
-                                                            <span className="text-sm text-slate-600">{diff}</span>
+                                                            <span className="text-sm text-slate-200">{diff}</span>
                                                         </div>
-                                                        <span className="text-xs font-bold bg-slate-100 px-2 py-1 rounded-full text-slate-700">{count}</span>
+                                                        <span className="text-xs font-bold bg-white/10 px-2 py-1 rounded-full text-white/80">{count}</span>
                                                     </div>
                                                 ))}
                                         </CardContent>
@@ -358,7 +358,7 @@ export default function AdminPage() {
                                 </div>
 
                                 {/* Recent Scores */}
-                                <Card className="border-none shadow-lg bg-white">
+                                <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                     <CardHeader>
                                         <CardTitle className="text-base font-bold flex items-center gap-2">
                                             <Activity className="w-4 h-4 text-primary" />
@@ -389,7 +389,7 @@ export default function AdminPage() {
                                                                     {s.score}/{s.total}
                                                                 </span>
                                                             </TableCell>
-                                                            <TableCell className="text-sm text-slate-500">{s.category || 'Général'}</TableCell>
+                                                            <TableCell className="text-sm text-slate-300">{s.category || 'Général'}</TableCell>
                                                             <TableCell className="text-sm text-slate-400">{new Date(s.created_at).toLocaleDateString('fr-FR')}</TableCell>
                                                         </TableRow>
                                                     ))}
@@ -409,7 +409,7 @@ export default function AdminPage() {
                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                         <Input
                                             placeholder="Rechercher par email..."
-                                            className="pl-10 bg-white border-slate-200"
+                                            className="pl-10 bg-black/40 backdrop-blur-md border border-white/10 text-white border-slate-200"
                                             value={searchUsers}
                                             onChange={(e) => setSearchUsers(e.target.value)}
                                         />
@@ -417,12 +417,12 @@ export default function AdminPage() {
                                     <span className="text-sm text-slate-400 font-mono">{filteredUsers.length} résultats</span>
                                 </div>
 
-                                <Card className="border-none shadow-lg bg-white">
+                                <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                     <CardContent className="p-0">
                                         <div className="overflow-x-auto">
                                             <Table>
                                                 <TableHeader>
-                                                    <TableRow className="bg-slate-50">
+                                                    <TableRow className="bg-white/5">
                                                         <TableHead className="font-bold">Email</TableHead>
                                                         <TableHead className="font-bold">Rôle</TableHead>
                                                         <TableHead className="font-bold">Inscription</TableHead>
@@ -431,20 +431,20 @@ export default function AdminPage() {
                                                 </TableHeader>
                                                 <TableBody>
                                                     {filteredUsers.map((user) => (
-                                                        <TableRow key={user.id} className="hover:bg-slate-50/50">
+                                                        <TableRow key={user.id} className="hover:bg-white/10">
                                                             <TableCell className="font-medium">{user.email}</TableCell>
                                                             <TableCell>
                                                                 <span className={cn(
                                                                     "px-2.5 py-1 rounded-full text-xs font-bold",
                                                                     user.role === 'admin'
                                                                         ? 'bg-purple-100 text-purple-700'
-                                                                        : 'bg-slate-100 text-slate-600'
+                                                                        : 'bg-white/10 text-slate-200'
                                                                 )}>
                                                                     {user.role === 'admin' && <Crown className="w-3 h-3 inline mr-1" />}
                                                                     {user.role}
                                                                 </span>
                                                             </TableCell>
-                                                            <TableCell className="text-sm text-slate-500">
+                                                            <TableCell className="text-sm text-slate-300">
                                                                 {new Date(user.created_at).toLocaleDateString('fr-FR', {
                                                                     day: '2-digit', month: 'short', year: 'numeric'
                                                                 })}
@@ -478,7 +478,7 @@ export default function AdminPage() {
                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                         <Input
                                             placeholder="Rechercher une question..."
-                                            className="pl-10 bg-white border-slate-200"
+                                            className="pl-10 bg-black/40 backdrop-blur-md border border-white/10 text-white border-slate-200"
                                             value={searchQuestions}
                                             onChange={(e) => setSearchQuestions(e.target.value)}
                                         />
@@ -486,12 +486,12 @@ export default function AdminPage() {
                                     <span className="text-sm text-slate-400 font-mono">{filteredQuestions.length} résultats</span>
                                 </div>
 
-                                <Card className="border-none shadow-lg bg-white">
+                                <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
                                     <CardContent className="p-0">
                                         <div className="overflow-x-auto">
                                             <Table>
                                                 <TableHeader>
-                                                    <TableRow className="bg-slate-50">
+                                                    <TableRow className="bg-white/5">
                                                         <TableHead className="font-bold max-w-[300px]">Question</TableHead>
                                                         <TableHead className="font-bold">Réponse</TableHead>
                                                         <TableHead className="font-bold">Catégorie</TableHead>
@@ -502,27 +502,27 @@ export default function AdminPage() {
                                                 </TableHeader>
                                                 <TableBody>
                                                     {filteredQuestions.slice(0, 50).map((q) => (
-                                                        <TableRow key={q.id} className="hover:bg-slate-50/50">
+                                                        <TableRow key={q.id} className="hover:bg-white/10">
                                                             <TableCell className="max-w-[300px]">
-                                                                <p className="text-sm font-medium text-slate-700 truncate">
+                                                                <p className="text-sm font-medium text-white/80 truncate">
                                                                     {q.question_text}
                                                                 </p>
                                                             </TableCell>
                                                             <TableCell>
-                                                                <span className="text-xs font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded-full">
+                                                                <span className="text-xs font-bold bg-emerald-500/20 text-emerald-700 px-2 py-1 rounded-full">
                                                                     {q.correct_answer}
                                                                 </span>
                                                             </TableCell>
-                                                            <TableCell className="text-sm text-slate-500">{q.category}</TableCell>
+                                                            <TableCell className="text-sm text-slate-300">{q.category}</TableCell>
                                                             <TableCell>
-                                                                <span className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full font-medium">
+                                                                <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-700 rounded-full font-medium">
                                                                     {typeLabels[q.type] || q.type}
                                                                 </span>
                                                             </TableCell>
                                                             <TableCell>
                                                                 <span className={cn(
                                                                     "text-xs px-2 py-1 rounded-full font-bold",
-                                                                    q.difficulty === 'Beginner' ? 'bg-emerald-50 text-emerald-700' :
+                                                                    q.difficulty === 'Beginner' ? 'bg-emerald-500/20 text-emerald-700' :
                                                                         q.difficulty === 'Intermediate' ? 'bg-amber-50 text-amber-700' :
                                                                             'bg-red-50 text-red-700'
                                                                 )}>

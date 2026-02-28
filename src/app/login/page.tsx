@@ -135,7 +135,7 @@ export default function LoginPage() {
     const passwordStatus = validatePassword(password)
 
     return (
-        <div className="flex h-screen w-full bg-white">
+        <div className="flex h-screen w-full bg-transparent">
             <div className="w-full hidden md:flex md:w-1/2 relative">
                 <img
                     className="h-full w-full object-cover"
@@ -147,10 +147,10 @@ export default function LoginPage() {
             <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8">
 
                 <form onSubmit={showVerify ? handleVerifyOtp : isForgotPassword ? handleResetPassword : handleAuth} className="md:w-96 w-80 flex flex-col items-center justify-center">
-                    <h2 className="text-4xl text-gray-900 font-medium">
+                    <h2 className="text-4xl text-white font-medium">
                         {showVerify ? "Vérification" : isForgotPassword ? "Réinitialisation" : isSignUp ? "Créer un compte" : "Bon retour !"}
                     </h2>
-                    <p className="text-sm text-gray-500/90 mt-3 mb-8 text-center">
+                    <p className="text-sm text-gray-300/90 mt-3 mb-8 text-center">
                         {showVerify
                             ? "Entrez le code reçu par email."
                             : isForgotPassword
@@ -166,14 +166,14 @@ export default function LoginPage() {
                                 type="button"
                                 onClick={handleGoogleLogin}
                                 disabled={loading}
-                                className="w-full bg-gray-500/10 hover:bg-gray-500/20 flex items-center justify-center h-12 rounded-full transition-colors"
+                                className="w-full bg-white/50/10 hover:bg-white/50/20 flex items-center justify-center h-12 rounded-full transition-colors"
                             >
                                 <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="googleLogo" />
                             </button>
 
                             <div className="flex items-center gap-4 w-full my-5">
                                 <div className="w-full h-px bg-gray-300/90"></div>
-                                <p className="w-full text-nowrap text-sm text-gray-500/90">ou via email</p>
+                                <p className="w-full text-nowrap text-sm text-gray-300/90">ou via email</p>
                                 <div className="w-full h-px bg-gray-300/90"></div>
                             </div>
                         </>
@@ -189,7 +189,7 @@ export default function LoginPage() {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
+                                className="bg-transparent text-gray-300/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
                                 required
                                 disabled={showVerify}
                             />
@@ -206,7 +206,7 @@ export default function LoginPage() {
                                 placeholder="Code (6 chiffres)"
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value)}
-                                className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
+                                className="bg-transparent text-gray-300/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
                                 required
                             />
                         </div>
@@ -223,7 +223,7 @@ export default function LoginPage() {
                                     placeholder="Mot de passe"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
+                                    className="bg-transparent text-gray-300/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
                                     required
                                 />
                             </div>
@@ -247,7 +247,7 @@ export default function LoginPage() {
                     )}
 
                     {!isForgotPassword && !showVerify && (
-                        <div className="w-full flex items-center justify-between mt-8 text-gray-500/80">
+                        <div className="w-full flex items-center justify-between mt-8 text-gray-300/80">
                             <div className="flex items-center gap-2">
                                 <input className="h-5 accent-indigo-500" type="checkbox" id="checkbox" />
                                 <label className="text-sm" htmlFor="checkbox">Se souvenir de moi</label>
@@ -277,7 +277,7 @@ export default function LoginPage() {
                     </button>
 
                     {!showVerify && (
-                        <p className="text-gray-500/90 text-sm mt-4">
+                        <p className="text-gray-300/90 text-sm mt-4">
                             {isForgotPassword
                                 ? "Retour à la connexion ?"
                                 : isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}

@@ -145,26 +145,26 @@ export default function SettingsPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center">
+            <div className="min-h-screen bg-transparent flex flex-col items-center justify-center">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col">
+        <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
             <div className="container mx-auto pt-24 pb-10 px-4 flex-1 max-w-2xl">
                 <div className="flex items-center gap-3 mb-8">
                     <div className="p-2.5 bg-primary/10 rounded-xl">
                         <User className="h-6 w-6 text-primary" />
                     </div>
-                    <h1 className="text-3xl font-black text-slate-900">Paramètres</h1>
+                    <h1 className="text-3xl font-black text-white">Paramètres</h1>
                 </div>
 
                 <div className="space-y-6">
                     {/* Profile Section */}
-                    <Card className="shadow-sm border-none">
+                    <Card className="shadow-sm border-none bg-black/40 backdrop-blur-md border border-white/10">
                         <CardHeader>
                             <CardTitle>Profil</CardTitle>
                             <CardDescription>Personnalisez votre apparence sur GeoMaster.</CardDescription>
@@ -197,8 +197,8 @@ export default function SettingsPage() {
                                     </div>
                                     <div className="flex-1 w-full space-y-4">
                                         <div className="space-y-1">
-                                            <h3 className="font-bold text-slate-900">Photo de profil</h3>
-                                            <p className="text-sm text-slate-500">Cliquez sur l'avatar pour modifier l'image (JPG, PNG, max 2Mo).</p>
+                                            <h3 className="font-bold text-white">Photo de profil</h3>
+                                            <p className="text-sm text-slate-300">Cliquez sur l'avatar pour modifier l'image (JPG, PNG, max 2Mo).</p>
                                         </div>
                                         <Button
                                             type="button"
@@ -226,7 +226,7 @@ export default function SettingsPage() {
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Email (non modifiable)</Label>
-                                        <Input value={user.email} disabled className="bg-slate-50 opacity-60" />
+                                        <Input value={user.email} disabled className="bg-white/5 opacity-60" />
                                     </div>
                                 </div>
 
@@ -239,7 +239,7 @@ export default function SettingsPage() {
                     </Card>
 
                     {/* Danger Zone */}
-                    <Card className="border-red-100 bg-red-50/30">
+                    <Card className="border border-red-500/30 bg-red-950/40 backdrop-blur-md">
                         <CardHeader>
                             <div className="flex items-center gap-2 text-red-600">
                                 <ShieldAlert className="h-5 w-5" />
@@ -250,10 +250,10 @@ export default function SettingsPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-white border border-red-100">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-white border border-red-100">
                                 <div>
-                                    <h3 className="font-bold text-slate-900">Supprimer mon compte</h3>
-                                    <p className="text-sm text-slate-500">Suppression définitive de votre compte et de vos scores.</p>
+                                    <h3 className="font-bold text-white">Supprimer mon compte</h3>
+                                    <p className="text-sm text-slate-300">Suppression définitive de votre compte et de vos scores.</p>
                                 </div>
                                 <Button
                                     variant="destructive"
