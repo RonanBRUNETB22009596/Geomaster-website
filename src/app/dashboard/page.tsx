@@ -199,7 +199,7 @@ export default function DashboardPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {scores.slice(0, 20).map((score) => (
+                                        {scores.slice(0, 15).map((score) => (
                                             <TableRow key={score.id} className="hover:bg-white/10">
                                                 <TableCell className="text-sm text-white">
                                                     {new Date(score.created_at).toLocaleDateString('fr-FR', {

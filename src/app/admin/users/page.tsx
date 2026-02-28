@@ -3,7 +3,8 @@
 import { useEffect, useState, useMemo } from "react"
 import { supabase } from "@/lib/supabase"
 import { Profile } from "@/lib/definitions"
-import { Users, Search, Trash2, ShieldAlert, Loader2 } from "lucide-react"
+import Link from "next/link"
+import { Users, Search, Trash2, ShieldAlert, Loader2, Eye } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -171,7 +172,19 @@ export default function AdminUsersPage() {
                                                 </span>
                                             )}
                                         </td>
-                                        <td className="p-4 text-right">
+                                        <td className="p-4 text-right flex justify-end gap-2">
+                                            <Button
+                                                asChild
+                                                variant="ghost"
+                                                size="icon"
+                                                className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/20 h-8 w-8"
+                                                title="Voir l'historique"
+                                            >
+                                                <Link href={`/admin/users/${u.id}`}>
+                                                    <Eye className="w-4 h-4" />
+                                                </Link>
+                                            </Button>
+
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
