@@ -204,7 +204,7 @@ export default function SettingsPage() {
                                             type="button"
                                             variant="outline"
                                             size="sm"
-                                            className="gap-2"
+                                            className="gap-2 text-black hover:bg-slate-200 bg-white border-white"
                                             onClick={() => fileInputRef.current?.click()}
                                             disabled={uploading}
                                         >
