@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${outfit.variable} ${outfit.className} font-sans bg-black`}>
+      <body className={`${outfit.variable} ${outfit.className} font-sans bg-[#0B0914]`}>
         <ParticlesBackground />
         <main className="relative z-[2]">{children}</main>
         <Toaster position="top-center" richColors />
