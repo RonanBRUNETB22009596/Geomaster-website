@@ -164,10 +164,10 @@ export default function SettingsPage() {
 
                 <div className="space-y-6">
                     {/* Profile Section */}
-                    <Card className="shadow-sm border-none bg-black/40 backdrop-blur-md border border-white/10">
+                    <Card className="shadow-sm border-none bg-black/40 backdrop-blur-md border border-white/10 text-white">
                         <CardHeader>
                             <CardTitle>Profil</CardTitle>
-                            <CardDescription>Personnalisez votre apparence sur GeoMaster.</CardDescription>
+                            <CardDescription className="text-slate-300">Personnalisez votre apparence sur GeoMaster.</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={handleUpdateProfile} className="space-y-6">
@@ -216,17 +216,18 @@ export default function SettingsPage() {
 
                                 <div className="space-y-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="username">Pseudonyme</Label>
+                                        <Label htmlFor="username" className="text-white">Pseudonyme</Label>
                                         <Input
                                             id="username"
                                             placeholder="Ex: ExplorateurGeo"
                                             value={username}
                                             onChange={(e) => setUsername(e.target.value)}
+                                            className="text-white bg-white/5 border-white/10"
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Email (non modifiable)</Label>
-                                        <Input value={user.email} disabled className="bg-white/5 opacity-60" />
+                                        <Label className="text-white">Email (non modifiable)</Label>
+                                        <Input value={user.email} disabled className="bg-white/5 opacity-60 text-white border-white/10" />
                                     </div>
                                 </div>
 
@@ -239,18 +240,18 @@ export default function SettingsPage() {
                     </Card>
 
                     {/* Danger Zone */}
-                    <Card className="border border-red-500/30 bg-red-950/40 backdrop-blur-md">
+                    <Card className="border border-red-500/30 bg-red-950/40 backdrop-blur-md text-white">
                         <CardHeader>
-                            <div className="flex items-center gap-2 text-red-600">
+                            <div className="flex items-center gap-2 text-red-500">
                                 <ShieldAlert className="h-5 w-5" />
                                 <CardTitle className="text-lg">Zone de danger</CardTitle>
                             </div>
-                            <CardDescription className="text-red-600/70">
+                            <CardDescription className="text-red-400">
                                 Ces actions ont des conséquences permanentes sur votre compte.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-white border border-red-100">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-black/40 backdrop-blur-md border border-red-500/30 text-white">
                                 <div>
                                     <h3 className="font-bold text-white">Supprimer mon compte</h3>
                                     <p className="text-sm text-slate-300">Suppression définitive de votre compte et de vos scores.</p>

@@ -192,29 +192,29 @@ export default function DashboardPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-white/5">
-                                            <TableHead className="font-bold">Date</TableHead>
-                                            <TableHead className="font-bold">Catégorie</TableHead>
-                                            <TableHead className="font-bold">Score</TableHead>
-                                            <TableHead className="font-bold">Note</TableHead>
+                                            <TableHead className="font-bold text-white">Date</TableHead>
+                                            <TableHead className="font-bold text-white">Catégorie</TableHead>
+                                            <TableHead className="font-bold text-white">Score</TableHead>
+                                            <TableHead className="font-bold text-white">Note</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {scores.slice(0, 20).map((score) => (
                                             <TableRow key={score.id} className="hover:bg-white/10">
-                                                <TableCell className="text-sm text-slate-200">
+                                                <TableCell className="text-sm text-white">
                                                     {new Date(score.created_at).toLocaleDateString('fr-FR', {
                                                         day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                                                     })}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary">
+                                                    <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-white/10 text-white">
                                                         {score.category || 'World'}
                                                     </span>
                                                 </TableCell>
                                                 <TableCell className="font-black text-white/90">{score.score} / {score.total}</TableCell>
                                                 <TableCell>
-                                                    <span className={`text-xs font-bold ${(score.score / score.total) >= 0.8 ? 'text-emerald-600' :
-                                                        (score.score / score.total) >= 0.5 ? 'text-amber-600' : 'text-red-500'
+                                                    <span className={`text-xs font-bold px-2 py-1 rounded-full ${(score.score / score.total) >= 0.8 ? 'bg-green-500/20 text-green-400' :
+                                                        (score.score / score.total) >= 0.5 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'
                                                         }`}>
                                                         {(score.score / score.total) >= 0.8 ? '🏆 Excellent' :
                                                             (score.score / score.total) >= 0.5 ? '👍 Bien' : '💪 Peut mieux faire'}

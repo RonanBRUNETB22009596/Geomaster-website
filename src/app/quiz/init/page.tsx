@@ -77,7 +77,7 @@ function DifficultyContent() {
                 {levels.map((level) => (
                     <Card
                         key={level.id}
-                        className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer border-2 ${level.border} h-full`}
+                        className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer border-2 ${level.border} h-full bg-black/40 backdrop-blur-md text-white`}
                         onClick={() => handleSelect(level.id)}
                     >
                         <div className={`absolute inset-0 ${level.bg} opacity-0 group-hover:opacity-100 transition-opacity`} />
@@ -86,8 +86,8 @@ function DifficultyContent() {
                             <div className={`mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 ${level.bg}`}>
                                 <level.icon className={`w-8 h-8 ${level.color}`} />
                             </div>
-                            <CardTitle className="text-2xl font-bold mb-2">{level.name}</CardTitle>
-                            <CardDescription className="text-slate-200 px-4">
+                            <CardTitle className="text-2xl font-bold mb-2 text-white">{level.name}</CardTitle>
+                            <CardDescription className="text-slate-300 px-4">
                                 {level.description}
                             </CardDescription>
                         </CardHeader>
