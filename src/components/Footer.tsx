@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Globe, Github, Twitter, Mail } from "lucide-react"
+import { Globe, Github, Linkedin, Mail } from "lucide-react"
 
 export function Footer() {
     return (
@@ -16,15 +16,15 @@ export function Footer() {
                             La plateforme ultime pour tester vos connaissances géographiques et découvrir le monde tout en s'amusant.
                         </p>
                         <div className="flex gap-4">
-                            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-primary transition-colors hover:text-white">
-                                <Twitter className="w-4 h-4" />
+                            <a href="https://www.linkedin.com/in/brunetronan/" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 rounded-full hover:bg-primary transition-colors hover:text-white">
+                                <Linkedin className="w-4 h-4" />
                             </a>
-                            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-primary transition-colors hover:text-white">
+                            <a href="https://github.com/RonanBRUNETB22009596" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 rounded-full hover:bg-primary transition-colors hover:text-white">
                                 <Github className="w-4 h-4" />
                             </a>
-                            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-primary transition-colors hover:text-white">
+                            <Link href="/contact" className="p-2 bg-slate-800 rounded-full hover:bg-primary transition-colors hover:text-white">
                                 <Mail className="w-4 h-4" />
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
@@ -55,10 +55,9 @@ export function Footer() {
                     <div>
                         <h4 className="text-white font-semibold mb-6 uppercase text-xs tracking-wider">Légal & Support</h4>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="hover:text-primary transition-colors">Conditions d'utilisation</a></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">Politique de confidentialité</a></li>
+                            <li><Link href="/terms" className="hover:text-primary transition-colors">Conditions d'utilisation</Link></li>
+                            <li><Link href="/privacy" className="hover:text-primary transition-colors">Politique de confidentialité</Link></li>
                             <li><Link href="/contact" className="hover:text-primary transition-colors">Contactez-nous</Link></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">FAQ</a></li>
                         </ul>
                     </div>
                 </div>
