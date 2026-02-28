@@ -4,10 +4,10 @@ import { Globe, Github, Linkedin, Mail } from "lucide-react"
 export function Footer() {
     return (
         <footer className="bg-[#0b0416] text-slate-300 py-12 border-t border-white/5 relative z-10">
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div className="max-w-6xl mx-auto px-8 lg:px-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-12">
                     {/* Brand Section */}
-                    <div className="col-span-1 md:col-span-1">
+                    <div className="col-span-1 sm:col-span-2 lg:col-span-1">
                         <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl mb-4">
                             <Globe className="w-6 h-6 text-primary" />
                             <span>GeoMaster</span>
