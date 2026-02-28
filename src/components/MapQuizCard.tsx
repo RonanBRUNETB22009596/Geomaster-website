@@ -105,7 +105,7 @@ export function MapQuizCard({
                                 ({question.difficulty})
                             </span>
                         )}
-                        <span className="text-[10px] font-black px-3 py-1 bg-white/10 text-white rounded-full uppercase tracking-widest border border-white/20">
+                        <span className="text-[10px] font-black px-3 py-1 bg-primary/20 text-primary rounded-full uppercase tracking-widest border border-primary/20">
                             {question.category || 'Général'}
                         </span>
                         {onQuit && (
