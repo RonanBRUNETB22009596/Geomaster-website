@@ -97,9 +97,16 @@ export function MapQuizCard({
                             DÉFI CARTE — {currentQuestionIndex + 1} / {totalQuestions}
                         </span>
                     </div>
-                    <span className="text-[10px] font-black px-3 py-1 bg-white/10 text-white rounded-full uppercase tracking-widest border border-white/20">
-                        {question.difficulty ? `(${question.difficulty}) ` : ''}{question.category || 'Général'}
-                    </span>
+                    <div className="flex items-center gap-2">
+                        {question.difficulty && (
+                            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+                                ({question.difficulty})
+                            </span>
+                        )}
+                        <span className="text-[10px] font-black px-3 py-1 bg-white/10 text-white rounded-full uppercase tracking-widest border border-white/20">
+                            {question.category || 'Général'}
+                        </span>
+                    </div>
                 </div>
                 <Progress value={progress} className="h-1.5 mb-6 bg-white/10" />
                 <CardTitle className="text-2xl md:text-3xl font-black text-white text-center leading-tight">

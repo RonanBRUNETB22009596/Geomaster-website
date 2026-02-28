@@ -49,9 +49,16 @@ export function QuizCard({
                     <span className="text-sm text-slate-300 font-mono">
                         Question {currentQuestionIndex + 1} / {totalQuestions}
                     </span>
-                    <span className="text-xs font-semibold px-2 py-1 bg-primary/10 text-primary rounded-full uppercase">
-                        {question.difficulty ? `(${question.difficulty}) ` : ''}{question.category || 'Général'}
-                    </span>
+                    <div className="flex items-center gap-2">
+                        {question.difficulty && (
+                            <span className="text-xs font-semibold text-slate-400 uppercase">
+                                ({question.difficulty})
+                            </span>
+                        )}
+                        <span className="text-xs font-semibold px-2 py-1 bg-primary/10 text-primary rounded-full uppercase">
+                            {question.category || 'Général'}
+                        </span>
+                    </div>
                 </div>
                 <Progress value={progress} className="h-2 bg-white/10" />
                 <CardTitle className="text-xl md:text-2xl mt-4 leading-relaxed text-center text-white">
