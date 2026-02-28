@@ -139,7 +139,7 @@ export default function LoginPage() {
             <div className="w-full hidden md:flex md:w-1/2 relative">
                 <img
                     className="h-full w-full object-cover"
-                    src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png"
+                    src="/images/prague_login.jpg"
                     alt="Login Banner"
                 />
             </div>
