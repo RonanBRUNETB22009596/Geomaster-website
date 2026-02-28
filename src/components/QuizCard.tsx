@@ -43,18 +43,18 @@ export function QuizCard({
     const progress = ((currentQuestionIndex) / totalQuestions) * 100
 
     return (
-        <Card className="w-full max-w-2xl mx-auto shadow-lg animate-in fade-in zoom-in duration-300">
+        <Card className="w-full max-w-2xl mx-auto shadow-lg animate-in fade-in zoom-in duration-300 bg-black/40 backdrop-blur-md text-white border border-white/10">
             <CardHeader>
                 <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-muted-foreground font-mono">
+                    <span className="text-sm text-slate-300 font-mono">
                         Question {currentQuestionIndex + 1} / {totalQuestions}
                     </span>
                     <span className="text-xs font-semibold px-2 py-1 bg-primary/10 text-primary rounded-full uppercase">
                         {question.category || 'Général'}
                     </span>
                 </div>
-                <Progress value={progress} className="h-2" />
-                <CardTitle className="text-xl md:text-2xl mt-4 leading-relaxed text-center">
+                <Progress value={progress} className="h-2 bg-white/10" />
+                <CardTitle className="text-xl md:text-2xl mt-4 leading-relaxed text-center text-white">
                     {question.question_text}
                 </CardTitle>
 
@@ -76,15 +76,15 @@ export function QuizCard({
                         key={idx}
                         variant="outline"
                         className={cn(
-                            "h-auto py-6 text-lg justify-start px-6 whitespace-normal text-left",
-                            "hover:border-primary hover:bg-primary/5 hover:shadow-md hover:-translate-y-0.5",
+                            "h-auto py-6 text-lg justify-start px-6 whitespace-normal text-left text-white bg-white/5 border-white/10",
+                            "hover:border-primary hover:bg-primary/20 hover:text-white hover:shadow-md hover:-translate-y-0.5",
                             "transition-all duration-200",
                             "active:scale-[0.98] transform"
                         )}
                         onClick={() => onAnswer(option)}
                         disabled={isSubmitting}
                     >
-                        <span className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border bg-muted text-xs font-medium text-muted-foreground">
+                        <span className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-medium text-slate-200">
                             {String.fromCharCode(65 + idx)}
                         </span>
                         {option}

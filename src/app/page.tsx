@@ -85,8 +85,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-primary font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black">Monde Entier</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
+                    <h3 className="text-2xl font-black text-white">Monde Entier</h3>
                   </div>
                 }
               />
@@ -107,8 +107,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-primary font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black">Europe</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
+                    <h3 className="text-2xl font-black text-white">Europe</h3>
                   </div>
                 }
               />
@@ -129,8 +129,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-primary font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black">Amériques</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
+                    <h3 className="text-2xl font-black text-white">Amériques</h3>
                   </div>
                 }
               />
@@ -151,8 +151,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-primary font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black">Asie</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
+                    <h3 className="text-2xl font-black text-white">Asie</h3>
                   </div>
                 }
               />
@@ -173,8 +173,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-primary font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black">Afrique</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
+                    <h3 className="text-2xl font-black text-white">Afrique</h3>
                   </div>
                 }
               />
@@ -195,8 +195,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-primary font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black">Océanie</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
+                    <h3 className="text-2xl font-black text-white">Océanie</h3>
                   </div>
                 }
               />

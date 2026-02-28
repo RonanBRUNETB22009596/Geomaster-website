@@ -23,6 +23,7 @@ export default function SettingsPage() {
 
     const [username, setUsername] = useState("")
     const [avatarUrl, setAvatarUrl] = useState("")
+    const [password, setPassword] = useState("")
     const [uploading, setUploading] = useState(false)
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -98,6 +99,21 @@ export default function SettingsPage() {
         e.preventDefault()
         setUpdating(true)
 
+        if (password && password.length < 6) {
+            toast.error("Le mot de passe doit contenir au moins 6 caractères")
+            setUpdating(false)
+            return
+        }
+
+        if (password) {
+            const { error: passwordError } = await supabase.auth.updateUser({ password })
+            if (passwordError) {
+                toast.error("Erreur lors de la modification du mot de passe : " + passwordError.message)
+                setUpdating(false)
+                return
+            }
+        }
+
         const { error } = await supabase
             .from('profiles')
             .update({
@@ -109,8 +125,9 @@ export default function SettingsPage() {
         if (error) {
             toast.error("Erreur lors de la mise à jour : " + error.message)
         } else {
-            toast.success("Profil mis à jour avec succès !")
+            toast.success("Profil mis à jour" + (password ? " et mot de passe modifié" : "") + " avec succès !")
             setProfile({ ...profile, username, avatar_url: avatarUrl })
+            setPassword("")
             // Redirect to home after a short delay
             setTimeout(() => {
                 router.push("/")
@@ -228,6 +245,18 @@ export default function SettingsPage() {
                                     <div className="space-y-2">
                                         <Label className="text-white">Email (non modifiable)</Label>
                                         <Input value={user.email} disabled className="bg-white/5 opacity-60 text-white border-white/10" />
+                                    </div>
+                                    <div className="space-y-2 pt-4 border-t border-white/10 mt-4">
+                                        <h4 className="font-bold text-white text-sm mb-4">Sécurité</h4>
+                                        <Label htmlFor="password" className="text-white">Nouveau mot de passe</Label>
+                                        <Input
+                                            id="password"
+                                            type="password"
+                                            placeholder="Laissez vide pour conserver l'actuel"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="text-white bg-white/5 border-white/10"
+                                        />
                                     </div>
                                 </div>
 

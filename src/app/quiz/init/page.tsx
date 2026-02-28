@@ -95,7 +95,7 @@ function DifficultyContent() {
                         <CardContent className="relative z-10 text-center pb-8">
                             <Button
                                 variant="outline"
-                                className={`w-full group-hover:bg-primary group-hover:text-white transition-colors`}
+                                className={`w-full bg-white text-black hover:bg-primary hover:text-white group-hover:bg-primary group-hover:text-white transition-colors border-none`}
                             >
                                 Commencer
                             </Button>

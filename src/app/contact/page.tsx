@@ -14,14 +14,18 @@ import { Mail, Send, MapPin, Phone } from "lucide-react"
 export default function ContactPage() {
     const [loading, setLoading] = useState(false)
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setLoading(true)
-        setTimeout(() => {
-            toast.success("Votre message a bien été envoyé ! Nous vous répondrons très vite.")
-            setLoading(false)
-                ; (e.target as HTMLFormElement).reset()
-        }, 1000)
+
+        const form = e.currentTarget
+        const subject = (form.elements.namedItem('subject') as HTMLInputElement).value
+        const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value
+
+        // Open the default email client
+        window.location.href = `mailto:brt.ronan@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
+
+        toast.success("Ouverture de votre messagerie...")
+        form.reset()
     }
 
     return (
@@ -49,16 +53,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold text-white">Email</h3>
-                                        <p className="text-sm text-slate-300">support@geomaster.app</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-emerald-500/20 rounded-xl text-emerald-400">
-                                        <Phone className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-bold text-white">Téléphone</h3>
-                                        <p className="text-sm text-slate-300">+33 1 23 45 67 89</p>
+                                        <p className="text-sm text-slate-300">brt.ronan@gmail.com</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
@@ -67,7 +62,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold text-white">Bureau</h3>
-                                        <p className="text-sm text-slate-300">Paris, France</p>
+                                        <p className="text-sm text-slate-300">Toulouse, France</p>
                                     </div>
                                 </div>
                             </CardContent>
@@ -107,12 +102,8 @@ export default function ContactPage() {
                                         className="min-h-[150px] bg-white/5 border-white/10 text-white"
                                     />
                                 </div>
-                                <Button type="submit" disabled={loading} className="w-full sm:w-auto">
-                                    {loading ? "Envoi en cours..." : (
-                                        <>
-                                            <Send className="w-4 h-4 mr-2" /> Envoyer le message
-                                        </>
-                                    )}
+                                <Button type="submit" className="w-full sm:w-auto text-black bg-white hover:bg-slate-200">
+                                    <Send className="w-4 h-4 mr-2" /> Envoyer le message
                                 </Button>
                             </form>
                         </CardContent>
