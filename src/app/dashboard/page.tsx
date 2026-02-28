@@ -8,7 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Loader2, Trophy, Target, TrendingUp, Flame, BarChart3 } from "lucide-react"
 import { Footer } from "@/components/Footer"
-import { ContinentMasteryMap } from "@/components/ContinentMasteryMap"
+import dynamic from "next/dynamic"
+
+const ContinentMasteryMap = dynamic(() => import("@/components/ContinentMasteryMap").then(m => ({ default: m.ContinentMasteryMap })), {
+    ssr: false,
+    loading: () => <div className="h-48 animate-pulse bg-slate-100 rounded-xl" />
+})
 
 export default function DashboardPage() {
     const [scores, setScores] = useState<Score[]>([])
@@ -209,7 +214,7 @@ export default function DashboardPage() {
                                                 <TableCell className="font-black text-slate-800">{score.score} / {score.total}</TableCell>
                                                 <TableCell>
                                                     <span className={`text-xs font-bold ${(score.score / score.total) >= 0.8 ? 'text-emerald-600' :
-                                                            (score.score / score.total) >= 0.5 ? 'text-amber-600' : 'text-red-500'
+                                                        (score.score / score.total) >= 0.5 ? 'text-amber-600' : 'text-red-500'
                                                         }`}>
                                                         {(score.score / score.total) >= 0.8 ? '🏆 Excellent' :
                                                             (score.score / score.total) >= 0.5 ? '👍 Bien' : '💪 Peut mieux faire'}

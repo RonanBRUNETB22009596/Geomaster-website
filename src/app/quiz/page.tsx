@@ -10,7 +10,12 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
 import { NavBar } from "@/components/NavBar"
 import { QuizCard } from "@/components/QuizCard"
-import { MapQuizCard } from "@/components/MapQuizCard"
+import dynamic from "next/dynamic"
+
+const MapQuizCard = dynamic(() => import("@/components/MapQuizCard").then(m => ({ default: m.MapQuizCard })), {
+    ssr: false,
+    loading: () => <div className="w-full max-w-4xl mx-auto h-96 animate-pulse bg-slate-100 rounded-2xl" />
+})
 
 // State Management
 type State = {
@@ -104,11 +109,29 @@ function QuizContent() {
                     // 3. Define how many map questions to include (3-4 if possible)
                     const mapCountTotal = Math.min(shuffledMap.length, 3 + Math.floor(Math.random() * 2))
 
-                    // 4. Build final 10 questions ONLY from this data
-                    const finalQuestions = [
-                        ...shuffledMap.slice(0, mapCountTotal),
-                        ...shuffledText.slice(0, 10 - mapCountTotal)
-                    ].sort(() => 0.5 - Math.random())
+                    // 4. Build final 10 questions, ensuring no two map questions are consecutive
+                    const selectedMap = shuffledMap.slice(0, mapCountTotal)
+                    const selectedText = shuffledText.slice(0, 10 - mapCountTotal)
+
+                    // Interleave: place map questions at spaced intervals among text questions
+                    const finalQuestions: typeof data = []
+                    const textPool = [...selectedText]
+                    const mapPool = [...selectedMap]
+                    const totalCount = textPool.length + mapPool.length
+                    // Calculate spacing: distribute map questions evenly
+                    const spacing = mapPool.length > 0 ? Math.floor(totalCount / mapPool.length) : totalCount
+                    let mapIdx = 0
+                    for (let i = 0; i < totalCount; i++) {
+                        if (mapIdx < mapPool.length && i > 0 && i % spacing === Math.floor(spacing / 2)) {
+                            finalQuestions.push(mapPool[mapIdx++])
+                        } else if (textPool.length > 0) {
+                            finalQuestions.push(textPool.shift()!)
+                        } else if (mapPool.length > 0) {
+                            finalQuestions.push(mapPool[mapIdx++])
+                        }
+                    }
+                    // Add any remaining
+                    while (mapIdx < mapPool.length) finalQuestions.push(mapPool[mapIdx++])
 
                     // 5. Calculate point multiplier based on difficulty
                     const multiplier = difficultyStr === 'Professional' ? 2 : difficultyStr === 'Intermediate' ? 1.5 : 1
@@ -276,6 +299,7 @@ function QuizContent() {
 
             {isMapQuestion ? (
                 <MapQuizCard
+                    key={state.currentIndex}
                     question={currentQuestion}
                     currentQuestionIndex={state.currentIndex}
                     totalQuestions={state.questions.length}
@@ -283,6 +307,7 @@ function QuizContent() {
                 />
             ) : (
                 <QuizCard
+                    key={state.currentIndex}
                     question={currentQuestion}
                     currentQuestionIndex={state.currentIndex}
                     totalQuestions={state.questions.length}

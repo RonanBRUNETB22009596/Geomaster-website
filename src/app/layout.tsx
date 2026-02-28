@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
+import { ParticlesBackground } from "@/components/ParticlesBackground";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -21,7 +22,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${outfit.variable} ${outfit.className} font-sans`}>
-        <main>{children}</main>
+        <ParticlesBackground />
+        <main className="relative z-10">{children}</main>
         <Toaster position="top-center" richColors />
       </body>
     </html>

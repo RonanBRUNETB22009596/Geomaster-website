@@ -6,8 +6,9 @@ import { NavBar } from "@/components/NavBar"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Shield, ShieldAlert, ShieldCheck } from "lucide-react"
+import dynamic from "next/dynamic"
 
-import BounceCards from "@/components/BounceCards"
+const BounceCards = dynamic(() => import("@/components/BounceCards"), { ssr: false })
 import { StreakBadge } from "@/components/StreakBadge"
 import { Footer } from "@/components/Footer"
 

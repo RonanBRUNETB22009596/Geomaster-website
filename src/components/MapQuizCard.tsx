@@ -213,36 +213,34 @@ export function MapQuizCard({
 
                 {/* Résultat : Bannière cliquable = bouton continuer */}
                 {showResult && resultDistance !== null && (
-                    <button
+                    <Button
                         type="button"
-                        onClick={handleContinue}
+                        variant="ghost"
+                        onClick={() => {
+                            console.log('Continue clicked', resultIsCorrect)
+                            handleContinue()
+                        }}
                         className={cn(
-                            "relative z-10 w-full flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer",
+                            "relative z-50 w-full h-auto flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all hover:scale-[1.02] active:scale-[0.98]",
                             resultIsCorrect
-                                ? "bg-emerald-50 border-emerald-300 hover:bg-emerald-100"
-                                : "bg-red-50 border-red-300 hover:bg-red-100"
+                                ? "bg-emerald-50 border-emerald-300 hover:bg-emerald-100 text-emerald-700"
+                                : "bg-red-50 border-red-300 hover:bg-red-100 text-red-700"
                         )}
                     >
                         <Navigation className={cn(
                             "w-5 h-5 shrink-0",
                             resultIsCorrect ? "text-emerald-500" : "text-red-500"
                         )} />
-                        <p className={cn(
+                        <span className={cn(
                             "text-sm font-bold",
                             resultIsCorrect ? "text-emerald-700" : "text-red-700"
                         )}>
                             {resultIsCorrect
-                                ? `Bravo ! Vous étiez à ${resultDistance} km de ${question.correct_answer}.`
-                                : `Raté ! Vous étiez à ${resultDistance} km de ${question.correct_answer}.`
+                                ? `Bravo ! Vous étiez à ${resultDistance} km — Cliquez pour continuer →`
+                                : `Raté ! Vous étiez à ${resultDistance} km — Cliquez pour continuer →`
                             }
-                        </p>
-                        <span className={cn(
-                            "text-xs font-black uppercase tracking-wider shrink-0",
-                            resultIsCorrect ? "text-emerald-500" : "text-red-500"
-                        )}>
-                            Continuer →
                         </span>
-                    </button>
+                    </Button>
                 )}
 
                 {/* Choix Multiple pour le mode Débutant */}

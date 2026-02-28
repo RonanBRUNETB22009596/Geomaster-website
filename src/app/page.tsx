@@ -2,26 +2,22 @@
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 
 import { NavBar } from "@/components/NavBar"
-import { DottedMap } from "@/components/ui/dotted-map"
 import { Footer } from "@/components/Footer"
-import TiltedCard from "@/components/TiltedCard"
-import SplitText from "@/components/SplitText"
 import { StreakBadge } from "@/components/StreakBadge"
+
+const DottedMap = dynamic(() => import("@/components/ui/dotted-map").then(m => ({ default: m.DottedMap })), { ssr: false })
+const TiltedCard = dynamic(() => import("@/components/TiltedCard"), { ssr: false })
+const SplitText = dynamic(() => import("@/components/SplitText"), { ssr: false })
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex flex-col items-center justify-center overflow-hidden pt-48 pb-32 px-6 text-center">
-        {/* Background Effects */}
-        <div className="absolute inset-0 z-0">
-          <div className="mask-gradient absolute inset-0 z-0 h-full w-full bg-black bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:16px_16px]">
-            <DottedMap className="opacity-40 text-white w-full h-full" />
-          </div>
-        </div>
+      <section className="relative min-h-[95vh] flex flex-col items-center justify-center overflow-hidden pt-48 pb-32 px-6 text-center bg-black/80">
 
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-center">
