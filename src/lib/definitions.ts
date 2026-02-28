@@ -15,7 +15,8 @@ export type Question = {
 export type Profile = {
     id: string
     email: string
-    role: 'user' | 'admin'
+    username?: string
+    role: 'user' | 'admin' | 'super_admin'
     created_at: string
 }
 

@@ -13,7 +13,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Globe, User, LogOut, Settings, Trophy } from "lucide-react"
+import { Globe, User, LogOut, Settings, Trophy, ShieldAlert } from "lucide-react"
 
 export function NavBar() {
     const [user, setUser] = useState<any>(null)
@@ -27,7 +27,7 @@ export function NavBar() {
             }
             const { data } = await supabase
                 .from('profiles')
-                .select('avatar_url, username')
+                .select('avatar_url, username, role')
                 .eq('id', sessionUser.id)
                 .single()
             setProfile(data)
@@ -56,6 +56,8 @@ export function NavBar() {
         setProfile(null)
         window.location.href = '/'
     }
+
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
 
     return (
         <nav className="fixed top-[16px] left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-64px)] max-w-5xl h-14 rounded-full border border-white/20 bg-white/10 backdrop-blur-[75px] shadow-2xl transition-all duration-300">
@@ -91,6 +93,19 @@ export function NavBar() {
                                     </div>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
+
+                                {isAdmin && (
+                                    <>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/admin" className="cursor-pointer rounded-xl text-emerald-600 focus:text-emerald-700 font-medium">
+                                                <ShieldAlert className="mr-2 h-4 w-4" />
+                                                Administration
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                    </>
+                                )}
+
                                 <DropdownMenuItem asChild>
                                     <Link href="/dashboard" className="cursor-pointer rounded-xl">
                                         <User className="mr-2 h-4 w-4" />

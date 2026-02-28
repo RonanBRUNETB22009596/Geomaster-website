@@ -139,7 +139,7 @@ export function MapQuizCard({
                 )}>
                     <Map
                         key={question.id}
-                        theme="light"
+                        theme="dark"
                         center={[
                             question.type === 'map_point' || question.type === 'map_pinpoint' ? (question.longitude ?? 0) : 0,
                             question.type === 'map_point' || question.type === 'map_pinpoint' ? (question.latitude ?? 20) : 20
