@@ -86,27 +86,27 @@ export function MapQuizCard({
     }
 
     return (
-        <Card className="w-full max-w-4xl mx-auto shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-500 border-none bg-white/80 backdrop-blur-xl">
+        <Card className="w-full max-w-4xl mx-auto shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-500 bg-black/40 backdrop-blur-md text-white border border-white/10">
             <CardHeader className="pb-4">
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-2">
                         <div className="p-2 bg-primary/10 rounded-lg">
                             <MapIcon className="w-5 h-5 text-primary" />
                         </div>
-                        <span className="text-sm font-bold text-slate-500 font-mono">
+                        <span className="text-sm font-bold text-slate-300 font-mono">
                             DÉFI CARTE — {currentQuestionIndex + 1} / {totalQuestions}
                         </span>
                     </div>
-                    <span className="text-[10px] font-black px-3 py-1 bg-slate-900 text-white rounded-full uppercase tracking-widest">
+                    <span className="text-[10px] font-black px-3 py-1 bg-white/10 text-white rounded-full uppercase tracking-widest border border-white/20">
                         {question.difficulty}
                     </span>
                 </div>
-                <Progress value={progress} className="h-1.5 mb-6" />
-                <CardTitle className="text-2xl md:text-3xl font-black text-slate-900 text-center leading-tight">
+                <Progress value={progress} className="h-1.5 mb-6 bg-white/10" />
+                <CardTitle className="text-2xl md:text-3xl font-black text-white text-center leading-tight">
                     {question.question_text}
                 </CardTitle>
                 {question.type === 'map_pinpoint' && !showResult && (
-                    <p className="text-center text-sm text-slate-400 mt-2 flex items-center justify-center gap-1.5">
+                    <p className="text-center text-sm text-slate-300 mt-2 flex items-center justify-center gap-1.5">
                         <MapIcon className="w-3.5 h-3.5" />
                         Réponse correcte dans un rayon de 400 km
                     </p>
@@ -204,7 +204,7 @@ export function MapQuizCard({
 
                     {question.type === 'map_pinpoint' && !userPoint && !hasInteracted && (
                         <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-slate-900/5 backdrop-blur-[1px] transition-opacity duration-300">
-                            <p className="bg-white/90 px-4 py-2 rounded-full text-xs font-bold text-slate-800 shadow-lg border border-white">
+                            <p className="bg-slate-900/90 px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg border border-white/20">
                                 Cliquez sur la carte pour placer la ville
                             </p>
                         </div>
@@ -223,17 +223,17 @@ export function MapQuizCard({
                         className={cn(
                             "relative z-50 w-full h-auto flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all hover:scale-[1.02] active:scale-[0.98]",
                             resultIsCorrect
-                                ? "bg-emerald-50 border-emerald-300 hover:bg-emerald-100 text-emerald-700"
-                                : "bg-red-50 border-red-300 hover:bg-red-100 text-red-700"
+                                ? "bg-emerald-500/20 border-emerald-500/50 hover:bg-emerald-500/30 text-emerald-400"
+                                : "bg-red-500/20 border-red-500/50 hover:bg-red-500/30 text-red-400"
                         )}
                     >
                         <Navigation className={cn(
                             "w-5 h-5 shrink-0",
-                            resultIsCorrect ? "text-emerald-500" : "text-red-500"
+                            resultIsCorrect ? "text-emerald-400" : "text-red-400"
                         )} />
                         <span className={cn(
                             "text-sm font-bold",
-                            resultIsCorrect ? "text-emerald-700" : "text-red-700"
+                            resultIsCorrect ? "text-emerald-400" : "text-red-400"
                         )}>
                             {resultIsCorrect
                                 ? `Bravo ! Vous étiez à ${resultDistance} km — Cliquez pour continuer →`
@@ -250,7 +250,7 @@ export function MapQuizCard({
                             <Button
                                 key={i}
                                 variant="outline"
-                                className="h-14 font-bold border-2 hover:border-primary hover:bg-primary/5 transition-all text-slate-700"
+                                className="h-14 font-bold border border-white/10 bg-white/5 hover:border-primary hover:bg-primary/20 hover:text-white transition-all text-white"
                                 onClick={() => onAnswer(option)}
                                 disabled={isSubmitting}
                             >
@@ -262,7 +262,7 @@ export function MapQuizCard({
             </CardContent>
 
             {question.type === 'map_pinpoint' && !showResult && (
-                <CardFooter className="bg-slate-50 border-t border-slate-100 p-6 flex justify-center">
+                <CardFooter className="bg-transparent border-t border-white/10 p-6 flex justify-center mt-4">
                     <Button
                         size="lg"
                         className="px-12 font-black rounded-full shadow-xl shadow-primary/20 transition-all hover:scale-105"
