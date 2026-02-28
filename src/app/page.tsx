@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import dynamic from "next/dynamic"
+import { BorderBeam } from "@/components/ui/border-beam"
 
 import { NavBar } from "@/components/NavBar"
 import { Footer } from "@/components/Footer"
@@ -31,9 +32,12 @@ export default function Home() {
             to={{ opacity: 1, y: 0, rotateX: 0 }}
           />
 
-          <p className="text-lg md:text-xl text-white/90 mb-6 max-w-2xl bg-black/40 p-4 rounded-2xl backdrop-blur-md border border-white/10">
-            Testez vos connaissances sur les capitales, drapeaux, et populations avec notre quiz interactif de 10 questions.
-          </p>
+          <div className="relative mb-6 max-w-2xl rounded-2xl overflow-hidden bg-black/40 backdrop-blur-md border border-white/10">
+            <p className="text-lg md:text-xl text-white/90 p-4">
+              Testez vos connaissances sur les capitales, drapeaux, et populations avec notre quiz interactif de 10 questions.
+            </p>
+            <BorderBeam duration={8} size={100} colorFrom="#ffffff" colorTo="#ffffff" />
+          </div>
 
           {/* Streak Badge */}
           <div className="mb-8">
