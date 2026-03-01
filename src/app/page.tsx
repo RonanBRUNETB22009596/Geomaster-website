@@ -137,7 +137,7 @@ export default function Home() {
             <p className="text-slate-300 text-lg">Sélectionnez une région pour tester vos connaissances géographiques.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl mx-auto place-items-center">
+          <div className="flex flex-wrap justify-center gap-12 max-w-[1056px] mx-auto">
             {/* World */}
             <Link href="/quiz/init?category=World">
               <TiltedCard

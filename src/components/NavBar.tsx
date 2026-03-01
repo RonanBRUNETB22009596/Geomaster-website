@@ -61,8 +61,8 @@ export function NavBar() {
     const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
 
     return (
-        <nav className="fixed top-[16px] left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-64px)] max-w-5xl h-14 rounded-full border border-white/20 bg-white/10 backdrop-blur-[75px] shadow-2xl transition-all duration-300">
-            <div className="flex h-full items-center justify-between px-8">
+        <nav className="fixed top-[16px] left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-32px)] sm:w-[calc(100%-64px)] max-w-[1056px] h-14 rounded-full border border-white/20 bg-white/10 backdrop-blur-[75px] shadow-2xl transition-all duration-300">
+            <div className="flex h-full items-center justify-between px-6 sm:px-8">
                 <Link href="/" className="flex items-center gap-2 font-bold text-lg text-slate-900">
                     <div className="bg-white p-1 rounded-full shadow-sm flex items-center justify-center w-8 h-8">
                         <Image src="/logo.png" alt="GeoMaster" width={24} height={24} className="rounded-full object-contain" />
