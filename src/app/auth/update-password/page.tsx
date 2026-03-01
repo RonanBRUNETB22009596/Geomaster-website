@@ -15,27 +15,61 @@ export default function UpdatePasswordPage() {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [loading, setLoading] = useState(false)
-    const [checking, setChecking] = useState(true)
+    const [sessionReady, setSessionReady] = useState(false)
+    const [error, setError] = useState("")
     const router = useRouter()
     const { t } = useI18n()
 
     useEffect(() => {
-        // Listen for PASSWORD_RECOVERY event from the URL hash
+        let resolved = false
+
+        // 1) Listen for auth state changes (PASSWORD_RECOVERY or SIGNED_IN)
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'PASSWORD_RECOVERY') {
-                setChecking(false)
-            } else if (event === 'SIGNED_IN' && session) {
-                setChecking(false)
+            if (resolved) return
+            if (event === 'PASSWORD_RECOVERY' || (event === 'SIGNED_IN' && session)) {
+                resolved = true
+                setSessionReady(true)
             }
         })
 
-        // Also try to get current session (user may already be authenticated via the link)
+        // 2) Check if there's a hash fragment with tokens (Supabase PKCE flow)
+        const hash = window.location.hash
+        if (hash && hash.includes('access_token')) {
+            // Supabase client will automatically pick up the hash tokens
+            // Just wait a moment for it to process
+            const timer = setTimeout(() => {
+                supabase.auth.getSession().then(({ data: { session } }) => {
+                    if (!resolved && session) {
+                        resolved = true
+                        setSessionReady(true)
+                    }
+                })
+            }, 1000)
+            return () => {
+                clearTimeout(timer)
+                subscription.unsubscribe()
+            }
+        }
+
+        // 3) Check if user already has a session (e.g., logged in and going to settings → change password)
         supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session) {
-                setChecking(false)
-            } else {
-                // Give a moment for the hash to be processed
-                setTimeout(() => setChecking(false), 2000)
+            if (!resolved && session) {
+                resolved = true
+                setSessionReady(true)
+            } else if (!resolved) {
+                // Give extra time for hash processing
+                setTimeout(() => {
+                    supabase.auth.getSession().then(({ data: { session: s } }) => {
+                        if (!resolved) {
+                            resolved = true
+                            if (s) {
+                                setSessionReady(true)
+                            } else {
+                                setError("Session expirée. Veuillez redemander un lien de réinitialisation.")
+                            }
+                        }
+                    })
+                }, 3000)
             }
         })
 
@@ -67,6 +101,14 @@ export default function UpdatePasswordPage() {
 
         setLoading(true)
 
+        // Double-check session before updating
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
+            toast.error("Session expirée. Veuillez redemander un lien de réinitialisation.")
+            setLoading(false)
+            return
+        }
+
         const { error } = await supabase.auth.updateUser({ password })
 
         if (error) {
@@ -79,12 +121,34 @@ export default function UpdatePasswordPage() {
         setLoading(false)
     }
 
-    if (checking) {
+    // Loading state
+    if (!sessionReady && !error) {
         return (
             <div className="flex min-h-screen items-center justify-center bg-transparent">
                 <div className="text-center">
                     <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
                     <p className="text-white">Vérification en cours...</p>
+                </div>
+            </div>
+        )
+    }
+
+    // Error state — session expired or invalid link
+    if (error) {
+        return (
+            <div className="min-h-screen bg-transparent flex flex-col">
+                <NavBar />
+                <div className="flex-1 flex items-center justify-center px-4">
+                    <div className="w-full max-w-md">
+                        <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-3xl p-8 text-center">
+                            <Lock className="h-12 w-12 text-red-400 mx-auto mb-4" />
+                            <h1 className="text-xl font-bold text-white mb-2">Lien expiré</h1>
+                            <p className="text-slate-300 mb-6">{error}</p>
+                            <Button onClick={() => router.push("/login")} className="w-full">
+                                Retour à la connexion
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

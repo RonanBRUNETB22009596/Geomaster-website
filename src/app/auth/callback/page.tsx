@@ -11,7 +11,9 @@ export default function AuthCallbackPage() {
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'PASSWORD_RECOVERY') {
-                router.push("/auth/update-password")
+                // For password recovery, redirect preserving the hash
+                // The session is already established at this point by supabase-js
+                window.location.href = "/auth/update-password"
             } else if (event === 'SIGNED_IN' && session) {
                 router.push("/")
             }
@@ -20,6 +22,12 @@ export default function AuthCallbackPage() {
         // Also check if we already have a session (e.g. from fragment)
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
+                // Check the URL hash to see if this is a recovery flow
+                const hash = window.location.hash
+                if (hash && hash.includes('type=recovery')) {
+                    // Don't redirect — let the onAuthStateChange handle it
+                    return
+                }
                 router.push("/")
             }
         })
