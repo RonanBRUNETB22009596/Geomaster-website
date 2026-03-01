@@ -115,14 +115,14 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
-              className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+              className="text-lg px-8 py-6 rounded-[180px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
               onClick={() => {
                 document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
               Commencer le Quiz
             </Button>
-            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 bg-white text-black font-bold border-none hover:bg-slate-100 transition-colors shadow-lg hover:shadow-xl">
+            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 rounded-[180px] bg-white text-black font-bold border-none hover:bg-slate-100 transition-colors shadow-lg hover:shadow-xl">
               <Link href="/leaderboard">Leaderboard</Link>
             </Button>
           </div>

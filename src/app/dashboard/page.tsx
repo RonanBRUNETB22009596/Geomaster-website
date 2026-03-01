@@ -80,7 +80,7 @@ export default function DashboardPage() {
     return (
         <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
-            <div className="container mx-auto pt-24 pb-10 px-4 flex-1">
+            <div className="max-w-[1056px] w-full mx-auto pt-24 pb-10 px-6 sm:px-8 xl:px-0 flex-1">
 
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
@@ -95,7 +95,7 @@ export default function DashboardPage() {
 
                 {/* Stats Grid */}
                 <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 mb-8">
-                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
+                    <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -109,7 +109,7 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
+                    <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
+                    <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -137,7 +137,7 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className={`border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white ${streakWarning > 0 ? 'ring-2 ring-orange-300' : ''}`}>
+                    <Card className={`shadow-xl bg-[#110C1D] border-white/10 text-white ${streakWarning > 0 ? 'ring-2 ring-orange-300' : ''}`}>
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -161,7 +161,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Continent Mastery Map */}
-                <Card className="mb-8 border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
+                <Card className="mb-8 bg-[#110C1D] border-white/10 shadow-xl text-white">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-lg">
                             🌍 Carte de Maîtrise
@@ -180,7 +180,7 @@ export default function DashboardPage() {
                 </Card>
 
                 {/* History */}
-                <Card className="border-none shadow-lg bg-black/40 backdrop-blur-md border border-white/10 text-white">
+                <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
                     <CardHeader>
                         <CardTitle className="text-lg">Historique des parties</CardTitle>
                     </CardHeader>
@@ -193,16 +193,16 @@ export default function DashboardPage() {
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-white/5">
-                                            <TableHead className="font-bold text-white">Date</TableHead>
-                                            <TableHead className="font-bold text-white">Catégorie</TableHead>
-                                            <TableHead className="font-bold text-white">Score</TableHead>
-                                            <TableHead className="font-bold text-white">Note</TableHead>
+                                        <TableRow className="border-white/10 bg-white/5">
+                                            <TableHead className="font-bold text-slate-400">Date</TableHead>
+                                            <TableHead className="font-bold text-slate-400">Catégorie</TableHead>
+                                            <TableHead className="font-bold text-slate-400">Score</TableHead>
+                                            <TableHead className="font-bold text-slate-400">Note</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {(showAll ? scores : scores.slice(0, 5)).map((score) => (
-                                            <TableRow key={score.id} className="hover:bg-white/10">
+                                            <TableRow key={score.id} className="border-white/10 hover:bg-white/5">
                                                 <TableCell className="text-sm text-white">
                                                     {new Date(score.created_at).toLocaleDateString('fr-FR', {
                                                         day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
