@@ -55,7 +55,7 @@ function DifficultyContent() {
     }
 
     return (
-        <div className="container mx-auto max-w-5xl px-4 py-32 flex flex-col items-center">
+        <div className="max-w-[1056px] w-full mx-auto px-6 sm:px-8 xl:px-0 py-32 flex flex-col items-center">
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4 text-center">
                 Choisissez votre défi
             </h1>

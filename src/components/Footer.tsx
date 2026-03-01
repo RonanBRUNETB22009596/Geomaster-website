@@ -17,9 +17,7 @@ export function Footer() {
                             </div>
                             <span>GeoMaster</span>
                         </Link>
-                        <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                            La plateforme ultime pour tester vos connaissances géographiques et découvrir le monde tout en s'amusant.
-                        </p>
+
                         <div className="flex gap-4">
                             <a href="https://www.linkedin.com/in/brunetronan/" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 rounded-full hover:bg-primary transition-colors hover:text-white">
                                 <Linkedin className="w-4 h-4" />

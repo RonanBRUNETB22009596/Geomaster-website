@@ -95,7 +95,7 @@ export default function DashboardPage() {
 
                 {/* Stats Grid */}
                 <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 mb-8">
-                    <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
+                    <Card className="bg-black border-white/10 shadow-xl text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -109,7 +109,7 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
+                    <Card className="bg-black border-white/10 shadow-xl text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
+                    <Card className="bg-black border-white/10 shadow-xl text-white">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -137,7 +137,7 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className={`shadow-xl bg-[#110C1D] border-white/10 text-white ${streakWarning > 0 ? 'ring-2 ring-orange-300' : ''}`}>
+                    <Card className={`shadow-xl bg-black border-white/10 text-white ${streakWarning > 0 ? 'ring-2 ring-orange-300' : ''}`}>
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -161,7 +161,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Continent Mastery Map */}
-                <Card className="mb-8 bg-[#110C1D] border-white/10 shadow-xl text-white">
+                <Card className="mb-8 bg-black border-white/10 shadow-xl text-white">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-lg">
                             🌍 Carte de Maîtrise
@@ -180,7 +180,7 @@ export default function DashboardPage() {
                 </Card>
 
                 {/* History */}
-                <Card className="bg-[#110C1D] border-white/10 shadow-xl text-white">
+                <Card className="bg-black border-white/10 shadow-xl text-white">
                     <CardHeader>
                         <CardTitle className="text-lg">Historique des parties</CardTitle>
                     </CardHeader>

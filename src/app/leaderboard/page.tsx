@@ -53,123 +53,122 @@ export default function LeaderboardPage() {
     return (
         <div className="min-h-screen bg-transparent flex flex-col">
             <NavBar />
-            <div className="container mx-auto py-32 px-4 flex-1">
-                <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-28">
-                        <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                            Classement Mondial
-                        </h1>
-                        <p className="text-white text-lg mb-2">
-                            Les meilleurs explorateurs de GeoMaster
-                        </p>
-                    </div>
-
-                    <Card className="shadow-2xl border-none overflow-hidden bg-black/40 backdrop-blur-md border border-white/10 text-white rounded-[32px]">
-                        <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white pt-10 pb-8 rounded-t-[32px]">
-                            <div className="flex items-center gap-3">
-                                <Trophy className="w-8 h-8" />
-                                <div>
-                                    <CardTitle className="text-2xl">Top 20 Explorateurs</CardTitle>
-                                    <p className="text-white/90 text-sm mt-1">
-                                        Classement équilibré : qualité + expérience
-                                    </p>
-                                </div>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                            {loading ? (
-                                <div className="flex justify-center p-20">
-                                    <Loader2 className="w-10 h-10 animate-spin text-primary" />
-                                </div>
-                            ) : entries.length === 0 ? (
-                                <div className="text-center p-20 text-slate-400">
-                                    Aucun explorateur enregistré pour le moment. Soyez le premier !
-                                </div>
-                            ) : (
-                                <Table>
-                                    <TableHeader className="bg-white/5 text-white border-b-0">
-                                        <TableRow className="border-none hover:bg-transparent">
-                                            <TableHead className="w-16 text-center font-bold text-white">Rang</TableHead>
-                                            <TableHead className="font-bold text-white">Explorateur</TableHead>
-                                            <TableHead className="text-center font-bold text-white">
-                                                <div className="flex items-center justify-center gap-1">
-                                                    <Star className="w-4 h-4" />
-                                                    Score
-                                                </div>
-                                            </TableHead>
-                                            <TableHead className="text-center font-bold hidden md:table-cell text-white">
-                                                <div className="flex items-center justify-center gap-1">
-                                                    <Target className="w-4 h-4" />
-                                                    Moyenne
-                                                </div>
-                                            </TableHead>
-                                            <TableHead className="text-center font-bold hidden sm:table-cell text-white">Parties</TableHead>
-                                            <TableHead className="text-center font-bold hidden lg:table-cell text-white">Record</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {entries.map((entry, index) => (
-                                            <TableRow
-                                                key={index}
-                                                className={`border-none hover:bg-white/5 transition-colors ${index === 0 ? 'bg-white/10' : ''}`}
-                                            >
-                                                <TableCell className="text-center">
-                                                    {index === 0 ? (
-                                                        <Medal className="w-7 h-7 text-yellow-500 mx-auto drop-shadow" />
-                                                    ) : index === 1 ? (
-                                                        <Medal className="w-6 h-6 text-slate-400 mx-auto" />
-                                                    ) : index === 2 ? (
-                                                        <Medal className="w-6 h-6 text-amber-600 mx-auto" />
-                                                    ) : (
-                                                        <span className="font-bold text-white">{index + 1}</span>
-                                                    )}
-                                                </TableCell>
-                                                <TableCell>
-                                                    <div className="flex items-center gap-3">
-                                                        <Avatar className="w-8 h-8 border-2 border-white shadow-sm">
-                                                            <AvatarImage src={entry.avatar_url || undefined} alt={entry.username} />
-                                                            <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
-                                                                {entry.username.slice(0, 2).toUpperCase()}
-                                                            </AvatarFallback>
-                                                        </Avatar>
-                                                        <span className={`font-bold ${index < 3 ? 'text-white' : 'text-white/90'}`}>
-                                                            {entry.username}
-                                                        </span>
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell className="text-center">
-                                                    <span className={`font-black text-xl ${index === 0 ? 'text-yellow-600' : 'text-primary'
-                                                        }`}>
-                                                        {entry.weighted_score.toFixed(1)}
-                                                    </span>
-                                                </TableCell>
-                                                <TableCell className="text-center hidden md:table-cell">
-                                                    <div className="flex items-center justify-center gap-1">
-                                                        <span className="font-semibold text-white">
-                                                            {(entry.average_ratio * 10).toFixed(1)}
-                                                        </span>
-                                                        <span className="text-xs text-white/70">/10</span>
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell className="text-center text-white hidden sm:table-cell">
-                                                    {entry.games_played}
-                                                </TableCell>
-                                                <TableCell className="text-center hidden lg:table-cell">
-                                                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
-                                                        {entry.best_score}/10
-                                                    </span>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            )}
-                        </CardContent>
-                    </Card>
-
-
-
+            <div className="max-w-[1056px] w-full mx-auto py-32 px-6 sm:px-8 xl:px-0 flex-1">
+                <div className="text-center mb-28">
+                    <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                        Classement Mondial
+                    </h1>
+                    <p className="text-white text-lg mb-2">
+                        Les meilleurs explorateurs de GeoMaster
+                    </p>
                 </div>
+
+                <Card className="shadow-2xl border-none overflow-hidden bg-black/40 backdrop-blur-md border border-white/10 text-white rounded-[32px]">
+                    <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white pt-10 pb-8 rounded-t-[32px]">
+                        <div className="flex items-center gap-3">
+                            <Trophy className="w-8 h-8" />
+                            <div>
+                                <CardTitle className="text-2xl">Top 20 Explorateurs</CardTitle>
+                                <p className="text-white/90 text-sm mt-1">
+                                    Classement équilibré : qualité + expérience
+                                </p>
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                        {loading ? (
+                            <div className="flex justify-center p-20">
+                                <Loader2 className="w-10 h-10 animate-spin text-primary" />
+                            </div>
+                        ) : entries.length === 0 ? (
+                            <div className="text-center p-20 text-slate-400">
+                                Aucun explorateur enregistré pour le moment. Soyez le premier !
+                            </div>
+                        ) : (
+                            <Table>
+                                <TableHeader className="bg-white/5 text-white border-b-0">
+                                    <TableRow className="border-none hover:bg-transparent">
+                                        <TableHead className="w-16 text-center font-bold text-white">Rang</TableHead>
+                                        <TableHead className="font-bold text-white">Explorateur</TableHead>
+                                        <TableHead className="text-center font-bold text-white">
+                                            <div className="flex items-center justify-center gap-1">
+                                                <Star className="w-4 h-4" />
+                                                Score
+                                            </div>
+                                        </TableHead>
+                                        <TableHead className="text-center font-bold hidden md:table-cell text-white">
+                                            <div className="flex items-center justify-center gap-1">
+                                                <Target className="w-4 h-4" />
+                                                Moyenne
+                                            </div>
+                                        </TableHead>
+                                        <TableHead className="text-center font-bold hidden sm:table-cell text-white">Parties</TableHead>
+                                        <TableHead className="text-center font-bold hidden lg:table-cell text-white">Record</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {entries.map((entry, index) => (
+                                        <TableRow
+                                            key={index}
+                                            className={`border-none hover:bg-white/5 transition-colors ${index === 0 ? 'bg-white/10' : ''}`}
+                                        >
+                                            <TableCell className="text-center">
+                                                {index === 0 ? (
+                                                    <Medal className="w-7 h-7 text-yellow-500 mx-auto drop-shadow" />
+                                                ) : index === 1 ? (
+                                                    <Medal className="w-6 h-6 text-slate-400 mx-auto" />
+                                                ) : index === 2 ? (
+                                                    <Medal className="w-6 h-6 text-amber-600 mx-auto" />
+                                                ) : (
+                                                    <span className="font-bold text-white">{index + 1}</span>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-3">
+                                                    <Avatar className="w-8 h-8 border-2 border-white shadow-sm">
+                                                        <AvatarImage src={entry.avatar_url || undefined} alt={entry.username} />
+                                                        <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                                                            {entry.username.slice(0, 2).toUpperCase()}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <span className={`font-bold ${index < 3 ? 'text-white' : 'text-white/90'}`}>
+                                                        {entry.username}
+                                                    </span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <span className={`font-black text-xl ${index === 0 ? 'text-yellow-600' : 'text-primary'
+                                                    }`}>
+                                                    {entry.weighted_score.toFixed(1)}
+                                                </span>
+                                            </TableCell>
+                                            <TableCell className="text-center hidden md:table-cell">
+                                                <div className="flex items-center justify-center gap-1">
+                                                    <span className="font-semibold text-white">
+                                                        {(entry.average_ratio * 10).toFixed(1)}
+                                                    </span>
+                                                    <span className="text-xs text-white/70">/10</span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="text-center text-white hidden sm:table-cell">
+                                                {entry.games_played}
+                                            </TableCell>
+                                            <TableCell className="text-center hidden lg:table-cell">
+                                                <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                                                    {entry.best_score}/10
+                                                </span>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        )}
+                    </CardContent>
+                </Card>
+
+
+
+
             </div>
             <Footer />
         </div>
