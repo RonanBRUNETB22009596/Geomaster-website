@@ -14,7 +14,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Globe, User, LogOut, Settings, Trophy, ShieldAlert } from "lucide-react"
+import { Globe, User, LogOut, Settings, Trophy, ShieldAlert, Languages } from "lucide-react"
+import { useI18n } from "@/lib/i18n"
 
 export function NavBar() {
     const [user, setUser] = useState<any>(null)
@@ -59,6 +60,7 @@ export function NavBar() {
     }
 
     const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
+    const { locale, setLocale, t } = useI18n();
 
     return (
         <nav className="fixed top-[16px] left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-32px)] sm:w-[calc(100%-64px)] max-w-[1056px] h-14 rounded-full border border-white/20 bg-white/10 backdrop-blur-[75px] shadow-2xl transition-all duration-300">
@@ -71,7 +73,17 @@ export function NavBar() {
                 </Link>
 
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                    {/* Language Toggle */}
+                    <button
+                        onClick={() => setLocale(locale === 'fr' ? 'en' : 'fr')}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[11px] font-bold text-white/80 hover:text-white bg-white/10 hover:bg-white/20 transition-all border border-white/10 uppercase tracking-wider"
+                        title={locale === 'fr' ? 'Switch to English' : 'Passer en Français'}
+                    >
+                        <Languages className="w-3.5 h-3.5" />
+                        {locale === 'fr' ? 'EN' : 'FR'}
+                    </button>
+
                     {user ? (
                         <DropdownMenu modal={false}>
                             <DropdownMenuTrigger asChild>
@@ -87,7 +99,7 @@ export function NavBar() {
                             <DropdownMenuContent className="w-56 mt-4 rounded-3xl" align="end" forceMount>
                                 <DropdownMenuLabel className="font-normal">
                                     <div className="flex flex-col space-y-1">
-                                        <p className="text-sm font-bold leading-none">{profile?.username || "Mon Compte"}</p>
+                                        <p className="text-sm font-bold leading-none">{profile?.username || t('nav.my_account')}</p>
                                         <p className="text-xs leading-none text-muted-foreground">
                                             {user.email}
                                         </p>
@@ -100,7 +112,7 @@ export function NavBar() {
                                         <DropdownMenuItem asChild>
                                             <Link href="/admin" className="cursor-pointer rounded-xl text-emerald-600 focus:text-emerald-700 font-medium">
                                                 <ShieldAlert className="mr-2 h-4 w-4" />
-                                                Administration
+                                                {t('nav.admin')}
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
@@ -110,13 +122,13 @@ export function NavBar() {
                                 <DropdownMenuItem asChild>
                                     <Link href="/dashboard" className="cursor-pointer rounded-xl">
                                         <User className="mr-2 h-4 w-4" />
-                                        Tableau de bord
+                                        {t('nav.dashboard')}
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <Link href="/settings" className="cursor-pointer rounded-xl">
                                         <Settings className="mr-2 h-4 w-4" />
-                                        Paramètres
+                                        {t('nav.settings')}
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
@@ -128,17 +140,17 @@ export function NavBar() {
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem onClick={handleSignOut} className="text-red-600 focus:text-red-600 cursor-pointer rounded-xl">
                                     <LogOut className="mr-2 h-4 w-4" />
-                                    Se déconnecter
+                                    {t('nav.logout')}
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ) : (
                         <Button asChild className="rounded-full px-6 h-9 bg-white text-slate-900 hover:bg-slate-100 font-bold border-none text-sm">
-                            <Link href="/login">Connexion</Link>
+                            <Link href="/login">{t('nav.login')}</Link>
                         </Button>
                     )}
                 </div>
             </div>
-        </nav >
+        </nav>
     )
 }

@@ -107,10 +107,7 @@ export default function Home() {
             <BorderBeam duration={8} size={100} colorFrom="#ffffff" colorTo="#ffffff" />
           </div>
 
-          {/* ... */}
-          <div className="mb-8">
-            <StreakBadge size="lg" />
-          </div>
+
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
@@ -135,6 +132,11 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Choisissez votre défi</h2>
             <p className="text-slate-300 text-lg">Sélectionnez une région pour tester vos connaissances géographiques.</p>
+          </div>
+
+          {/* Streak Badge */}
+          <div className="flex justify-center mb-10">
+            <StreakBadge size="lg" />
           </div>
 
           <div className="flex flex-wrap justify-center gap-12 max-w-[1056px] mx-auto">
