@@ -232,16 +232,16 @@ export default function LoginPage() {
                             {isSignUp && (
                                 <div className="flex flex-wrap gap-2 mt-2 px-2">
                                     <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.minLength ? "text-green-600" : "text-gray-400"}`}>
-                                        ● 8 car.
+                                        ● {t('login.password_min')}
                                     </span>
                                     <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasUpper ? "text-green-600" : "text-gray-400"}`}>
-                                        ● Maj.
+                                        ● {t('login.password_upper')}
                                     </span>
                                     <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasNumber ? "text-green-600" : "text-gray-400"}`}>
-                                        ● Chiffre
+                                        ● {t('login.password_number')}
                                     </span>
                                     <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasSpecial ? "text-green-600" : "text-gray-400"}`}>
-                                        ● Symbole
+                                        ● {t('login.password_special')}
                                     </span>
                                 </div>
                             )}
@@ -252,7 +252,7 @@ export default function LoginPage() {
                         <div className="w-full flex items-center justify-between mt-8 text-gray-300/80">
                             <div className="flex items-center gap-2">
                                 <input className="h-5 accent-indigo-500" type="checkbox" id="checkbox" />
-                                <label className="text-sm" htmlFor="checkbox">Se souvenir de moi</label>
+                                <label className="text-sm" htmlFor="checkbox">{t('login.remember_me')}</label>
                             </div>
                             <button
                                 type="button"
@@ -299,10 +299,10 @@ export default function LoginPage() {
                     )}
 
                     <Link href="/" className="mt-8 text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1">
-                        ← Retour à l'accueil
+                        {t('login.back_home')}
                     </Link>
                 </form>
             </div>
-        </div>
+        </div >
     )
 }

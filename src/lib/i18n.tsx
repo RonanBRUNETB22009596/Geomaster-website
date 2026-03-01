@@ -137,6 +137,8 @@ const translations: Record<Locale, Record<string, string>> = {
         "login.password_upper": "1 majuscule",
         "login.password_number": "1 chiffre",
         "login.password_special": "1 caractère spécial",
+        "login.remember_me": "Se souvenir de moi",
+        "login.back_home": "← Retour à l'accueil",
 
         // Contact
         "contact.title": "Contactez-nous",
@@ -317,6 +319,8 @@ const translations: Record<Locale, Record<string, string>> = {
         "login.password_upper": "1 uppercase letter",
         "login.password_number": "1 number",
         "login.password_special": "1 special character",
+        "login.remember_me": "Remember me",
+        "login.back_home": "← Back to home",
 
         // Contact
         "contact.title": "Contact us",

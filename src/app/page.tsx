@@ -18,7 +18,7 @@ const TiltedCard = dynamic(() => import("@/components/TiltedCard"), { ssr: false
 const SplitText = dynamic(() => import("@/components/SplitText"), { ssr: false })
 
 export default function Home() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [heroTitle, setHeroTitle] = useState("")
   const [heroSubtitle, setHeroSubtitle] = useState("")
   const [maintenanceMode, setMaintenanceMode] = useState(false)
@@ -92,19 +92,19 @@ export default function Home() {
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-center">
           <SplitText
-            text={heroTitle || t('hero.title')}
+            text={locale === 'en' ? t('hero.title') : (heroTitle || t('hero.title'))}
             className="text-4xl md:text-7xl font-black text-white mb-8 max-w-4xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]"
             delay={40}
             duration={0.8}
             ease="power4.out"
-            key={heroTitle} // re-render on title change
+            key={`${heroTitle}-${locale}`} // re-render on title or locale change
             from={{ opacity: 0, y: 50, rotateX: -40 }}
             to={{ opacity: 1, y: 0, rotateX: 0 }}
           />
 
           <div className="relative mb-6 max-w-2xl rounded-2xl overflow-hidden bg-black/40 backdrop-blur-md border border-white/10">
             <p className="text-lg md:text-xl text-white/90 p-4">
-              {heroSubtitle || t('hero.subtitle')}
+              {locale === 'en' ? t('hero.subtitle') : (heroSubtitle || t('hero.subtitle'))}
             </p>
             <BorderBeam duration={8} size={100} colorFrom="#ffffff" colorTo="#ffffff" />
           </div>
