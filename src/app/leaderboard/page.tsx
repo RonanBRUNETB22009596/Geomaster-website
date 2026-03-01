@@ -105,7 +105,7 @@ export default function LeaderboardPage() {
                                             </div>
                                         </TableHead>
                                         <TableHead className="text-center font-bold hidden sm:table-cell text-white">{t('leaderboard.games')}</TableHead>
-                                        <TableHead className="text-center font-bold hidden lg:table-cell text-white">{t('leaderboard.record')}</TableHead>
+
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -155,11 +155,7 @@ export default function LeaderboardPage() {
                                             <TableCell className="text-center text-white hidden sm:table-cell">
                                                 {entry.games_played}
                                             </TableCell>
-                                            <TableCell className="text-center hidden lg:table-cell">
-                                                <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
-                                                    {entry.best_score}/10
-                                                </span>
-                                            </TableCell>
+
                                         </TableRow>
                                     ))}
                                 </TableBody>
