@@ -173,7 +173,7 @@ export default function LoginPage() {
 
                             <div className="flex items-center gap-4 w-full my-5">
                                 <div className="w-full h-px bg-gray-300/90"></div>
-                                <p className="w-full text-nowrap text-sm text-gray-300/90">ou via email</p>
+                                <p className="whitespace-nowrap text-sm text-gray-300/90">ou via email</p>
                                 <div className="w-full h-px bg-gray-300/90"></div>
                             </div>
                         </>

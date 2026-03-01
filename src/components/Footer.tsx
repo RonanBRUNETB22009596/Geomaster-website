@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Globe, Github, Linkedin, Mail } from "lucide-react"
@@ -35,7 +37,7 @@ export function Footer() {
                     <div>
                         <h4 className="text-white font-semibold mb-6 uppercase text-xs tracking-wider">Navigation</h4>
                         <ul className="space-y-3 text-sm">
-                            <li><Link href="/" className="hover:text-primary transition-colors">Accueil</Link></li>
+                            <li><Link href="/" onClick={(e) => { if (window.location.pathname === '/') { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }} className="hover:text-primary transition-colors">Accueil</Link></li>
                             <li><Link href="/#categories" className="hover:text-primary transition-colors">Démarrer un Quiz</Link></li>
                             <li><Link href="/dashboard" className="hover:text-primary transition-colors">Mon Tableau de Bord</Link></li>
                             <li><Link href="/login" className="hover:text-primary transition-colors">Connexion / Inscription</Link></li>
