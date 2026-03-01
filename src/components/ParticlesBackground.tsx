@@ -9,7 +9,7 @@ export function ParticlesBackground() {
         <div className="fixed inset-0 z-[1] pointer-events-none blur-[3px]" style={{ width: '100vw', height: '100vh' }}>
             <Particles
                 particleColors={["#ffffff"]}
-                particleCount={800}
+                particleCount={300}
                 particleSpread={10}
                 speed={0.1}
                 particleBaseSize={100}
@@ -19,7 +19,7 @@ export function ParticlesBackground() {
                 sizeRandomness={1}
                 cameraDistance={20}
                 particleHoverFactor={1}
-                pixelRatio={2}
+                pixelRatio={1}
             />
         </div>
     )
