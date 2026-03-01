@@ -205,7 +205,7 @@ export default function LoginPage() {
                             </svg>
                             <input
                                 type="text"
-                                placeholder="Code (6 chiffres)"
+                                placeholder={t('login.code_placeholder')}
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value)}
                                 className="bg-transparent text-gray-300/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
