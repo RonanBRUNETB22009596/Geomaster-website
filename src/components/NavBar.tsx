@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -63,8 +64,8 @@ export function NavBar() {
         <nav className="fixed top-[16px] left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-64px)] max-w-5xl h-14 rounded-full border border-white/20 bg-white/10 backdrop-blur-[75px] shadow-2xl transition-all duration-300">
             <div className="flex h-full items-center justify-between px-8">
                 <Link href="/" className="flex items-center gap-2 font-bold text-lg text-slate-900">
-                    <div className="bg-white p-1.5 rounded-full shadow-sm">
-                        <Globe className="h-5 w-5 text-primary" />
+                    <div className="bg-white p-1 rounded-full shadow-sm flex items-center justify-center w-8 h-8">
+                        <Image src="/logo.png" alt="GeoMaster" width={24} height={24} className="rounded-full object-contain" />
                     </div>
                     <span className="text-white drop-shadow-md hidden sm:inline">GeoMaster</span>
                 </Link>

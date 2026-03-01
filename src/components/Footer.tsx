@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Globe, Github, Linkedin, Mail } from "lucide-react"
 
 export function Footer() {
@@ -9,7 +10,9 @@ export function Footer() {
                     {/* Brand Section */}
                     <div className="col-span-1 sm:col-span-2 lg:col-span-1">
                         <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl mb-4">
-                            <Globe className="w-6 h-6 text-primary" />
+                            <div className="bg-white p-1 rounded-full shadow-sm flex items-center justify-center w-8 h-8">
+                                <Image src="/logo.png" alt="GeoMaster" width={24} height={24} className="rounded-full object-contain" />
+                            </div>
                             <span>GeoMaster</span>
                         </Link>
                         <p className="text-sm text-slate-400 leading-relaxed mb-6">
