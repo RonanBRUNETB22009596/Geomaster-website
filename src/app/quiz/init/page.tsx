@@ -11,17 +11,19 @@ import dynamic from "next/dynamic"
 const BounceCards = dynamic(() => import("@/components/BounceCards"), { ssr: false })
 import { StreakBadge } from "@/components/StreakBadge"
 import { Footer } from "@/components/Footer"
+import { useI18n } from "@/lib/i18n"
 
 function DifficultyContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const category = searchParams.get('category') || 'World'
+    const { t } = useI18n()
 
     const levels = [
         {
             id: 'Beginner',
-            name: 'Débutant',
-            description: 'Les pays les plus connus et leurs capitales emblématiques.',
+            name: t('difficulty.beginner'),
+            description: t('difficulty.beginner_desc'),
             icon: ShieldCheck,
             color: 'text-emerald-500',
             bg: 'bg-emerald-500/200/10',
@@ -29,8 +31,8 @@ function DifficultyContent() {
         },
         {
             id: 'Intermediate',
-            name: 'Intermédiaire',
-            description: 'Un défi plus relevé avec des pays moins familiers.',
+            name: t('difficulty.intermediate'),
+            description: t('difficulty.intermediate_desc'),
             icon: Shield,
             color: 'text-amber-500',
             bg: 'bg-amber-500/10',
@@ -38,8 +40,8 @@ function DifficultyContent() {
         },
         {
             id: 'Professional',
-            name: 'Professionnel',
-            description: 'Le test ultime pour les vrais experts de la géographie.',
+            name: t('difficulty.professional'),
+            description: t('difficulty.professional_desc'),
             icon: ShieldAlert,
             color: 'text-rose-500',
             bg: 'bg-rose-500/10',
@@ -57,11 +59,11 @@ function DifficultyContent() {
     return (
         <div className="max-w-[1056px] w-full mx-auto px-6 sm:px-8 xl:px-0 py-32 flex flex-col items-center">
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4 text-center">
-                Choisissez votre défi
+                {t('difficulty.title')}
             </h1>
             <p className="text-slate-300 text-lg mb-6 text-center max-w-2xl">
-                Catégorie : <span className="font-bold text-primary">{category}</span>.
-                Sélectionnez un niveau de difficulté pour commencer votre aventure.
+                {t('difficulty.category_label')} : <span className="font-bold text-primary">{category}</span>.
+                {' '}{t('difficulty.select_level')}
             </p>
 
             {/* Streak Badge */}
@@ -97,7 +99,7 @@ function DifficultyContent() {
                                 variant="outline"
                                 className={`w-full bg-white text-black hover:bg-primary hover:text-white group-hover:bg-primary group-hover:text-white transition-colors border-none`}
                             >
-                                Commencer
+                                {t('difficulty.start')}
                             </Button>
                         </CardContent>
                     </Card>
@@ -108,7 +110,7 @@ function DifficultyContent() {
                 onClick={() => router.push('/#categories')}
                 className="mt-12 text-slate-400 hover:text-slate-200 transition-colors uppercase tracking-widest text-xs font-bold"
             >
-                ← Retour aux régions
+                {t('difficulty.back')}
             </button>
         </div>
     )

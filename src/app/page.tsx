@@ -11,14 +11,16 @@ import { Footer } from "@/components/Footer"
 import { StreakBadge } from "@/components/StreakBadge"
 import { supabase } from "@/lib/supabase"
 import { AlertTriangle, Clock } from "lucide-react"
+import { useI18n } from "@/lib/i18n"
 
 const DottedMap = dynamic(() => import("@/components/ui/dotted-map").then(m => ({ default: m.DottedMap })), { ssr: false })
 const TiltedCard = dynamic(() => import("@/components/TiltedCard"), { ssr: false })
 const SplitText = dynamic(() => import("@/components/SplitText"), { ssr: false })
 
 export default function Home() {
-  const [heroTitle, setHeroTitle] = useState("Devenez un pro de la géo")
-  const [heroSubtitle, setHeroSubtitle] = useState("Testez vos connaissances sur les capitales, drapeaux, et populations avec notre quiz interactif de 10 questions.")
+  const { t } = useI18n()
+  const [heroTitle, setHeroTitle] = useState("")
+  const [heroSubtitle, setHeroSubtitle] = useState("")
   const [maintenanceMode, setMaintenanceMode] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -90,7 +92,7 @@ export default function Home() {
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-center">
           <SplitText
-            text={heroTitle}
+            text={heroTitle || t('hero.title')}
             className="text-4xl md:text-7xl font-black text-white mb-8 max-w-4xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]"
             delay={40}
             duration={0.8}
@@ -102,7 +104,7 @@ export default function Home() {
 
           <div className="relative mb-6 max-w-2xl rounded-2xl overflow-hidden bg-black/40 backdrop-blur-md border border-white/10">
             <p className="text-lg md:text-xl text-white/90 p-4">
-              {heroSubtitle}
+              {heroSubtitle || t('hero.subtitle')}
             </p>
             <BorderBeam duration={8} size={100} colorFrom="#ffffff" colorTo="#ffffff" />
           </div>
@@ -117,10 +119,10 @@ export default function Home() {
                 document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Commencer le Quiz
+              {t('hero.start_quiz')}
             </Button>
             <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 rounded-[180px] bg-white text-black font-bold border-none hover:bg-slate-100 transition-colors shadow-lg hover:shadow-xl">
-              <Link href="/leaderboard">Leaderboard</Link>
+              <Link href="/leaderboard">{t('hero.leaderboard')}</Link>
             </Button>
           </div>
         </div>
@@ -130,8 +132,8 @@ export default function Home() {
       <section id="categories" className="py-24 bg-transparent relative z-10 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Choisissez votre défi</h2>
-            <p className="text-slate-300 text-lg">Sélectionnez une région pour tester vos connaissances géographiques.</p>
+            <h2 className="text-4xl font-black text-white mb-4 tracking-tight">{t('categories.title')}</h2>
+            <p className="text-slate-300 text-lg">{t('categories.subtitle')}</p>
           </div>
 
           {/* Streak Badge */}
@@ -144,8 +146,8 @@ export default function Home() {
             <Link href="/quiz/init?category=World">
               <TiltedCard
                 imageSrc="/images/world.png"
-                altText="Quiz Monde"
-                captionText="Quiz - Monde"
+                altText={t('categories.world')}
+                captionText={t('categories.world')}
                 containerHeight="380px"
                 containerWidth="320px"
                 imageHeight="380px"
@@ -155,8 +157,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black text-white">Monde Entier</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">{t('categories.label')}</p>
+                    <h3 className="text-2xl font-black text-white">{t('categories.world').replace('Quiz - ', '')}</h3>
                   </div>
                 }
               />
@@ -166,8 +168,8 @@ export default function Home() {
             <Link href="/quiz/init?category=Europe">
               <TiltedCard
                 imageSrc="/images/europe.png"
-                altText="Quiz Europe"
-                captionText="Quiz - Europe"
+                altText={t('categories.europe')}
+                captionText={t('categories.europe')}
                 containerHeight="380px"
                 containerWidth="320px"
                 imageHeight="380px"
@@ -177,7 +179,7 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">{t('categories.label')}</p>
                     <h3 className="text-2xl font-black text-white">Europe</h3>
                   </div>
                 }
@@ -188,8 +190,8 @@ export default function Home() {
             <Link href="/quiz/init?category=Americas">
               <TiltedCard
                 imageSrc="/images/americas.png"
-                altText="Quiz Amériques"
-                captionText="Quiz - Amériques"
+                altText={t('categories.americas')}
+                captionText={t('categories.americas')}
                 containerHeight="380px"
                 containerWidth="320px"
                 imageHeight="380px"
@@ -199,8 +201,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black text-white">Amériques</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">{t('categories.label')}</p>
+                    <h3 className="text-2xl font-black text-white">{t('categories.americas').replace('Quiz - ', '')}</h3>
                   </div>
                 }
               />
@@ -210,8 +212,8 @@ export default function Home() {
             <Link href="/quiz/init?category=Asia">
               <TiltedCard
                 imageSrc="/images/asia.png"
-                altText="Quiz Asie"
-                captionText="Quiz - Asie"
+                altText={t('categories.asia')}
+                captionText={t('categories.asia')}
                 containerHeight="380px"
                 containerWidth="320px"
                 imageHeight="380px"
@@ -221,8 +223,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black text-white">Asie</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">{t('categories.label')}</p>
+                    <h3 className="text-2xl font-black text-white">{t('categories.asia').replace('Quiz - ', '')}</h3>
                   </div>
                 }
               />
@@ -232,8 +234,8 @@ export default function Home() {
             <Link href="/quiz/init?category=Africa">
               <TiltedCard
                 imageSrc="/images/africa.png"
-                altText="Quiz Afrique"
-                captionText="Quiz - Afrique"
+                altText={t('categories.africa')}
+                captionText={t('categories.africa')}
                 containerHeight="380px"
                 containerWidth="320px"
                 imageHeight="380px"
@@ -243,8 +245,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black text-white">Afrique</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">{t('categories.label')}</p>
+                    <h3 className="text-2xl font-black text-white">{t('categories.africa').replace('Quiz - ', '')}</h3>
                   </div>
                 }
               />
@@ -254,8 +256,8 @@ export default function Home() {
             <Link href="/quiz/init?category=Oceania">
               <TiltedCard
                 imageSrc="/images/oceania.png"
-                altText="Quiz Océanie"
-                captionText="Quiz - Océanie"
+                altText={t('categories.oceania')}
+                captionText={t('categories.oceania')}
                 containerHeight="380px"
                 containerWidth="320px"
                 imageHeight="380px"
@@ -265,8 +267,8 @@ export default function Home() {
                 displayOverlayContent
                 overlayContent={
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-widest text-white font-bold">Catégorie</p>
-                    <h3 className="text-2xl font-black text-white">Océanie</h3>
+                    <p className="text-xs uppercase tracking-widest text-white font-bold">{t('categories.label')}</p>
+                    <h3 className="text-2xl font-black text-white">{t('categories.oceania').replace('Quiz - ', '')}</h3>
                   </div>
                 }
               />

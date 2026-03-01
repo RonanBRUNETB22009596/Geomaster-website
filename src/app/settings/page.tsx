@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import { User, ShieldAlert, Trash2, Camera, Loader2, Check, Upload } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRef } from "react"
+import { useI18n } from "@/lib/i18n"
 
 export default function SettingsPage() {
     const [user, setUser] = useState<any>(null)
@@ -28,6 +29,7 @@ export default function SettingsPage() {
 
     const fileInputRef = useRef<HTMLInputElement>(null)
     const router = useRouter()
+    const { t } = useI18n()
 
     useEffect(() => {
         async function loadData() {
@@ -176,15 +178,15 @@ export default function SettingsPage() {
                     <div className="p-2.5 bg-primary/10 rounded-xl">
                         <User className="h-6 w-6 text-primary" />
                     </div>
-                    <h1 className="text-3xl font-black text-white">Paramètres</h1>
+                    <h1 className="text-3xl font-black text-white">{t('settings.title')}</h1>
                 </div>
 
                 <div className="space-y-6">
                     {/* Profile Section */}
                     <Card className="shadow-sm border-none bg-black/40 backdrop-blur-md border border-white/10 text-white">
                         <CardHeader>
-                            <CardTitle>Profil</CardTitle>
-                            <CardDescription className="text-slate-300">Personnalisez votre apparence sur GeoMaster.</CardDescription>
+                            <CardTitle>{t('settings.profile')}</CardTitle>
+                            <CardDescription className="text-slate-300">{t('settings.profile_desc')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={handleUpdateProfile} className="space-y-6">
@@ -214,7 +216,7 @@ export default function SettingsPage() {
                                     </div>
                                     <div className="flex-1 w-full space-y-4">
                                         <div className="space-y-1">
-                                            <h3 className="font-bold text-white">Photo de profil</h3>
+                                            <h3 className="font-bold text-white">{t('settings.avatar')}</h3>
                                             <p className="text-sm text-slate-300">Cliquez sur l'avatar pour modifier l'image (JPG, PNG, max 2Mo).</p>
                                         </div>
                                         <Button
@@ -226,14 +228,14 @@ export default function SettingsPage() {
                                             disabled={uploading}
                                         >
                                             {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-                                            Choisir un fichier
+                                            {t('settings.change_avatar')}
                                         </Button>
                                     </div>
                                 </div>
 
                                 <div className="space-y-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="username" className="text-white">Pseudonyme</Label>
+                                        <Label htmlFor="username" className="text-white">{t('settings.username')}</Label>
                                         <Input
                                             id="username"
                                             placeholder="Ex: ExplorateurGeo"
@@ -247,8 +249,8 @@ export default function SettingsPage() {
                                         <Input value={user.email} disabled className="bg-white/5 opacity-60 text-white border-white/10" />
                                     </div>
                                     <div className="space-y-2 pt-4 border-t border-white/10 mt-4">
-                                        <h4 className="font-bold text-white text-sm mb-4">Sécurité</h4>
-                                        <Label htmlFor="password" className="text-white">Nouveau mot de passe</Label>
+                                        <h4 className="font-bold text-white text-sm mb-4">{t('settings.security')}</h4>
+                                        <Label htmlFor="password" className="text-white">{t('settings.new_password')}</Label>
                                         <Input
                                             id="password"
                                             type="password"
@@ -262,7 +264,7 @@ export default function SettingsPage() {
 
                                 <Button type="submit" className="w-full sm:w-auto" disabled={updating}>
                                     {updating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Check className="mr-2 h-4 w-4" />}
-                                    Enregistrer les modifications
+                                    {t('settings.save')}
                                 </Button>
                             </form>
                         </CardContent>
@@ -273,17 +275,17 @@ export default function SettingsPage() {
                         <CardHeader>
                             <div className="flex items-center gap-2 text-red-500">
                                 <ShieldAlert className="h-5 w-5" />
-                                <CardTitle className="text-lg">Zone de danger</CardTitle>
+                                <CardTitle className="text-lg">{t('settings.danger_zone')}</CardTitle>
                             </div>
                             <CardDescription className="text-red-400">
-                                Ces actions ont des conséquences permanentes sur votre compte.
+                                {t('settings.danger_desc')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-black/40 backdrop-blur-md border border-red-500/30 text-white">
                                 <div>
-                                    <h3 className="font-bold text-white">Supprimer mon compte</h3>
-                                    <p className="text-sm text-slate-300">Suppression définitive de votre compte et de vos scores.</p>
+                                    <h3 className="font-bold text-white">{t('settings.delete_account')}</h3>
+                                    <p className="text-sm text-slate-300">{t('settings.confirm_delete')}</p>
                                 </div>
                                 <Button
                                     variant="destructive"
@@ -292,7 +294,7 @@ export default function SettingsPage() {
                                     disabled={deleting}
                                 >
                                     {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
-                                    Supprimer le compte
+                                    {t('settings.delete_account')}
                                 </Button>
                             </div>
                         </CardContent>

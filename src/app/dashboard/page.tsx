@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button"
 import { Loader2, Trophy, Target, TrendingUp, Flame, BarChart3, ChevronDown, ChevronUp } from "lucide-react"
 import { Footer } from "@/components/Footer"
+import { useI18n } from "@/lib/i18n"
 import dynamic from "next/dynamic"
 
 const ContinentMasteryMap = dynamic(() => import("@/components/ContinentMasteryMap").then(m => ({ default: m.ContinentMasteryMap })), {
@@ -23,6 +24,7 @@ export default function DashboardPage() {
     const [streak, setStreak] = useState(0)
     const [streakWarning, setStreakWarning] = useState(0)
     const [showAll, setShowAll] = useState(false)
+    const { t, locale } = useI18n()
 
     useEffect(() => {
         async function fetchData() {
@@ -88,8 +90,8 @@ export default function DashboardPage() {
                         <BarChart3 className="h-7 w-7 text-primary" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-black text-white">Tableau de bord</h1>
-                        <p className="text-sm text-slate-300">Vos statistiques et votre progression</p>
+                        <h1 className="text-3xl font-black text-white">{t('dashboard.title')}</h1>
+                        <p className="text-sm text-slate-300">{t('dashboard.subtitle')}</p>
                     </div>
                 </div>
 
@@ -99,7 +101,7 @@ export default function DashboardPage() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Parties</p>
+                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t('dashboard.games')}</p>
                                     <p className="text-3xl font-black text-white mt-1">{loading ? "..." : scores.length}</p>
                                 </div>
                                 <div className="p-3 bg-blue-500/20 rounded-xl">
@@ -113,7 +115,7 @@ export default function DashboardPage() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Meilleur score</p>
+                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t('dashboard.best_score')}</p>
                                     <p className="text-3xl font-black text-emerald-600 mt-1">{loading ? "..." : best}/10</p>
                                 </div>
                                 <div className="p-3 bg-emerald-500/20 rounded-xl">
@@ -127,7 +129,7 @@ export default function DashboardPage() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Moyenne</p>
+                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t('dashboard.average')}</p>
                                     <p className="text-3xl font-black text-blue-600 mt-1">{loading ? "..." : avg}</p>
                                 </div>
                                 <div className="p-3 bg-purple-500/20 rounded-xl">
@@ -142,14 +144,14 @@ export default function DashboardPage() {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                        Streak 🔥
+                                        {t('dashboard.streak')}
                                         {streakWarning > 0 && <span className="ml-1 text-orange-500">⚠️</span>}
                                     </p>
                                     <p className={`text-3xl font-black mt-1 ${streak > 0 ? 'text-orange-500' : 'text-slate-300'}`}>
                                         {loading ? "..." : streak}
                                     </p>
                                     {streakWarning > 0 && (
-                                        <p className="text-[10px] text-orange-500 mt-1">{streakWarning}/6 strikes</p>
+                                        <p className="text-[10px] text-orange-500 mt-1">{streakWarning}/6 {t('dashboard.strikes')}</p>
                                     )}
                                 </div>
                                 <div className="p-3 bg-orange-500/20 rounded-xl">
@@ -164,9 +166,9 @@ export default function DashboardPage() {
                 <Card className="mb-8 bg-black border-white/10 shadow-xl text-white">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-lg">
-                            🌍 Carte de Maîtrise
+                            {t('dashboard.mastery_map')}
                             <span className="text-sm font-normal text-slate-400">
-                                100 scores de 8+/10 par continent pour débloquer
+                                {t('dashboard.mastery_desc')}
                             </span>
                         </CardTitle>
                     </CardHeader>
@@ -182,29 +184,29 @@ export default function DashboardPage() {
                 {/* History */}
                 <Card className="bg-black border-white/10 shadow-xl text-white">
                     <CardHeader>
-                        <CardTitle className="text-lg">Historique des parties</CardTitle>
+                        <CardTitle className="text-lg">{t('dashboard.history')}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         {loading ? (
                             <div className="flex justify-center p-8"><Loader2 className="animate-spin text-primary" /></div>
                         ) : scores.length === 0 ? (
-                            <div className="text-center p-8 text-slate-400">Aucune partie jouée pour le moment.</div>
+                            <div className="text-center p-8 text-slate-400">{t('dashboard.no_games')}</div>
                         ) : (
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="border-white/10 bg-white/5">
-                                            <TableHead className="font-bold text-slate-400">Date</TableHead>
-                                            <TableHead className="font-bold text-slate-400">Catégorie</TableHead>
-                                            <TableHead className="font-bold text-slate-400">Score</TableHead>
-                                            <TableHead className="font-bold text-slate-400">Note</TableHead>
+                                            <TableHead className="font-bold text-slate-400">{t('dashboard.date')}</TableHead>
+                                            <TableHead className="font-bold text-slate-400">{t('dashboard.category')}</TableHead>
+                                            <TableHead className="font-bold text-slate-400">{t('dashboard.score')}</TableHead>
+                                            <TableHead className="font-bold text-slate-400">{t('dashboard.grade')}</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {(showAll ? scores : scores.slice(0, 5)).map((score) => (
                                             <TableRow key={score.id} className="border-white/10 hover:bg-white/5">
                                                 <TableCell className="text-sm text-white">
-                                                    {new Date(score.created_at).toLocaleDateString('fr-FR', {
+                                                    {new Date(score.created_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'fr-FR', {
                                                         day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                                                     })}
                                                 </TableCell>
@@ -218,8 +220,8 @@ export default function DashboardPage() {
                                                     <span className={`text-xs font-bold px-2 py-1 rounded-full ${(score.score / score.total) >= 0.8 ? 'bg-green-500/20 text-green-400' :
                                                         (score.score / score.total) >= 0.5 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'
                                                         }`}>
-                                                        {(score.score / score.total) >= 0.8 ? '🏆 Excellent' :
-                                                            (score.score / score.total) >= 0.5 ? '👍 Bien' : '💪 Peut mieux faire'}
+                                                        {(score.score / score.total) >= 0.8 ? t('dashboard.excellent') :
+                                                            (score.score / score.total) >= 0.5 ? t('dashboard.good') : t('dashboard.improve')}
                                                     </span>
                                                 </TableCell>
                                             </TableRow>
@@ -235,9 +237,9 @@ export default function DashboardPage() {
                                             className="text-white hover:bg-white/10 rounded-full group"
                                         >
                                             {showAll ? (
-                                                <>Voir moins <ChevronUp className="ml-2 w-4 h-4 group-hover:-translate-y-1 transition-transform" /></>
+                                                <>{t('dashboard.see_less')} <ChevronUp className="ml-2 w-4 h-4 group-hover:-translate-y-1 transition-transform" /></>
                                             ) : (
-                                                <>Voir plus ({scores.length - 5} autres) <ChevronDown className="ml-2 w-4 h-4 group-hover:translate-y-1 transition-transform" /></>
+                                                <>{t('dashboard.see_more')} ({scores.length - 5} {t('dashboard.others')}) <ChevronDown className="ml-2 w-4 h-4 group-hover:translate-y-1 transition-transform" /></>
                                             )}
                                         </Button>
                                     </div>

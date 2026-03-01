@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import Link from "next/link"
+import { useI18n } from "@/lib/i18n"
 
 export default function LoginPage() {
     const [email, setEmail] = useState("")
@@ -19,6 +20,7 @@ export default function LoginPage() {
     const [showVerify, setShowVerify] = useState(false)
     const [otp, setOtp] = useState("")
     const router = useRouter()
+    const { t } = useI18n()
 
     const handleGoogleLogin = async () => {
         setLoading(true)
@@ -148,16 +150,16 @@ export default function LoginPage() {
 
                 <form onSubmit={showVerify ? handleVerifyOtp : isForgotPassword ? handleResetPassword : handleAuth} className="md:w-96 w-80 flex flex-col items-center justify-center">
                     <h2 className="text-4xl text-white font-medium">
-                        {showVerify ? "Vérification" : isForgotPassword ? "Réinitialisation" : isSignUp ? "Créer un compte" : "Bon retour !"}
+                        {showVerify ? t('login.verification') : isForgotPassword ? t('login.reset') : isSignUp ? t('login.create_account') : t('login.welcome_back')}
                     </h2>
                     <p className="text-sm text-gray-300/90 mt-3 mb-8 text-center">
                         {showVerify
-                            ? "Entrez le code reçu par email."
+                            ? t('login.enter_code')
                             : isForgotPassword
-                                ? "Entrez votre email pour réinitialiser."
+                                ? t('login.enter_email_reset')
                                 : isSignUp
-                                    ? "Inscrivez-vous pour continuer."
-                                    : "Connectez-vous pour continuer."}
+                                    ? t('login.signup_continue')
+                                    : t('login.login_continue')}
                     </p>
 
                     {!isForgotPassword && !showVerify && (
@@ -173,7 +175,7 @@ export default function LoginPage() {
 
                             <div className="flex items-center gap-4 w-full my-5">
                                 <div className="w-full h-px bg-gray-300/90"></div>
-                                <p className="whitespace-nowrap text-sm text-gray-300/90">ou via email</p>
+                                <p className="whitespace-nowrap text-sm text-gray-300/90">{t('login.or_email')}</p>
                                 <div className="w-full h-px bg-gray-300/90"></div>
                             </div>
                         </>
@@ -220,7 +222,7 @@ export default function LoginPage() {
                                 </svg>
                                 <input
                                     type="password"
-                                    placeholder="Mot de passe"
+                                    placeholder={t('login.password')}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="bg-transparent text-gray-300/80 placeholder-gray-500/80 outline-none text-sm w-full h-full pr-4"
@@ -257,7 +259,7 @@ export default function LoginPage() {
                                 onClick={() => setIsForgotPassword(true)}
                                 className="text-sm underline hover:text-indigo-600 transition-colors bg-transparent border-none p-0 cursor-pointer"
                             >
-                                Mot de passe oublié ?
+                                {t('login.forgot_password')}
                             </button>
                         </div>
                     )}
@@ -268,19 +270,19 @@ export default function LoginPage() {
                         className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity disabled:opacity-50"
                     >
                         {loading
-                            ? "Chargement..."
+                            ? t('login.signing_in')
                             : showVerify
-                                ? "Vérifier"
+                                ? t('login.verify')
                                 : isForgotPassword
-                                    ? "Envoyer"
-                                    : isSignUp ? "S'inscrire" : "Se connecter"}
+                                    ? t('login.send_link')
+                                    : isSignUp ? t('login.sign_up') : t('login.sign_in')}
                     </button>
 
                     {!showVerify && (
                         <p className="text-gray-300/90 text-sm mt-4">
                             {isForgotPassword
-                                ? "Retour à la connexion ?"
-                                : isSignUp ? "Déjà un compte ?" : "Pas encore de compte ?"}
+                                ? t('login.back_login')
+                                : isSignUp ? t('login.has_account') : t('login.no_account')}
                             <button
                                 type="button"
                                 onClick={() => {
@@ -290,8 +292,8 @@ export default function LoginPage() {
                                 className="ml-1 text-indigo-400 hover:underline bg-transparent border-none p-0 cursor-pointer"
                             >
                                 {isForgotPassword
-                                    ? "Se connecter"
-                                    : isSignUp ? "Se connecter" : "S'inscrire"}
+                                    ? t('login.login_now')
+                                    : isSignUp ? t('login.login_now') : t('login.signup_now')}
                             </button>
                         </p>
                     )}

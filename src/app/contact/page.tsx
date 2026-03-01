@@ -10,9 +10,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { Mail, Send, MapPin, Phone } from "lucide-react"
+import { useI18n } from "@/lib/i18n"
 
 export default function ContactPage() {
     const [loading, setLoading] = useState(false)
+    const { t } = useI18n()
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -24,7 +26,7 @@ export default function ContactPage() {
         // Open the default email client
         window.location.href = `mailto:brt.ronan@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
 
-        toast.success("Ouverture de votre messagerie...")
+        toast.success(t('contact.opening_email'))
         form.reset()
     }
 
@@ -35,10 +37,10 @@ export default function ContactPage() {
             <div className="flex-1 container mx-auto px-4 py-32 max-w-5xl">
                 <div className="text-center mb-16">
                     <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                        Contactez-nous
+                        {t('contact.title')}
                     </h1>
                     <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-                        Une question, un bug à signaler ou une suggestion d'amélioration ? N'hésitez pas à nous envoyer un message !
+                        {t('contact.subtitle')}
                     </p>
                 </div>
 
@@ -52,7 +54,7 @@ export default function ContactPage() {
                                         <Mail className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-white">Email</h3>
+                                        <h3 className="font-bold text-white">{t('contact.email')}</h3>
                                         <p className="text-sm text-slate-300">brt.ronan@gmail.com</p>
                                     </div>
                                 </div>
@@ -61,7 +63,7 @@ export default function ContactPage() {
                                         <MapPin className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-white">Bureau</h3>
+                                        <h3 className="font-bold text-white">{t('contact.office')}</h3>
                                         <p className="text-sm text-slate-300">Toulouse, France</p>
                                     </div>
                                 </div>
@@ -72,38 +74,38 @@ export default function ContactPage() {
                     {/* Formulaire */}
                     <Card className="md:col-span-2 bg-black/40 backdrop-blur-md border border-white/10 text-white border-none shadow-2xl rounded-[32px]">
                         <CardHeader>
-                            <CardTitle className="text-2xl">Envoyez un message</CardTitle>
+                            <CardTitle className="text-2xl">{t('contact.send_message')}</CardTitle>
                             <CardDescription className="text-slate-300">
-                                Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24h.
+                                {t('contact.form_desc')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label htmlFor="name" className="text-white">Nom complet</Label>
-                                        <Input id="name" required placeholder="Ex: Jean Dupont" className="bg-white/5 border-white/10 text-white" />
+                                        <Label htmlFor="name" className="text-white">{t('contact.full_name')}</Label>
+                                        <Input id="name" required placeholder={t('contact.name_placeholder')} className="bg-white/5 border-white/10 text-white" />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="email" className="text-white">Adresse Email</Label>
-                                        <Input id="email" type="email" required placeholder="Ex: jean@example.com" className="bg-white/5 border-white/10 text-white" />
+                                        <Label htmlFor="email" className="text-white">{t('contact.email_address')}</Label>
+                                        <Input id="email" type="email" required placeholder={t('contact.email_placeholder')} className="bg-white/5 border-white/10 text-white" />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="subject" className="text-white">Sujet</Label>
-                                    <Input id="subject" required placeholder="Ex: Suggestion de nouvelle catégorie" className="bg-white/5 border-white/10 text-white" />
+                                    <Label htmlFor="subject" className="text-white">{t('contact.subject')}</Label>
+                                    <Input id="subject" required placeholder={t('contact.subject_placeholder')} className="bg-white/5 border-white/10 text-white" />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="message" className="text-white">Message</Label>
+                                    <Label htmlFor="message" className="text-white">{t('contact.message')}</Label>
                                     <Textarea
                                         id="message"
                                         required
-                                        placeholder="Comment pouvons-nous vous aider ?"
+                                        placeholder={t('contact.message_placeholder')}
                                         className="min-h-[150px] bg-white/5 border-white/10 text-white"
                                     />
                                 </div>
                                 <Button type="submit" className="w-full sm:w-auto text-black bg-white hover:bg-slate-200">
-                                    <Send className="w-4 h-4 mr-2" /> Envoyer le message
+                                    <Send className="w-4 h-4 mr-2" /> {t('contact.send')}
                                 </Button>
                             </form>
                         </CardContent>
