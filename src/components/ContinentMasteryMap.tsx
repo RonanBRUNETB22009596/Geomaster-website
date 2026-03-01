@@ -1,53 +1,29 @@
 "use client"
 
 import { useMemo } from "react"
+import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map"
 
-// Continent SVG paths - simplified world map regions
-const CONTINENT_PATHS: Record<string, { path: string; label: string; labelPos: { x: number; y: number } }> = {
-    Europe: {
-        path: "M520,120 C 560,80 600,100 620,120 C 660,160 630,220 580,220 C 520,220 480,200 480,140 C 480,120 500,100 520,120 Z",
-        label: "Europe",
-        labelPos: { x: 560, y: 160 }
-    },
-    Asia: {
-        path: "M640,80 C 740,40 840,60 880,100 C 930,150 900,230 860,260 C 800,300 700,280 640,220 C 600,180 600,120 640,80 Z",
-        label: "Asie",
-        labelPos: { x: 760, y: 170 }
-    },
-    Africa: {
-        path: "M480,220 C 520,190 560,200 580,220 C 620,260 610,320 580,360 C 560,400 520,420 480,380 C 420,320 420,280 440,260 C 450,240 460,230 480,220 Z",
-        label: "Afrique",
-        labelPos: { x: 510, y: 300 }
-    },
-    Americas: {
-        path: "M 120,60 C 180,20 220,20 280,80 C 320,130 310,200 280,260 C 260,300 260,320 240,340 C 200,420 180,480 120,400 C 80,340 60,300 80,240 C 100,180 80,140 120,60 Z",
-        label: "Amériques",
-        labelPos: { x: 180, y: 240 }
-    },
-    Oceania: {
-        path: "M780,320 C 840,290 900,320 920,340 C 940,380 880,440 840,420 C 780,400 740,360 780,320 Z",
-        label: "Océanie",
-        labelPos: { x: 840, y: 360 }
-    },
-    World: {
-        path: "", // World is represented by the entire map background
-        label: "Monde",
-        labelPos: { x: 500, y: 460 }
-    }
+// Continent center coordinates
+const CONTINENT_CENTERS: Record<string, { lng: number; lat: number; label: string }> = {
+    Europe: { lng: 15, lat: 50, label: "Europe" },
+    Asia: { lng: 90, lat: 35, label: "Asie" },
+    Africa: { lng: 20, lat: 5, label: "Afrique" },
+    Americas: { lng: -80, lat: 15, label: "Amériques" },
+    Oceania: { lng: 135, lat: -25, label: "Océanie" },
+    World: { lng: 0, lat: 0, label: "Monde" }
 }
 
 interface ContinentMasteryMapProps {
-    masteryData: Record<string, number> // { Europe: 45, Asia: 100, ... } - number of 8+/10 scores
+    masteryData: Record<string, number>
 }
 
 function getMasteryColor(count: number): string {
-    // 0 = white, 20 = very light green, 40 = light, 60 = medium, 80 = dark, 100+ = full green
-    if (count >= 100) return "rgba(34, 197, 94, 0.8)"   // green-500
-    if (count >= 80) return "rgba(34, 197, 94, 0.64)"
-    if (count >= 60) return "rgba(34, 197, 94, 0.48)"
-    if (count >= 40) return "rgba(34, 197, 94, 0.32)"
-    if (count >= 20) return "rgba(34, 197, 94, 0.16)"
-    return "rgba(241, 245, 249, 1)" // slate-100 (almost white)
+    if (count >= 100) return "rgba(34, 197, 94, 0.9)"
+    if (count >= 80) return "rgba(34, 197, 94, 0.72)"
+    if (count >= 60) return "rgba(34, 197, 94, 0.54)"
+    if (count >= 40) return "rgba(250, 204, 21, 0.7)"
+    if (count >= 20) return "rgba(251, 146, 60, 0.7)"
+    return "rgba(148, 163, 184, 0.5)"
 }
 
 function getMasteryLevel(count: number): string {
@@ -59,16 +35,27 @@ function getMasteryLevel(count: number): string {
     return "Novice"
 }
 
+function getMasteryRing(count: number): string {
+    if (count >= 100) return "ring-2 ring-emerald-400"
+    if (count >= 80) return "ring-2 ring-emerald-500/60"
+    if (count >= 60) return "ring-2 ring-emerald-500/40"
+    if (count >= 40) return "ring-2 ring-yellow-400/50"
+    if (count >= 20) return "ring-2 ring-orange-400/50"
+    return "ring-1 ring-slate-400/30"
+}
+
 export function ContinentMasteryMap({ masteryData }: ContinentMasteryMapProps) {
     const continents = useMemo(() => {
-        return Object.entries(CONTINENT_PATHS)
+        return Object.entries(CONTINENT_CENTERS)
             .filter(([key]) => key !== "World")
             .map(([key, data]) => ({
                 id: key,
                 ...data,
                 count: masteryData[key] || 0,
                 color: getMasteryColor(masteryData[key] || 0),
-                level: getMasteryLevel(masteryData[key] || 0)
+                level: getMasteryLevel(masteryData[key] || 0),
+                ring: getMasteryRing(masteryData[key] || 0),
+                pct: Math.min(100, (masteryData[key] || 0))
             }))
     }, [masteryData])
 
@@ -76,92 +63,67 @@ export function ContinentMasteryMap({ masteryData }: ContinentMasteryMapProps) {
 
     return (
         <div className="relative w-full">
-            <svg
-                viewBox="0 0 1000 500"
-                className="w-full h-auto"
-                style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)" }}
-            >
-                {/* Ocean pattern */}
-                <defs>
-                    <pattern id="oceanPattern" patternUnits="userSpaceOnUse" width="40" height="40">
-                        <circle cx="20" cy="20" r="1" fill="rgba(59, 130, 246, 0.1)" />
-                    </pattern>
-                </defs>
-                <rect width="1000" height="500" fill="url(#oceanPattern)" />
+            <div className="h-[320px] md:h-[400px] w-full rounded-xl overflow-hidden">
+                <Map
+                    theme="dark"
+                    center={[20, 20]}
+                    zoom={1}
+                    attributionControl={false}
+                >
+                    <MapControls />
 
-                {/* Continents */}
-                {continents.map((continent) => (
-                    <g key={continent.id} className="cursor-pointer transition-all duration-300 hover:brightness-110">
-                        <path
-                            d={continent.path}
-                            fill={continent.color}
-                            stroke="rgba(255,255,255,0.3)"
-                            strokeWidth="2"
-                            className="transition-all duration-500"
-                        />
-                        <text
-                            x={continent.labelPos.x}
-                            y={continent.labelPos.y}
-                            textAnchor="middle"
-                            className="fill-white text-xs font-bold pointer-events-none"
-                            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5)" }}
-                        >
-                            {continent.label}
-                        </text>
-                        <text
-                            x={continent.labelPos.x}
-                            y={continent.labelPos.y + 16}
-                            textAnchor="middle"
-                            className="fill-white/70 text-[10px] pointer-events-none"
-                        >
-                            {continent.count}/100 • {continent.level}
-                        </text>
-                    </g>
-                ))}
+                    {continents.map((c) => (
+                        <MapMarker key={c.id} longitude={c.lng} latitude={c.lat}>
+                            <MarkerContent>
+                                <div className="flex flex-col items-center group cursor-default">
+                                    {/* Circle indicator */}
+                                    <div
+                                        className={`relative w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg ${c.ring} transition-transform group-hover:scale-110`}
+                                        style={{ background: c.color }}
+                                    >
+                                        <span className="text-[11px] md:text-xs font-black text-white drop-shadow-md">
+                                            {c.pct}
+                                        </span>
+                                    </div>
 
-                {/* World indicator */}
-                <g className="cursor-pointer">
-                    <rect
-                        x="420"
-                        y="440"
-                        width="160"
-                        height="40"
-                        rx="8"
-                        fill={getMasteryColor(worldCount)}
-                        stroke="rgba(255,255,255,0.3)"
-                        strokeWidth="2"
-                    />
-                    <text
-                        x="500"
-                        y="458"
-                        textAnchor="middle"
-                        className="fill-slate-800 text-xs font-bold"
-                    >
-                        🌍 Monde: {worldCount}/100
-                    </text>
-                    <text
-                        x="500"
-                        y="472"
-                        textAnchor="middle"
-                        className="fill-slate-600 text-[10px]"
-                    >
-                        {getMasteryLevel(worldCount)}
-                    </text>
-                </g>
-            </svg>
+                                    {/* Label */}
+                                    <div className="mt-1 bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded-md shadow-md">
+                                        <p className="text-[10px] md:text-[11px] font-bold text-white whitespace-nowrap leading-tight">{c.label}</p>
+                                        <p className="text-[8px] md:text-[9px] text-slate-300 text-center leading-tight">{c.level}</p>
+                                    </div>
+                                </div>
+                            </MarkerContent>
+                        </MapMarker>
+                    ))}
+                </Map>
+            </div>
+
+            {/* World badge */}
+            <div className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md rounded-xl px-4 py-2 shadow-lg border border-white/10 flex items-center gap-3">
+                <div
+                    className={`w-9 h-9 rounded-full flex items-center justify-center ${getMasteryRing(worldCount)}`}
+                    style={{ background: getMasteryColor(worldCount) }}
+                >
+                    <span className="text-[10px] font-black text-white">{Math.min(100, worldCount)}</span>
+                </div>
+                <div>
+                    <p className="text-xs font-bold text-white">🌍 Monde</p>
+                    <p className="text-[10px] text-slate-400">{getMasteryLevel(worldCount)}</p>
+                </div>
+            </div>
 
             {/* Legend */}
-            <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm rounded-lg p-2 text-[10px] shadow-lg">
-                <div className="font-bold mb-1 text-slate-700">Progression</div>
+            <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md rounded-xl p-2.5 shadow-lg border border-white/10">
+                <div className="font-bold mb-1.5 text-[10px] text-slate-300">Progression (scores 8+/10)</div>
                 <div className="flex gap-1 items-center">
-                    <div className="w-3 h-3 rounded" style={{ background: getMasteryColor(0) }} />
-                    <span className="text-slate-500">0</span>
-                    <div className="w-3 h-3 rounded" style={{ background: getMasteryColor(20) }} />
-                    <div className="w-3 h-3 rounded" style={{ background: getMasteryColor(40) }} />
-                    <div className="w-3 h-3 rounded" style={{ background: getMasteryColor(60) }} />
-                    <div className="w-3 h-3 rounded" style={{ background: getMasteryColor(80) }} />
-                    <div className="w-3 h-3 rounded" style={{ background: getMasteryColor(100) }} />
-                    <span className="text-slate-500">100</span>
+                    <div className="w-3 h-3 rounded-full" style={{ background: getMasteryColor(0) }} />
+                    <span className="text-[9px] text-slate-400">0</span>
+                    <div className="w-3 h-3 rounded-full" style={{ background: getMasteryColor(20) }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: getMasteryColor(40) }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: getMasteryColor(60) }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: getMasteryColor(80) }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: getMasteryColor(100) }} />
+                    <span className="text-[9px] text-slate-400">100</span>
                 </div>
             </div>
         </div>
