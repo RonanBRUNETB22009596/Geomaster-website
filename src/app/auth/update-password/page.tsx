@@ -42,16 +42,26 @@ export default function UpdatePasswordPage() {
         return () => subscription.unsubscribe()
     }, [])
 
+    const validatePassword = (pass: string) => {
+        const minLength = pass.length >= 8
+        const hasUpper = /[A-Z]/.test(pass)
+        const hasNumber = /[0-9]/.test(pass)
+        const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(pass)
+        return { minLength, hasUpper, hasNumber, hasSpecial, valid: minLength && hasUpper && hasNumber && hasSpecial }
+    }
+
+    const passwordStatus = validatePassword(password)
+
     const handleUpdatePassword = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (password.length < 8) {
-            toast.error(t('settings.password_min_error') || "Le mot de passe doit contenir au moins 8 caractères.")
+        if (!passwordStatus.valid) {
+            toast.error(t('update_password.password_criteria_error') || "Le mot de passe ne respecte pas les critères de sécurité.")
             return
         }
 
         if (password !== confirmPassword) {
-            toast.error(t('settings.password_mismatch') || "Les mots de passe ne correspondent pas.")
+            toast.error(t('update_password.password_mismatch') || "Les mots de passe ne correspondent pas.")
             return
         }
 
@@ -62,7 +72,7 @@ export default function UpdatePasswordPage() {
         if (error) {
             toast.error(error.message)
         } else {
-            toast.success(t('settings.password_updated') || "Mot de passe mis à jour avec succès !")
+            toast.success(t('update_password.password_updated') || "Mot de passe mis à jour avec succès !")
             router.push("/")
         }
 
@@ -114,6 +124,14 @@ export default function UpdatePasswordPage() {
                                     required
                                     minLength={8}
                                 />
+                                {password && (
+                                    <div className="flex flex-wrap gap-2 mt-2">
+                                        <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.minLength ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_min')}</span>
+                                        <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasUpper ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_upper')}</span>
+                                        <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasNumber ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_number')}</span>
+                                        <span className={`text-[10px] flex items-center gap-1 ${passwordStatus.hasSpecial ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_special')}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="space-y-2">

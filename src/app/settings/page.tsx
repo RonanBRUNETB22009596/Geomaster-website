@@ -101,10 +101,16 @@ export default function SettingsPage() {
         e.preventDefault()
         setUpdating(true)
 
-        if (password && password.length < 6) {
-            toast.error("Le mot de passe doit contenir au moins 6 caractères")
-            setUpdating(false)
-            return
+        if (password) {
+            const minLength = password.length >= 8
+            const hasUpper = /[A-Z]/.test(password)
+            const hasNumber = /[0-9]/.test(password)
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            if (!minLength || !hasUpper || !hasNumber || !hasSpecial) {
+                toast.error(t('login.password_error') || "Le mot de passe ne respecte pas les critères de sécurité.")
+                setUpdating(false)
+                return
+            }
         }
 
         if (password) {
@@ -259,6 +265,14 @@ export default function SettingsPage() {
                                             onChange={(e) => setPassword(e.target.value)}
                                             className="text-white bg-white/5 border-white/10"
                                         />
+                                        {password && (
+                                            <div className="flex flex-wrap gap-2 mt-2">
+                                                <span className={`text-[10px] flex items-center gap-1 ${password.length >= 8 ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_min')}</span>
+                                                <span className={`text-[10px] flex items-center gap-1 ${/[A-Z]/.test(password) ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_upper')}</span>
+                                                <span className={`text-[10px] flex items-center gap-1 ${/[0-9]/.test(password) ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_number')}</span>
+                                                <span className={`text-[10px] flex items-center gap-1 ${/[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'text-green-500' : 'text-slate-400'}`}>● {t('login.password_special')}</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
