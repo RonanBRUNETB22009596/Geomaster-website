@@ -11,23 +11,38 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { Mail, Send, MapPin, Phone } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
+import { supabase } from "@/lib/supabase"
+import { Loader2 } from "lucide-react"
 
 export default function ContactPage() {
     const [loading, setLoading] = useState(false)
     const { t } = useI18n()
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setLoading(true)
 
         const form = e.currentTarget
+        const name = (form.elements.namedItem('name') as HTMLInputElement).value
+        const email = (form.elements.namedItem('email') as HTMLInputElement).value
         const subject = (form.elements.namedItem('subject') as HTMLInputElement).value
         const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value
 
-        // Open the default email client
-        window.location.href = `mailto:brt.ronan@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
+        try {
+            const { error } = await supabase
+                .from('contact_messages')
+                .insert([{ name, email, subject, message }])
 
-        toast.success(t('contact.opening_email'))
-        form.reset()
+            if (error) throw error
+
+            toast.success(t('contact.message_sent') || "Votre message a bien été envoyé ! Nous vous répondrons rapidement.")
+            form.reset()
+        } catch (error: any) {
+            console.error("Error sending message:", error)
+            toast.error(t('settings.error_occured') || "Une erreur est survenue lors de l'envoi du message.")
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -104,8 +119,9 @@ export default function ContactPage() {
                                         className="min-h-[150px] bg-white/5 border-white/10 text-white"
                                     />
                                 </div>
-                                <Button type="submit" className="w-full sm:w-auto text-black bg-white hover:bg-slate-200">
-                                    <Send className="w-4 h-4 mr-2" /> {t('contact.send')}
+                                <Button type="submit" disabled={loading} className="w-full sm:w-auto text-black bg-white hover:bg-slate-200">
+                                    {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                                    {loading ? (t('login.signing_in') || "Envoi...") : t('contact.send')}
                                 </Button>
                             </form>
                         </CardContent>

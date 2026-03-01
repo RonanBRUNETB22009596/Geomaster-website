@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { NavBar } from "@/components/NavBar"
 import { Footer } from "@/components/Footer"
-import { BarChart3, Users, HelpCircle, Settings, ShieldAlert, LogOut, Menu, X, Activity } from "lucide-react"
+import { BarChart3, Users, HelpCircle, Settings, ShieldAlert, LogOut, Menu, X, Activity, Mail } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
@@ -60,6 +60,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { href: '/admin/users', label: 'Utilisateurs', icon: Users },
         { href: '/admin/content', label: 'Contenu (Quiz)', icon: HelpCircle },
         { href: '/admin/logs', label: 'Journaux Système', icon: Activity },
+        { href: '/admin/messages', label: 'Messages', icon: Mail },
         { href: '/admin/settings', label: 'Configuration', icon: Settings },
     ]
 
