@@ -12,8 +12,12 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "GeoMaster Quiz",
+  title: "GeoMaster",
   description: "Testez vos connaissances en géographie",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({

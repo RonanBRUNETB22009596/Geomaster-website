@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react"
 import { supabase } from "@/lib/supabase"
 import { Profile } from "@/lib/definitions"
 import Link from "next/link"
-import { Users, Search, Trash2, ShieldAlert, Loader2, Eye } from "lucide-react"
+import { Users, Search, Trash2, Loader2, Eye, Pencil, MessageSquare, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -22,6 +22,15 @@ export default function AdminUsersPage() {
     const [currentUserRole, setCurrentUserRole] = useState<string>('admin')
     const [searchQuery, setSearchQuery] = useState('')
 
+    // Rename modal state
+    const [renameUserId, setRenameUserId] = useState<string | null>(null)
+    const [newUsername, setNewUsername] = useState('')
+
+    // Message modal state
+    const [messageUserId, setMessageUserId] = useState<string | null>(null)
+    const [messageTitle, setMessageTitle] = useState('')
+    const [messageBody, setMessageBody] = useState('')
+
     useEffect(() => {
         loadData()
     }, [])
@@ -29,7 +38,6 @@ export default function AdminUsersPage() {
     const loadData = async () => {
         setLoading(true)
 
-        // Get current user role
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
             const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
@@ -87,6 +95,45 @@ export default function AdminUsersPage() {
         } else {
             toast.success("Profil utilisateur supprimé.")
             setUsers(users.filter(u => u.id !== userId))
+        }
+    }
+
+    const handleRename = async () => {
+        if (!renameUserId || !newUsername.trim()) return
+
+        const { error } = await supabase
+            .from('profiles')
+            .update({ username: newUsername.trim() })
+            .eq('id', renameUserId)
+
+        if (error) {
+            toast.error("Erreur: " + error.message)
+        } else {
+            toast.success("Pseudo mis à jour !")
+            setUsers(users.map(u => u.id === renameUserId ? { ...u, username: newUsername.trim() } : u))
+            setRenameUserId(null)
+            setNewUsername('')
+        }
+    }
+
+    const handleSendMessage = async () => {
+        if (!messageUserId || !messageBody.trim()) return
+
+        const { error } = await supabase
+            .from('notifications')
+            .insert({
+                user_id: messageUserId,
+                title: messageTitle.trim() || 'Message de l\'administration',
+                message: messageBody.trim(),
+            })
+
+        if (error) {
+            toast.error("Erreur: " + error.message)
+        } else {
+            toast.success("Message envoyé !")
+            setMessageUserId(null)
+            setMessageTitle('')
+            setMessageBody('')
         }
     }
 
@@ -172,29 +219,58 @@ export default function AdminUsersPage() {
                                                 </span>
                                             )}
                                         </td>
-                                        <td className="p-4 text-right flex justify-end gap-2">
-                                            <Button
-                                                asChild
-                                                variant="ghost"
-                                                size="icon"
-                                                className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/20 h-8 w-8"
-                                                title="Voir l'historique"
-                                            >
-                                                <Link href={`/admin/users/${u.id}`}>
-                                                    <Eye className="w-4 h-4" />
-                                                </Link>
-                                            </Button>
+                                        <td className="p-4 text-right">
+                                            <div className="flex justify-end gap-1">
+                                                <Button
+                                                    asChild
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/20 h-8 w-8"
+                                                    title="Voir l'historique"
+                                                >
+                                                    <Link href={`/admin/users/${u.id}`}>
+                                                        <Eye className="w-4 h-4" />
+                                                    </Link>
+                                                </Button>
 
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => handleDeleteUser(u.id)}
-                                                disabled={currentUserRole !== 'super_admin' || u.role === 'super_admin'}
-                                                className="text-red-400 hover:text-red-300 hover:bg-red-500/20 h-8 w-8"
-                                                title="Supprimer l'utilisateur"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-amber-400 hover:text-amber-300 hover:bg-amber-500/20 h-8 w-8"
+                                                    title="Renommer"
+                                                    onClick={() => {
+                                                        setRenameUserId(u.id)
+                                                        setNewUsername(u.username || '')
+                                                    }}
+                                                >
+                                                    <Pencil className="w-4 h-4" />
+                                                </Button>
+
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-green-400 hover:text-green-300 hover:bg-green-500/20 h-8 w-8"
+                                                    title="Envoyer un message"
+                                                    onClick={() => {
+                                                        setMessageUserId(u.id)
+                                                        setMessageTitle('')
+                                                        setMessageBody('')
+                                                    }}
+                                                >
+                                                    <MessageSquare className="w-4 h-4" />
+                                                </Button>
+
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => handleDeleteUser(u.id)}
+                                                    disabled={currentUserRole !== 'super_admin' || u.role === 'super_admin'}
+                                                    className="text-red-400 hover:text-red-300 hover:bg-red-500/20 h-8 w-8"
+                                                    title="Supprimer l'utilisateur"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -203,6 +279,97 @@ export default function AdminUsersPage() {
                     </table>
                 </div>
             </div>
+
+            {/* Rename Modal */}
+            {renameUserId && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                    <div className="bg-[#1a1625] border border-white/10 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                                <Pencil className="w-5 h-5 text-amber-400" />
+                                Renommer l&apos;utilisateur
+                            </h2>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="text-slate-400 hover:text-white h-8 w-8"
+                                onClick={() => setRenameUserId(null)}
+                            >
+                                <X className="w-4 h-4" />
+                            </Button>
+                        </div>
+                        <Input
+                            value={newUsername}
+                            onChange={(e) => setNewUsername(e.target.value)}
+                            placeholder="Nouveau pseudo..."
+                            className="bg-white/5 border-white/10 text-white mb-4"
+                            onKeyDown={(e) => e.key === 'Enter' && handleRename()}
+                        />
+                        <div className="flex justify-end gap-2">
+                            <Button
+                                variant="ghost"
+                                className="text-slate-400"
+                                onClick={() => setRenameUserId(null)}
+                            >
+                                Annuler
+                            </Button>
+                            <Button onClick={handleRename} disabled={!newUsername.trim()}>
+                                Enregistrer
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Message Modal */}
+            {messageUserId && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                    <div className="bg-[#1a1625] border border-white/10 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                                <MessageSquare className="w-5 h-5 text-green-400" />
+                                Envoyer un message
+                            </h2>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="text-slate-400 hover:text-white h-8 w-8"
+                                onClick={() => setMessageUserId(null)}
+                            >
+                                <X className="w-4 h-4" />
+                            </Button>
+                        </div>
+                        <p className="text-xs text-slate-400 mb-3">
+                            À : {users.find(u => u.id === messageUserId)?.username || users.find(u => u.id === messageUserId)?.email}
+                        </p>
+                        <Input
+                            value={messageTitle}
+                            onChange={(e) => setMessageTitle(e.target.value)}
+                            placeholder="Titre du message (optionnel)"
+                            className="bg-white/5 border-white/10 text-white mb-3"
+                        />
+                        <textarea
+                            value={messageBody}
+                            onChange={(e) => setMessageBody(e.target.value)}
+                            placeholder="Votre message..."
+                            rows={4}
+                            className="w-full p-3 bg-white/5 border border-white/10 text-white rounded-lg resize-none placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary mb-4"
+                        />
+                        <div className="flex justify-end gap-2">
+                            <Button
+                                variant="ghost"
+                                className="text-slate-400"
+                                onClick={() => setMessageUserId(null)}
+                            >
+                                Annuler
+                            </Button>
+                            <Button onClick={handleSendMessage} disabled={!messageBody.trim()}>
+                                Envoyer
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

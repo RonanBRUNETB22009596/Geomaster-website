@@ -14,12 +14,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Globe, User, LogOut, Settings, Trophy, ShieldAlert, Languages } from "lucide-react"
+import { Globe, User, LogOut, Settings, Trophy, ShieldAlert, Languages, Bell } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 
 export function NavBar() {
     const [user, setUser] = useState<any>(null)
     const [profile, setProfile] = useState<any>(null)
+    const [notifications, setNotifications] = useState<any[]>([])
 
     useEffect(() => {
         const loadUserAndProfile = async (sessionUser: any) => {
@@ -52,6 +53,28 @@ export function NavBar() {
         return () => subscription.unsubscribe()
     }, [])
 
+    // Fetch notifications for logged-in user
+    useEffect(() => {
+        if (!user) return
+        const fetchNotifs = async () => {
+            const { data } = await supabase
+                .from('notifications')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false })
+                .limit(10)
+            if (data) setNotifications(data)
+        }
+        fetchNotifs()
+    }, [user])
+
+    const markAsRead = async (id: string) => {
+        await supabase.from('notifications').update({ read: true }).eq('id', id)
+        setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n))
+    }
+
+    const unreadCount = notifications.filter(n => !n.read).length
+
     const handleSignOut = async () => {
         await supabase.auth.signOut()
         setUser(null)
@@ -83,6 +106,50 @@ export function NavBar() {
                         <Languages className="w-3.5 h-3.5" />
                         {locale === 'fr' ? 'FR' : 'EN'}
                     </button>
+
+                    {/* Notifications Bell */}
+                    {user && (
+                        <DropdownMenu modal={false}>
+                            <DropdownMenuTrigger asChild>
+                                <button className="relative flex items-center justify-center w-9 h-9 rounded-full text-white/80 hover:text-white bg-white/10 hover:bg-white/20 transition-all border border-white/10">
+                                    <Bell className="w-4 h-4" />
+                                    {unreadCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] font-bold flex items-center justify-center text-white">
+                                            {unreadCount}
+                                        </span>
+                                    )}
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-72 mt-4 rounded-2xl max-h-80 overflow-y-auto" align="end" forceMount>
+                                <DropdownMenuLabel className="font-bold text-sm">
+                                    Notifications
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                {notifications.length === 0 ? (
+                                    <div className="p-4 text-center text-xs text-muted-foreground">
+                                        Aucune notification
+                                    </div>
+                                ) : (
+                                    notifications.map(n => (
+                                        <DropdownMenuItem
+                                            key={n.id}
+                                            className={`flex flex-col items-start gap-1 p-3 cursor-pointer rounded-xl ${!n.read ? 'bg-primary/5' : ''}`}
+                                            onClick={() => markAsRead(n.id)}
+                                        >
+                                            <span className="font-semibold text-xs flex items-center gap-2">
+                                                {!n.read && <span className="w-2 h-2 bg-primary rounded-full" />}
+                                                {n.title || 'Notification'}
+                                            </span>
+                                            <span className="text-xs text-muted-foreground line-clamp-2">{n.message}</span>
+                                            <span className="text-[10px] text-muted-foreground/60">
+                                                {new Date(n.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                                            </span>
+                                        </DropdownMenuItem>
+                                    ))
+                                )}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    )}
 
                     {user ? (
                         <DropdownMenu modal={false}>
