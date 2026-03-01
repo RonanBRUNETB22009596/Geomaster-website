@@ -81,7 +81,7 @@ export function NavBar() {
                         title={locale === 'fr' ? 'Switch to English' : 'Passer en Français'}
                     >
                         <Languages className="w-3.5 h-3.5" />
-                        {locale === 'fr' ? 'EN' : 'FR'}
+                        {locale === 'fr' ? 'FR' : 'EN'}
                     </button>
 
                     {user ? (
