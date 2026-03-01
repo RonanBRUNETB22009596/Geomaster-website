@@ -10,7 +10,9 @@ export default function AuthCallbackPage() {
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN' && session) {
+            if (event === 'PASSWORD_RECOVERY') {
+                router.push("/auth/update-password")
+            } else if (event === 'SIGNED_IN' && session) {
                 router.push("/")
             }
         })

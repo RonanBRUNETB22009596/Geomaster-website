@@ -192,6 +192,16 @@ const translations: Record<Locale, Record<string, string>> = {
         "quiz.quit": "Quitter",
         "quiz.next": "Suivant",
         "quiz.confirm": "Valider",
+
+        // Update Password
+        "update_password.title": "Nouveau mot de passe",
+        "update_password.desc": "Choisissez un nouveau mot de passe sécurisé pour votre compte.",
+        "update_password.new_password": "Nouveau mot de passe",
+        "update_password.confirm": "Confirmer le mot de passe",
+        "update_password.save": "Enregistrer",
+        "update_password.password_min_error": "Le mot de passe doit contenir au moins 8 caractères.",
+        "update_password.password_mismatch": "Les mots de passe ne correspondent pas.",
+        "update_password.password_updated": "Mot de passe mis à jour avec succès !",
     },
     en: {
         // Navbar
@@ -374,6 +384,16 @@ const translations: Record<Locale, Record<string, string>> = {
         "quiz.quit": "Quit",
         "quiz.next": "Next",
         "quiz.confirm": "Confirm",
+
+        // Update Password
+        "update_password.title": "New password",
+        "update_password.desc": "Choose a new secure password for your account.",
+        "update_password.new_password": "New password",
+        "update_password.confirm": "Confirm password",
+        "update_password.save": "Save",
+        "update_password.password_min_error": "Password must be at least 8 characters.",
+        "update_password.password_mismatch": "Passwords do not match.",
+        "update_password.password_updated": "Password updated successfully!",
     }
 }
 
